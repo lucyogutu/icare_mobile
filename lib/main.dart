@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icare_mobile/application/core/colors.dart';
-
-import 'presentation/onboarding/pages/reset_password_page.dart';
+import 'package:icare_mobile/presentation/home/pages/notification_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,6 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'iCare Patient',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // is not restarted.
         primaryColor: AppColors.primaryColor,
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           onSurface: AppColors.primaryColor,
         ),
       ),
-      home: const ResetPasswordPage(),
+      home: const NotificationsPage(),
     );
   }
 }

@@ -75,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                     ICareTextButton(
                       onPressed: () {},
                       text: forgotPasswordString,
+                      style: boldSize16Text(AppColors.primaryColor),
                     ),
                     smallVerticalSizedBox,
                     SizedBox(

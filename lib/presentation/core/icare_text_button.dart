@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:icare_mobile/application/core/text_styles.dart';
 
 class ICareTextButton extends StatelessWidget {
   const ICareTextButton({
@@ -9,7 +8,7 @@ class ICareTextButton extends StatelessWidget {
     required this.text,
     this.onLongPress,
     this.textColor,
-    this.customChild,
+    this.customChild, this.style,
   }) : assert(text != null);
 
   final Key? buttonKey;
@@ -18,6 +17,7 @@ class ICareTextButton extends StatelessWidget {
   final void Function()? onPressed;
   final String? text;
   final Color? textColor;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +28,7 @@ class ICareTextButton extends StatelessWidget {
       child: customChild ??
           Text(
             text ?? '',
-            style: boldSize16Text(
-              textColor ?? Theme.of(context).primaryColor,
-            ),
+            style: style,
           ),
     );
   }

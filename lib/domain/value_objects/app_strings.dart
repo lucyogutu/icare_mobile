@@ -53,3 +53,25 @@ const String verifyString = 'Verify';
 const String submitString = 'Submit';
 const String registerString = 'Register';
 const String backToSignInString = 'Back to Sign In';
+
+const String categoriesString = 'Categories';
+const String viewAllString = 'View All';
+
+const String physicianString = 'Physician';
+const String dentistString = 'Dentist';
+const String psychologistString = 'Psychologist';
+const String pharmacistString = 'Pharmacist';
+const String dermatologyString = 'Dermatology';
+const String nurseString = 'Nurse';
+const String doctorString = 'Doctor';
+
+const String bookString = 'Book';
+const String aboutString = 'About';
+const String workingHoursString = 'Working Hours';
+const String bookAppointmentString = 'Book An Appointment';
+
+const String okayThanksString = 'Okay, Thanks';
+const String cancelString = 'Cancel';
+const String rescheduleString = 'Reschedule';
+const String notificationString = 'Notifications';
+const String upcomingAppointmentsString = 'Upcoming Appointments';

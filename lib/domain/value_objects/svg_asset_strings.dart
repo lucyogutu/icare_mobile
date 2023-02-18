@@ -10,3 +10,15 @@ const String mobileLoginSvg = 'assets/images/mobile_login.svg';
 const String googleIconSvg = 'assets/icons/google.svg';
 const String facebookIconSvg = 'assets/icons/facebook.svg';
 const String userSvg = 'assets/icons/user.svg';
+
+const String brainSvg = 'assets/icons/brain.svg';
+const String dermatologySvg = 'assets/icons/dermatology.svg';
+const String firstAidKitSvg = 'assets/icons/first_aid_kit.svg';
+const String handCareSvg = 'assets/icons/hand_care.svg';
+const String nurseSvg = 'assets/icons/nurse.svg';
+const String toothSvg = 'assets/icons/tooth.svg';
+
+const String noNotificationSvg = 'assets/images/no_notify.svg';
+
+const String donutLoveSvg = 'assets/images/donut_love.svg';
+const String onlinePageSvg = 'assets/images/online_page.svg';

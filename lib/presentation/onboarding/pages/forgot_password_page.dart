@@ -36,6 +36,7 @@ class ForgotPasswordPage extends StatelessWidget {
             ICareTextButton(
               onPressed: () {},
               text: backToSignInString,
+              style: boldSize16Text(AppColors.primaryColor),
             ),
             SizedBox(
               height: 48,

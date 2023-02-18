@@ -13,7 +13,7 @@ class ICareElevatedButton extends StatelessWidget {
     this.customPadding,
     this.customRadius,
     this.onLongPress,
-    this.text,
+    required this.text,
     this.textColor,
     this.textStyle,
   });
@@ -27,7 +27,7 @@ class ICareElevatedButton extends StatelessWidget {
   final EdgeInsets? customPadding;
   final double? customRadius;
   final void Function()? onLongPress;
-  final String? text;
+  final String text;
   final Color? textColor;
   final TextStyle? textStyle;
 
@@ -53,7 +53,7 @@ class ICareElevatedButton extends StatelessWidget {
       ),
       child: customChild ??
           Text(
-            text ?? '',
+            text,
             style: textStyle ?? boldSize16Text(textColor ?? Colors.white),
           ),
     );
