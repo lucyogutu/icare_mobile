@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icare_mobile/application/core/colors.dart';
-import 'package:icare_mobile/presentation/home/pages/notification_page.dart';
+import 'package:icare_mobile/presentation/profile/pages/about_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           onSurface: AppColors.primaryColor,
         ),
       ),
-      home: const NotificationsPage(),
+      home: const AboutPage(),
     );
   }
 }

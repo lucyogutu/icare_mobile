@@ -3,6 +3,7 @@ import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
+import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_search_field.dart';
 import 'package:icare_mobile/presentation/home/widgets/doctor_list_item_widget.dart';
 
@@ -52,7 +53,7 @@ class ListDoctorsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'List of Doctors',
+          listOfDoctorsString,
           style: boldSize16Text(AppColors.blackColor),
         ),
         backgroundColor: AppColors.whiteColor,

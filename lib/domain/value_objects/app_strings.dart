@@ -75,3 +75,22 @@ const String cancelString = 'Cancel';
 const String rescheduleString = 'Reschedule';
 const String notificationString = 'Notifications';
 const String upcomingAppointmentsString = 'Upcoming Appointments';
+const String listOfDoctorsString = 'List of Doctors';
+
+const String profileString = 'Profile';
+const String personalDetailsString = 'Personal Details';
+const String historyString = 'History';
+const String helpString = 'Help';
+const String favouriteString = 'Favourite';
+const String logoutString = 'Logout';
+const String optOutString = 'Opt-out';
+const String editString = 'Edit';
+const String saveString = 'Save';
+
+const String timeString = 'Time';
+const String dateString = 'Date';
+const String clinicString = 'Clinic';
+const String reviewString = 'Review';
+
+const String appAboutString =
+    'i~Care is the best online doctor appointment app scheduler for your health needs';
