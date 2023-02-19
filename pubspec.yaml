@@ -12,21 +12,25 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
-  flutter_native_splash: ^2.2.16
-  flutter_svg: ^1.1.6
+  
+  flutter_svg: ^1.0.0
   google_fonts: ^4.0.3
   intl: ^0.18.0
 
 dev_dependencies:
+  flutter_app_name: ^0.1.0
   flutter_launcher_icons: "^0.11.0"
   flutter_lints: ^2.0.0
-  
+  flutter_native_splash: ^2.2.0
   flutter_test:
     sdk: flutter
-  
+
+flutter_app_name:
+  name: "iCare"
+
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/images/icare_logo_dark.jpg
+  image: assets/images/icare_logo_dark.png
   android: true
   ios: true
 

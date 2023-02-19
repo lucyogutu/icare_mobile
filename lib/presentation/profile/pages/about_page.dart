@@ -26,7 +26,15 @@ class AboutPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SvgPicture.asset(onlinePageSvg),
+              Center(
+                child: SizedBox(
+                  width: 270,
+                  height: 170,
+                  child: FittedBox(
+                    child: SvgPicture.asset(onlinePageSvg),
+                  ),
+                ),
+              ),
               mediumVerticalSizedBox,
               Text(
                 iCareString,
