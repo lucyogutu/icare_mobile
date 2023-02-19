@@ -12,14 +12,29 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_native_splash: ^2.2.16
   flutter_svg: ^1.1.6
   google_fonts: ^4.0.3
   intl: ^0.18.0
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.11.0"
   flutter_lints: ^2.0.0
+  
   flutter_test:
     sdk: flutter
+  
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/icare_logo_dark.jpg
+  android: true
+  ios: true
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icare_logo_dark.jpg"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
 
 flutter:
