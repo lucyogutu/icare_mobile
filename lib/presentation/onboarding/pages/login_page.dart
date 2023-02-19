@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icare_mobile/application/core/colors.dart';
@@ -8,9 +9,14 @@ import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/presentation/core/icare_text_button.dart';
 import 'package:icare_mobile/presentation/core/icare_text_form_field.dart';
+import 'package:icare_mobile/presentation/core/routes.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({
+    Key? key,
+    required this.signUp,
+  }) : super(key: key);
+  final VoidCallback signUp;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -34,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              size70VerticalSizedBox,
+              smallVerticalSizedBox,
               Center(
                 child: SvgPicture.asset(accessAccountSvg),
               ),
@@ -82,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 48,
                       width: double.infinity,
                       child: ICareElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => Navigator.of(context).pushReplacementNamed(AppRoutes.home),
                         text: signInString,
                       ),
                     ),
@@ -123,6 +129,8 @@ class _LoginPageState extends State<LoginPage> {
                             style: normalSize12Text(
                               AppColors.primaryColor,
                             ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = widget.signUp,
                           ),
                         ],
                       ),

@@ -4,6 +4,7 @@ import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/presentation/core/icare_text_button.dart';
+import 'package:icare_mobile/presentation/core/routes.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardNavigator extends StatelessWidget {
@@ -11,7 +12,8 @@ class OnboardNavigator extends StatelessWidget {
     Key? key,
     required this.onLastPage,
     required PageController controller,
-  }) : _controller = controller, super(key: key);
+  })  : _controller = controller,
+        super(key: key);
 
   final bool onLastPage;
   final PageController _controller;
@@ -21,11 +23,14 @@ class OnboardNavigator extends StatelessWidget {
     return Align(
       alignment: const Alignment(0, 0.9),
       child: onLastPage
-          ? const SizedBox(
+          ? SizedBox(
               height: 40,
               width: double.infinity,
               child: ICareElevatedButton(
                 text: getStartedString,
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed(AppRoutes.tabEntry);
+                },
               ),
             )
           : Row(

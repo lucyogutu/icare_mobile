@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icare_mobile/application/core/colors.dart';
+import 'package:icare_mobile/presentation/core/route_generator.dart';
 import 'package:icare_mobile/presentation/onboarding/pages/onboarding_page.dart';
-import 'package:icare_mobile/presentation/profile/pages/about_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'iCare Patient',
+      title: 'iCare',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // is not restarted.
@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: const OnboardingPage(),
+      onGenerateRoute: GenerateRoute.onGenerateRoute,
     );
   }
 }

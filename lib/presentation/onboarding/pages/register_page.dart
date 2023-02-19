@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icare_mobile/application/core/colors.dart';
@@ -11,7 +12,11 @@ import 'package:icare_mobile/presentation/core/icare_text_form_field.dart';
 import 'package:intl/intl.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  const RegisterPage({
+    super.key,
+    required this.signIn,
+  });
+  final VoidCallback signIn;
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -35,6 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.primaryColorLight,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -46,7 +52,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 100,
                   width: 100,
                   decoration: BoxDecoration(
-                    color: AppColors.primaryColorLight,
+                    color: AppColors.whiteColor,
                     borderRadius: BorderRadius.circular(100),
                   ),
                   child: Padding(
@@ -77,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       label: fullNameString,
                       prefixIcon: Icons.person,
                       hintText: fullNameHintString,
-                      fillColor: AppColors.primaryColorLight,
+                      fillColor: AppColors.whiteColor,
                     ),
                     mediumVerticalSizedBox,
                     // email
@@ -85,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       label: emailString,
                       prefixIcon: Icons.email,
                       hintText: emailHintString,
-                      fillColor: AppColors.primaryColorLight,
+                      fillColor: AppColors.whiteColor,
                     ),
                     mediumVerticalSizedBox,
                     // phone number
@@ -93,7 +99,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       label: phoneNumberString,
                       prefixIcon: Icons.phone,
                       hintText: phoneNumberHintString,
-                      fillColor: AppColors.primaryColorLight,
+                      fillColor: AppColors.whiteColor,
                     ),
                     mediumVerticalSizedBox,
                     // password
@@ -101,7 +107,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       label: passwordString,
                       prefixIcon: Icons.lock,
                       hintText: passwordHintString,
-                      fillColor: AppColors.primaryColorLight,
+                      fillColor: AppColors.whiteColor,
                       obscureText: !_showPassword,
                       suffixIcon: _showPassword
                           ? Icons.visibility
@@ -118,7 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       label: confirmPasswordString,
                       prefixIcon: Icons.lock,
                       hintText: confirmPasswordHintString,
-                      fillColor: AppColors.primaryColorLight,
+                      fillColor: AppColors.whiteColor,
                       obscureText: !_showConfirmPassword,
                       suffixIcon: _showConfirmPassword
                           ? Icons.visibility
@@ -208,7 +214,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       readOnly: true,
                       prefixIcon: Icons.calendar_today_rounded,
                       hintText: dateOfBirthHintString,
-                      fillColor: AppColors.primaryColorLight,
+                      fillColor: AppColors.whiteColor,
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
                             context: context,
@@ -254,6 +260,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             style: normalSize12Text(
                               AppColors.primaryColor,
                             ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = widget.signIn,
                           ),
                         ],
                       ),
