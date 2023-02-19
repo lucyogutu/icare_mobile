@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icare_mobile/application/core/colors.dart';
+import 'package:icare_mobile/presentation/onboarding/pages/onboarding_page.dart';
 import 'package:icare_mobile/presentation/profile/pages/about_page.dart';
 
 void main() {
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           onSurface: AppColors.primaryColor,
         ),
       ),
-      home: const AboutPage(),
+      home: const OnboardingPage(),
     );
   }
 }

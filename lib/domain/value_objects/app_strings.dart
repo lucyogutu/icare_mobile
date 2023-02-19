@@ -16,7 +16,7 @@ const String continueGoogleString = 'Continue With Google';
 const String signInPassword = 'Sign In With Password';
 const String dontHaveAccountString = 'Don\'t have an accout? ';
 const String alreadyHaveAccountString = 'Already Have an Account? ';
-const String forgotPasswordString = 'Forgot Password';
+const String forgotPasswordString = 'Forgot Password?';
 const String signUpString = 'Sign Up';
 const String signInString = 'Sign In';
 
