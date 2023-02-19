@@ -10,6 +10,7 @@ import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/presentation/core/icare_text_button.dart';
 import 'package:icare_mobile/presentation/core/icare_text_form_field.dart';
 import 'package:icare_mobile/presentation/core/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
@@ -88,7 +89,12 @@ class _LoginPageState extends State<LoginPage> {
                       height: 48,
                       width: double.infinity,
                       child: ICareElevatedButton(
-                        onPressed: () => Navigator.of(context).pushReplacementNamed(AppRoutes.home),
+                        onPressed: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          prefs.setBool('showHome', true);
+                          Navigator.of(context)
+                              .pushReplacementNamed(AppRoutes.home);
+                        },
                         text: signInString,
                       ),
                     ),

@@ -2,13 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/presentation/core/route_generator.dart';
 import 'package:icare_mobile/presentation/onboarding/pages/onboarding_page.dart';
+import 'package:icare_mobile/presentation/onboarding/pages/tabbar_entry.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  final showTab = prefs.getBool('showTab') ?? false;
+  final showHome = prefs.getBool('showHome') ?? false;
+  runApp(MyApp(showTab: showTab));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+    required this.showTab,
+  });
+
+  final bool showTab;
 
   // This widget is the root of your application.
   @override
@@ -33,7 +44,7 @@ class MyApp extends StatelessWidget {
           onSurface: AppColors.primaryColor,
         ),
       ),
-      home: const OnboardingPage(),
+      home: showTab ? const TabbarEntryPage() : const OnboardingPage(),
       onGenerateRoute: GenerateRoute.onGenerateRoute,
     );
   }
