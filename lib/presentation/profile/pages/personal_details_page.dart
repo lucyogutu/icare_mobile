@@ -7,6 +7,7 @@ import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/presentation/core/icare_text_form_field.dart';
+import 'package:icare_mobile/presentation/core/routes.dart';
 
 class PersonalDetailsPage extends StatelessWidget {
   const PersonalDetailsPage({super.key});
@@ -19,6 +20,7 @@ class PersonalDetailsPage extends StatelessWidget {
           personalDetailsString,
           style: boldSize16Text(AppColors.blackColor),
         ),
+        foregroundColor: AppColors.blackColor,
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColor.withOpacity(0.25),
       ),
@@ -120,11 +122,12 @@ class PersonalDetailsPage extends StatelessWidget {
                 ],
               ),
               mediumVerticalSizedBox,
-              const SizedBox(
+              SizedBox(
                 width: double.infinity,
                 height: 40,
                 child: ICareElevatedButton(
                   text: editString,
+                  onPressed: () => Navigator.of(context).pushNamed(AppRoutes.editPersonalDetails),
                 ),
               ),
             ],

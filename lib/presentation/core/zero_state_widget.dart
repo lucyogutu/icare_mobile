@@ -11,9 +11,11 @@ class ZeroStateWidget extends StatelessWidget {
   const ZeroStateWidget({
     super.key,
     required this.text,
+    required this.onPressed,
   });
 
   final String text;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +31,13 @@ class ZeroStateWidget extends StatelessWidget {
             style: boldSize18Text(AppColors.primaryColor),
           ),
           mediumVerticalSizedBox,
-          const SizedBox(
+          SizedBox(
             height: 40,
             width: double.infinity,
-            child: ICareElevatedButton(text: okayThanksString),
+            child: ICareElevatedButton(
+              text: okayThanksString,
+              onPressed: onPressed,
+            ),
           )
         ],
       ),

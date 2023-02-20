@@ -80,7 +80,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     smallVerticalSizedBox,
                     ICareTextButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context)
+                          .pushNamed(AppRoutes.forgotPassword),
                       text: forgotPasswordString,
                       style: boldSize16Text(AppColors.primaryColor),
                     ),
@@ -93,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                           final prefs = await SharedPreferences.getInstance();
                           prefs.setBool('showHome', true);
                           Navigator.of(context)
-                              .pushReplacementNamed(AppRoutes.home);
+                              .pushReplacementNamed(AppRoutes.bottomNav);
                         },
                         text: signInString,
                       ),

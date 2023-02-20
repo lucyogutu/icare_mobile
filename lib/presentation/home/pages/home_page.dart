@@ -9,6 +9,8 @@ import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_search_field.dart';
 import 'package:icare_mobile/presentation/core/icare_text_button.dart';
+import 'package:icare_mobile/presentation/core/routes.dart';
+import 'package:icare_mobile/presentation/home/widgets/carousel.dart';
 import 'package:icare_mobile/presentation/home/widgets/category_widget.dart';
 import 'package:icare_mobile/presentation/home/widgets/doctor_list_item_widget.dart';
 
@@ -19,26 +21,32 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Category> categories = [
       Category(
+        id: physicianString,
         name: physicianString,
         svgPicture: handCareSvg,
       ),
       Category(
+        id: dentistString,
         name: dentistString,
         svgPicture: toothSvg,
       ),
       Category(
+        id: psychologistString,
         name: psychologistString,
         svgPicture: brainSvg,
       ),
       Category(
+        id: pharmacistString,
         name: pharmacistString,
         svgPicture: firstAidKitSvg,
       ),
       Category(
+        id: nurseString,
         name: nurseString,
         svgPicture: nurseSvg,
       ),
       Category(
+        id: dermatologyString,
         name: dermatologyString,
         svgPicture: dermatologySvg,
       ),
@@ -86,27 +94,44 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: CircleAvatar(
-            radius: 25,
-            backgroundColor: AppColors.whiteColor,
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: SvgPicture.asset(
-                userSvg,
-                fit: BoxFit.cover,
-                color: AppColors.primaryColor,
+          child: InkWell(
+            onTap: () => Navigator.of(context).pushNamed(AppRoutes.profile),
+            splashColor: AppColors.primaryColor,
+            child: CircleAvatar(
+              radius: 25,
+              backgroundColor: AppColors.whiteColor,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: SvgPicture.asset(
+                  userSvg,
+                  fit: BoxFit.cover,
+                  color: AppColors.primaryColor,
+                ),
               ),
             ),
           ),
         ),
         title: const Text('Lucy Ogutu'),
+        actions: [
+          IconButton(
+            onPressed: () =>
+                Navigator.of(context).pushNamed(AppRoutes.notifications),
+            icon: const Icon(Icons.notifications_none_outlined),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
           child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            smallHorizontalSizedBox,
+            const SizedBox(
+              height: 130,
+              width: double.infinity,
+              child: CarouselBanner(),
+            ),
+            smallVerticalSizedBox,
             ICareSearchField(
               hintText: 'search',
               onSubmitted: (value) {},
@@ -127,18 +152,39 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-            Wrap(
-              spacing: 8,
-              runSpacing: 5,
-              children: [
-                ...categories.map((category) {
-                  return CategoryWidget(
-                    label: category.name,
-                    assetName: category.svgPicture,
-                  );
-                }).toList(),
-              ],
+            SizedBox(
+              height: 75,
+              child: Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    ...categories.map((category) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 5.0),
+                        child: CategoryWidget(
+                          id: category.id,
+                          label: category.name,
+                          assetName: category.svgPicture,
+                        ),
+                      );
+                    }).toList(),
+                  ],
+                ),
+              ),
             ),
+            // Wrap(
+            //   spacing: 8,
+            //   runSpacing: 5,
+            //   children: [
+            //     ...categories.map((category) {
+            //       return CategoryWidget(
+            //         label: category.name,
+            //         assetName: category.svgPicture,
+            //       );
+            //     }).toList(),
+            //   ],
+            // ),
             Row(
               children: [
                 Text(
@@ -149,7 +195,8 @@ class HomePage extends StatelessWidget {
                 ),
                 const Spacer(),
                 ICareTextButton(
-                  onPressed: () {},
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(AppRoutes.listDoctors),
                   text: viewAllString,
                   style: boldSize12Text(AppColors.primaryColor),
                 ),

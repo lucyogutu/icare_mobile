@@ -22,3 +22,5 @@ const String noNotificationSvg = 'assets/images/no_notify.svg';
 
 const String donutLoveSvg = 'assets/images/donut_love.svg';
 const String onlinePageSvg = 'assets/images/online_page.svg';
+const String medicineSvg = 'assets/images/medicine.svg';
+const String refreshingBeverage = 'assets/images/refreshing_beverage.svg';

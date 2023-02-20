@@ -6,6 +6,7 @@ import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
+import 'package:icare_mobile/presentation/core/routes.dart';
 
 class DoctorListItemWidget extends StatelessWidget {
   const DoctorListItemWidget({
@@ -13,10 +14,10 @@ class DoctorListItemWidget extends StatelessWidget {
     required this.doctorName,
     required this.doctorProfession,
     required this.doctorClinic,
-    this.onPressed,
+    this.onIconPressed,
     required this.rating,
     required this.reviews,
-    this.onTap,
+    this.onButtonPressed,
   });
 
   final String doctorName;
@@ -24,15 +25,20 @@ class DoctorListItemWidget extends StatelessWidget {
   final String doctorClinic;
   final int rating;
   final int reviews;
-  final VoidCallback? onPressed;
-  final VoidCallback? onTap;
+  final VoidCallback? onIconPressed;
+  final VoidCallback? onButtonPressed;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         InkWell(
-          onTap: onTap,
+          onTap: () => Navigator.of(context)
+              .pushNamed(AppRoutes.doctorDetail, arguments: {
+            'doctorName': doctorName,
+            'doctorProfession': doctorProfession,
+            'doctorClinic': doctorClinic,
+          }),
           splashColor: AppColors.primaryColor,
           child: Container(
             width: double.infinity,
@@ -88,7 +94,7 @@ class DoctorListItemWidget extends StatelessWidget {
                                 style: boldSize14Text(AppColors.blackColor),
                               ),
                               IconButton(
-                                onPressed: onPressed,
+                                onPressed: onIconPressed,
                                 icon: const Icon(
                                   Icons.favorite_outline,
                                   color: AppColors.primaryColor,
@@ -131,6 +137,9 @@ class DoctorListItemWidget extends StatelessWidget {
                                   text: bookString,
                                   textStyle:
                                       boldSize12Text(AppColors.whiteColor),
+                                  onPressed: () => Navigator.of(context)
+                                      .pushNamed(AppRoutes.bookAppointment,
+                                          arguments: doctorName),
                                 ),
                               ),
                             ],

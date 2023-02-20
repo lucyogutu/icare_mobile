@@ -33,11 +33,7 @@ class ForgotPasswordPage extends StatelessWidget {
               hintText: emailHintString,
               fillColor: AppColors.primaryColorLight,
             ),
-            ICareTextButton(
-              onPressed: () {},
-              text: backToSignInString,
-              style: boldSize16Text(AppColors.primaryColor),
-            ),
+            
             SizedBox(
               height: 48,
               width: double.infinity,
@@ -45,6 +41,11 @@ class ForgotPasswordPage extends StatelessWidget {
                 onPressed: () {},
                 text: sendString,
               ),
+            ),
+            ICareTextButton(
+              onPressed: () {},
+              text: backToSignInString,
+              style: boldSize16Text(AppColors.primaryColor),
             ),
             Text(
               orString,

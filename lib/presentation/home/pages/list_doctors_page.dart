@@ -56,6 +56,7 @@ class ListDoctorsPage extends StatelessWidget {
           listOfDoctorsString,
           style: boldSize16Text(AppColors.blackColor),
         ),
+        foregroundColor: AppColors.blackColor,
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColorLight,
       ),

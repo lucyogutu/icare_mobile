@@ -30,6 +30,7 @@ class NotificationsPage extends StatelessWidget {
           notificationString,
           style: boldSize16Text(AppColors.blackColor),
         ),
+        foregroundColor: AppColors.blackColor,
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColorLight,
       ),

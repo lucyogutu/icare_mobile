@@ -14,7 +14,7 @@ const String letYouInString = 'Let\'s You In';
 const String continueFacebookString = 'Continue With Facebook';
 const String continueGoogleString = 'Continue With Google';
 const String signInPassword = 'Sign In With Password';
-const String dontHaveAccountString = 'Don\'t have an accout?  ';
+const String dontHaveAccountString = 'Don\'t have an account?  ';
 const String alreadyHaveAccountString = 'Already Have an Account?  ';
 const String forgotPasswordString = 'Forgot Password?';
 const String signUpString = 'Sign Up';
@@ -86,6 +86,7 @@ const String favouriteString = 'Favourite';
 const String logoutString = 'Logout';
 const String optOutString = 'Opt-out';
 const String editString = 'Edit';
+const String editPersonalDetailsString = 'Edit Personal Details';
 const String saveString = 'Save';
 
 const String timeString = 'Time';
@@ -95,3 +96,11 @@ const String reviewString = 'Review';
 
 const String appAboutString =
     'i~Care is the best online doctor appointment app scheduler for your health needs';
+
+const String homeString = 'Home';
+const String appointmentString = 'Appointment';
+const String logoutDescription = 'Are you sure you want to logout? ';
+const String optoutDescription = 'Are you sure you want to opt out? This will delete all your details from the application ';
+const String yesLogout = 'Yes, Logout';
+const String yesOptout = 'Yes, Opt out';
+const String noCancel = 'No, Cancel';

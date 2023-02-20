@@ -3,12 +3,19 @@ import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
-import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_search_field.dart';
+import 'package:icare_mobile/presentation/core/zero_state_widget.dart';
 import 'package:icare_mobile/presentation/home/widgets/doctor_list_item_widget.dart';
 
 class CategorySpecificPage extends StatelessWidget {
-  const CategorySpecificPage({super.key});
+  const CategorySpecificPage({
+    super.key,
+    required this.id,
+    required this.label,
+  });
+
+  final String id;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -51,15 +58,16 @@ class CategorySpecificPage extends StatelessWidget {
     ];
 
     List<Doctor> filteredDoctors = doctors.where((doctor) {
-      return doctor.profession.contains(physicianString);
+      return doctor.profession.contains(label);
     }).toList();
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          physicianString,
+          label,
           style: boldSize16Text(AppColors.blackColor),
         ),
+        foregroundColor: AppColors.blackColor,
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColorLight,
       ),
@@ -73,18 +81,24 @@ class CategorySpecificPage extends StatelessWidget {
               hintText: 'search',
               onSubmitted: (value) {},
             ),
-            size15VerticalSizedBox,
+            mediumVerticalSizedBox,
             Column(
               children: [
-                ...filteredDoctors.map((doctor) {
-                  return DoctorListItemWidget(
-                    doctorName: doctor.name,
-                    doctorProfession: doctor.profession,
-                    doctorClinic: doctor.clinic,
-                    rating: doctor.rating,
-                    reviews: doctor.reviews,
-                  );
-                }).toList(),
+                if (filteredDoctors.isNotEmpty) ...[
+                  ...filteredDoctors.map((doctor) {
+                    return DoctorListItemWidget(
+                      doctorName: doctor.name,
+                      doctorProfession: doctor.profession,
+                      doctorClinic: doctor.clinic,
+                      rating: doctor.rating,
+                      reviews: doctor.reviews,
+                    );
+                  }).toList(),
+                ] else
+                  ZeroStateWidget(
+                    text: 'No $label doctors',
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
               ],
             ),
           ],

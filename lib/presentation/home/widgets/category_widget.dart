@@ -3,23 +3,28 @@ import 'package:flutter_svg/svg.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
+import 'package:icare_mobile/presentation/core/routes.dart';
 
 class CategoryWidget extends StatelessWidget {
   const CategoryWidget({
     super.key,
+    required this.id,
     required this.label,
     required this.assetName,
-    this.onTap,
   });
 
+  final String id;
   final String label;
   final String assetName;
-  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: () =>
+          Navigator.of(context).pushNamed(AppRoutes.categoryDetail, arguments: {
+        'id': id,
+        'label': label,
+      }),
       splashColor: AppColors.primaryColor,
       child: Column(
         children: [

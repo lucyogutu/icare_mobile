@@ -38,9 +38,10 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          personalDetailsString,
+          editPersonalDetailsString,
           style: boldSize16Text(AppColors.blackColor),
         ),
+        foregroundColor: AppColors.blackColor,
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColor.withOpacity(0.25),
       ),

@@ -8,16 +8,26 @@ import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 
 class DoctorDetailPage extends StatelessWidget {
-  const DoctorDetailPage({super.key});
+  const DoctorDetailPage({
+    super.key,
+    required this.doctorName,
+    required this.doctorProfession,
+    required this.doctorClinic,
+  });
+
+  final String doctorName;
+  final String doctorProfession;
+  final String doctorClinic;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Ali Yusuf',
+          doctorName,
           style: boldSize16Text(AppColors.blackColor),
         ),
+        foregroundColor: AppColors.blackColor,
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColorLight,
       ),
@@ -53,17 +63,17 @@ class DoctorDetailPage extends StatelessWidget {
                   ),
                   mediumVerticalSizedBox,
                   Text(
-                    'Ali Yusuf',
+                    doctorName,
                     style: boldSize25Title(AppColors.blackColor),
                   ),
                   smallVerticalSizedBox,
                   Text(
-                    dentistString,
+                    doctorProfession,
                     style: boldSize16Text(AppColors.blackColor),
                   ),
                   smallVerticalSizedBox,
                   Text(
-                    'Aga Khan hospital, Kiambu',
+                    doctorClinic,
                     style: normalSize14Text(AppColors.blackColor),
                   ),
                 ],
