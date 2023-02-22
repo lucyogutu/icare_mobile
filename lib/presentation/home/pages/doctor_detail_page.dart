@@ -6,6 +6,7 @@ import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
+import 'package:icare_mobile/presentation/core/routes.dart';
 
 class DoctorDetailPage extends StatelessWidget {
   const DoctorDetailPage({
@@ -117,11 +118,13 @@ class DoctorDetailPage extends StatelessWidget {
                 ],
               ),
               mediumVerticalSizedBox,
-              const SizedBox(
+              SizedBox(
                 width: double.infinity,
                 height: 40,
                 child: ICareElevatedButton(
                   text: bookAppointmentString,
+                  onPressed: () => Navigator.of(context).pushNamed(AppRoutes.bookAppointment, arguments: doctorName),
+                  
                 ),
               ),
             ],

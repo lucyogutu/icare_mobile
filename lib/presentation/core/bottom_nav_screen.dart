@@ -24,7 +24,9 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   final List<Widget> _pages = const [
     HomePage(),
-    BookPage(doctorName: '',), //replace with appointment page
+    BookPage(
+      doctorName: 'Book',
+    ), //replace with appointment page
     ProfilePage(),
   ];
 
@@ -35,7 +37,6 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
           indicatorColor: AppColors.primaryColorLight,
-          backgroundColor: AppColors.whiteColor,
           labelTextStyle: MaterialStatePropertyAll(
             heavySize12Text(AppColors.primaryColor),
           ),

@@ -111,7 +111,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-        title: const Text('Lucy Ogutu'),
+        title: const Text(fullNameHintString),
         actions: [
           IconButton(
             onPressed: () =>
@@ -133,7 +133,7 @@ class HomePage extends StatelessWidget {
             ),
             smallVerticalSizedBox,
             ICareSearchField(
-              hintText: 'search',
+              hintText: searchString,
               onSubmitted: (value) {},
             ),
             Row(
@@ -147,7 +147,7 @@ class HomePage extends StatelessWidget {
                 const Spacer(),
                 ICareTextButton(
                   onPressed: () {},
-                  text: viewAllString,
+                  text: scrollString,
                   style: boldSize12Text(AppColors.primaryColor),
                 ),
               ],

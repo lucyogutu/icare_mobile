@@ -57,6 +57,8 @@ const String backToSignInString = 'Back to Sign In';
 
 const String categoriesString = 'Categories';
 const String viewAllString = 'View All';
+const String scrollString = 'Scroll';
+const String searchString = 'Search';
 
 const String physicianString = 'Physician';
 const String dentistString = 'Dentist';
@@ -100,7 +102,8 @@ const String appAboutString =
 const String homeString = 'Home';
 const String appointmentString = 'Appointment';
 const String logoutDescription = 'Are you sure you want to logout? ';
-const String optoutDescription = 'Are you sure you want to opt out? This will delete all your details from the application ';
+const String optoutDescription =
+    'Are you sure you want to opt out? This will delete all your details from the application ';
 const String yesLogout = 'Yes, Logout';
 const String yesOptout = 'Yes, Opt out';
 const String noCancel = 'No, Cancel';

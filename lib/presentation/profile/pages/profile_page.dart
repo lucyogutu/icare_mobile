@@ -32,39 +32,93 @@ class ProfilePage extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              smallVerticalSizedBox,
-              Center(
-                child: Container(
-                  height: 120,
-                  width: 120,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: AppColors.primaryColor.withOpacity(0.25),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: FittedBox(
-                      child: SvgPicture.asset(userSvg),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  return InkWell(
+                    onTap: () => Navigator.of(context)
+                        .pushNamed(AppRoutes.personalDetails),
+                    splashColor: AppColors.primaryColor,
+                    child: Container(
+                      height: 150,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
+                        color: AppColors.primaryColorLight,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: constraints.maxWidth * 0.3,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: AppColors.primaryColor.withOpacity(0.25),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: FittedBox(
+                                  child: SvgPicture.asset(userSvg),
+                                ),
+                              ),
+                            ),
+                            smallHorizontalSizedBox,
+                            SizedBox(
+                              width: constraints.maxWidth * 0.48,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    fullNameHintString,
+                                    style: boldSize18Text(AppColors.blackColor),
+                                  ),
+                                  smallVerticalSizedBox,
+                                  Text(
+                                    emailHintString,
+                                    style: boldSize16Text(
+                                        AppColors.lightBlackTextColor),
+                                  ),
+                                  smallVerticalSizedBox,
+                                  Text(
+                                    phoneNumberHintString,
+                                    style:
+                                        boldSize14Text(AppColors.greyTextColor),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomLeft,
+                              child: InkWell(
+                                onTap: () => Navigator.of(context)
+                                    .pushNamed(AppRoutes.editPersonalDetails),
+                                splashColor: AppColors.primaryColor,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: AppColors.primaryColor
+                                        .withOpacity(0.25),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.edit_outlined,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              smallVerticalSizedBox,
-              Text(
-                fullNameHintString,
-                style: boldSize18Text(AppColors.blackColor),
+                  );
+                },
               ),
               verySmallVerticalSizedBox,
-              Divider(
-                color: AppColors.primaryColor.withOpacity(0.25),
-              ),
-              verySmallVerticalSizedBox,
-              ProfileListItem(
-                icon: Icons.person_outline,
-                title: personalDetailsString,
-                onTap: () =>
-                    Navigator.of(context).pushNamed(AppRoutes.personalDetails),
-              ),
               Divider(
                 color: AppColors.primaryColor.withOpacity(0.25),
               ),
@@ -130,10 +184,19 @@ class ProfilePage extends StatelessWidget {
                     optOutString,
                     optoutDescription,
                     // should navigate user to tabEntry login screen and also delete user data from app
-                    () => Navigator.of(context).pushNamed(AppRoutes.tabEntry), 
+                    () => Navigator.of(context).pushNamed(AppRoutes.tabEntry),
                   );
                 },
               ),
+              Divider(
+                color: AppColors.primaryColor.withOpacity(0.25),
+              ),
+              largeVerticalSizedBox,
+              Text(
+                iCareString,
+                style: heavySize16Text(AppColors.primaryColor),
+              ),
+              verySmallVerticalSizedBox,
             ],
           ),
         ),
