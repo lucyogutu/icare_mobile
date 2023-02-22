@@ -6,11 +6,13 @@ import 'package:icare_mobile/presentation/home/pages/category_specific_page.dart
 import 'package:icare_mobile/presentation/home/pages/doctor_detail_page.dart';
 import 'package:icare_mobile/presentation/home/pages/home_page.dart';
 import 'package:icare_mobile/presentation/home/pages/list_doctors_page.dart';
-import 'package:icare_mobile/presentation/home/pages/notification_page.dart';
+import 'package:icare_mobile/presentation/appointment/pages/notification_page.dart';
 import 'package:icare_mobile/presentation/onboarding/pages/forgot_password_page.dart';
 import 'package:icare_mobile/presentation/onboarding/pages/tabbar_entry.dart';
 import 'package:icare_mobile/presentation/profile/pages/about_page.dart';
 import 'package:icare_mobile/presentation/profile/pages/edit_personal_details_page.dart';
+import 'package:icare_mobile/presentation/profile/pages/favourites_page.dart';
+import 'package:icare_mobile/presentation/profile/pages/help_page.dart';
 import 'package:icare_mobile/presentation/profile/pages/history_page.dart';
 import 'package:icare_mobile/presentation/profile/pages/personal_details_page.dart';
 import 'package:icare_mobile/presentation/profile/pages/profile_page.dart';
@@ -50,7 +52,9 @@ class GenerateRoute {
         );
       case AppRoutes.bookAppointment:
         return MaterialPageRoute(
-          builder: (BuildContext context) => BookPage(doctorName: args as String,),
+          builder: (BuildContext context) => BookPage(
+            doctorName: args as String,
+          ),
         );
       case AppRoutes.bottomNav:
         return MaterialPageRoute(
@@ -71,6 +75,14 @@ class GenerateRoute {
       case AppRoutes.about:
         return MaterialPageRoute(
           builder: (BuildContext context) => const AboutPage(),
+        );
+      case AppRoutes.helpPage:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const HelpPage(),
+        );
+      case AppRoutes.favourites:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const FavouritesPage(),
         );
       case AppRoutes.notifications:
         return MaterialPageRoute(

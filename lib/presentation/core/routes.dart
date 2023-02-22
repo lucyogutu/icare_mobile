@@ -15,7 +15,9 @@ class AppRoutes {
   static const String personalDetails = '/personalDetails';
   static const String editPersonalDetails = '/editPersonalDetails';
   static const String history = '/history';
+  static const String favourites = '/favourites';
   static const String about = '/about';
+  static const String helpPage = '/helpPage';
   static const String notifications = '/notifications';
   static const String categoryDetail = '/categoryDetail';
   static const String doctorDetail = '/doctorDetail';

@@ -4,6 +4,7 @@ import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
+import 'package:icare_mobile/presentation/core/utils.dart';
 
 class HistoryItemWidget extends StatelessWidget {
   const HistoryItemWidget({
@@ -94,6 +95,9 @@ class HistoryItemWidget extends StatelessWidget {
                     SizedBox(
                       child: ICareElevatedButton(
                         text: buttonText,
+                        onPressed: () {
+                          showReviewBottomSheet(context, name);
+                        },
                       ),
                     ),
                   ],

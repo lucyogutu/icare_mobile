@@ -4,10 +4,11 @@ import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
-import 'package:icare_mobile/presentation/home/widgets/appointment_list_item_widget.dart';
+import 'package:icare_mobile/presentation/appointment/widgets/cancel_appointment_list_item.dart';
+import 'package:icare_mobile/presentation/core/zero_state_widget.dart';
 
-class NotificationsPage extends StatelessWidget {
-  const NotificationsPage({super.key});
+class CancelAppointmentsPage extends StatelessWidget {
+  const CancelAppointmentsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +26,6 @@ class NotificationsPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          notificationString,
-          style: boldSize16Text(AppColors.blackColor),
-        ),
-        foregroundColor: AppColors.blackColor,
-        backgroundColor: AppColors.whiteColor,
-        shadowColor: AppColors.primaryColorLight,
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -46,13 +38,19 @@ class NotificationsPage extends StatelessWidget {
                 style: boldSize18Text(AppColors.primaryColor),
               ),
               smallVerticalSizedBox,
-              ...appointments.map((appointment) {
-                return AppointmentListItemWidget(
-                  doctorName: appointment.doctor,
-                  doctorProfession: appointment.profession,
-                  date: appointment.date,
-                );
-              }).toList(),
+              if (appointments.isNotEmpty) ...[
+                ...appointments.map((appointment) {
+                  return CancelAppointmentListItemWidget(
+                    doctorName: appointment.doctor,
+                    doctorProfession: appointment.profession,
+                    date: appointment.date,
+                  );
+                }).toList(),
+              ] else
+                ZeroStateWidget(
+                  text: 'No canceled appointments',
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
             ],
           ),
         ),

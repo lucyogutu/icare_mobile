@@ -84,7 +84,7 @@ const String profileString = 'Profile';
 const String personalDetailsString = 'Personal Details';
 const String historyString = 'History';
 const String helpString = 'Help';
-const String favouriteString = 'Favourite';
+const String favouriteString = 'Favourites';
 const String logoutString = 'Logout';
 const String optOutString = 'Opt-out';
 const String editString = 'Edit';
@@ -107,3 +107,7 @@ const String optoutDescription =
 const String yesLogout = 'Yes, Logout';
 const String yesOptout = 'Yes, Opt out';
 const String noCancel = 'No, Cancel';
+
+const String upcomingString = 'Upcoming';
+const String pastString = 'Past';
+const String canceledString = 'Canceled';

@@ -23,17 +23,20 @@ class ZeroStateWidget extends StatelessWidget {
       child: Column(
         children: [
           Center(
-            child: SvgPicture.asset(noNotificationSvg),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: SvgPicture.asset(noNotificationSvg),
+            ),
           ),
           mediumVerticalSizedBox,
           Text(
             text,
             style: boldSize18Text(AppColors.primaryColor),
           ),
-          mediumVerticalSizedBox,
+          largeVerticalSizedBox,
           SizedBox(
             height: 40,
-            width: double.infinity,
+            width: MediaQuery.of(context).size.width * 0.7,
             child: ICareElevatedButton(
               text: okayThanksString,
               onPressed: onPressed,

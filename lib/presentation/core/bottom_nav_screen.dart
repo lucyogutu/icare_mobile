@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
-import 'package:icare_mobile/presentation/home/pages/book_page.dart';
+import 'package:icare_mobile/presentation/appointment/pages/tab_appointment.dart';
 import 'package:icare_mobile/presentation/home/pages/home_page.dart';
 import 'package:icare_mobile/presentation/profile/pages/profile_page.dart';
 
@@ -24,9 +24,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   final List<Widget> _pages = const [
     HomePage(),
-    BookPage(
-      doctorName: 'Book',
-    ), //replace with appointment page
+    TabAppointmentPage(), //replace with appointment page
     ProfilePage(),
   ];
 

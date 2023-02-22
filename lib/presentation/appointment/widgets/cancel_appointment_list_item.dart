@@ -4,21 +4,20 @@ import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
+import 'package:icare_mobile/presentation/core/routes.dart';
 import 'package:intl/intl.dart';
 
-class AppointmentListItemWidget extends StatelessWidget {
-  const AppointmentListItemWidget({
+class CancelAppointmentListItemWidget extends StatelessWidget {
+  const CancelAppointmentListItemWidget({
     super.key,
     required this.doctorName,
     required this.doctorProfession,
-    this.onPressed,
     required this.date,
   });
 
   final String doctorName;
   final String doctorProfession;
   final DateTime date;
-  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -85,24 +84,14 @@ class AppointmentListItemWidget extends StatelessWidget {
                           doctorProfession,
                           style: normalSize14Text(AppColors.blackColor),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              child: ICareElevatedButton(
-                                text: cancelString,
-                                buttonColor: AppColors.errorColor,
-                                borderColor: Colors.transparent,
-                                onPressed: onPressed,
-                              ),
-                            ),
-                            SizedBox(
-                              child: ICareElevatedButton(
-                                text: rescheduleString,
-                                onPressed: onPressed,
-                              ),
-                            ),
-                          ],
+                        SizedBox(
+                          width: double.infinity,
+                          child: ICareElevatedButton(
+                            text: rescheduleString,
+                            onPressed: () => Navigator.of(context).pushNamed(
+                                AppRoutes.bookAppointment,
+                                arguments: doctorName),
+                          ),
                         ),
                       ],
                     ),

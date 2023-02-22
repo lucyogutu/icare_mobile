@@ -5,8 +5,8 @@ import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
-import 'package:icare_mobile/presentation/core/icare_text_button.dart';
 import 'package:icare_mobile/presentation/core/routes.dart';
+import 'package:icare_mobile/presentation/core/utils.dart';
 import 'package:icare_mobile/presentation/profile/widgets/profile_list_item.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -126,7 +126,8 @@ class ProfilePage extends StatelessWidget {
               ProfileListItem(
                 icon: Icons.favorite_border_outlined,
                 title: favouriteString,
-                onTap: () {},
+                onTap: () =>
+                    Navigator.of(context).pushNamed(AppRoutes.favourites),
               ),
               Divider(
                 color: AppColors.primaryColor.withOpacity(0.25),
@@ -153,7 +154,8 @@ class ProfilePage extends StatelessWidget {
               ProfileListItem(
                 icon: Icons.help_outline,
                 title: helpString,
-                onTap: () {},
+                onTap: () =>
+                    Navigator.of(context).pushNamed(AppRoutes.helpPage),
               ),
               Divider(
                 color: AppColors.primaryColor.withOpacity(0.25),
@@ -201,31 +203,6 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Future<dynamic> showAlertDialog(BuildContext context, String title,
-      String content, VoidCallback yesButton) {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(title),
-          content: Text(content),
-          actions: [
-            ICareTextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              text: noCancel,
-              style: boldSize14Text(AppColors.primaryColor),
-            ),
-            ICareTextButton(
-              onPressed: yesButton,
-              text: yesLogout,
-              style: boldSize14Text(AppColors.redColor),
-            ),
-          ],
-        );
-      },
     );
   }
 }

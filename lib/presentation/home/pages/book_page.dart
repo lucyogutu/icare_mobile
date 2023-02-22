@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:icare_mobile/presentation/core/routes.dart';
+import 'package:icare_mobile/application/core/colors.dart';
 
 class BookPage extends StatefulWidget {
   const BookPage({
@@ -21,13 +21,10 @@ class _BookPageState extends State<BookPage> {
         title: Text(
           widget.doctorName,
         ),
-        actions: [
-          IconButton(
-            onPressed: () =>
-                Navigator.of(context).pushNamed(AppRoutes.notifications),
-            icon: const Icon(Icons.notifications_none_outlined),
-          ),
-        ],
+        foregroundColor: AppColors.blackColor,
+        backgroundColor: AppColors.whiteColor,
+        shadowColor: AppColors.primaryColorLight,
+        
       ),
       body: SingleChildScrollView(
           child: Padding(
