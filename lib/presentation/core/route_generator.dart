@@ -16,6 +16,7 @@ import 'package:icare_mobile/presentation/profile/pages/help_page.dart';
 import 'package:icare_mobile/presentation/profile/pages/history_page.dart';
 import 'package:icare_mobile/presentation/profile/pages/personal_details_page.dart';
 import 'package:icare_mobile/presentation/profile/pages/profile_page.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class GenerateRoute {
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -52,10 +53,10 @@ class GenerateRoute {
         );
       case AppRoutes.bookAppointment:
         return MaterialPageRoute(
-          builder: (BuildContext context) => BookPage(
-            doctorName: args as String,
-          ),
+          builder: (BuildContext context) =>
+              BookPage(doctorName: args as String),
         );
+
       case AppRoutes.bottomNav:
         return MaterialPageRoute(
           builder: (BuildContext context) => const BottomNavScreen(),

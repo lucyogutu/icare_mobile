@@ -56,6 +56,7 @@ class ICareElevatedButton extends StatelessWidget {
             text,
             style: textStyle ?? boldSize16Text(textColor ?? Colors.white),
           ),
+      
     );
   }
 }

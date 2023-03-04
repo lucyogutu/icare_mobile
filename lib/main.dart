@@ -11,10 +11,12 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   final showTab = prefs.getBool('showTab') ?? false;
   final showHome = prefs.getBool('showHome') ?? false;
-  runApp(MyApp(
-    showTab: showTab,
-    showHome: showHome,
-  ));
+  runApp(
+    MyApp(
+      showTab: showTab,
+      showHome: showHome,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

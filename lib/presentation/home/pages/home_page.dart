@@ -127,7 +127,7 @@ class HomePage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(
-              height: 130,
+              height: 140,
               width: double.infinity,
               child: CarouselBanner(),
             ),

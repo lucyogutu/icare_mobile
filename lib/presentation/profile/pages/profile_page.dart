@@ -166,10 +166,11 @@ class ProfilePage extends StatelessWidget {
                 title: logoutString,
                 onTap: () {
                   showAlertDialog(
-                    context,
-                    logoutString,
-                    logoutDescription,
-                    () => Navigator.of(context).pushNamed(AppRoutes.tabEntry),
+                    context: context,
+                    title: logoutString,
+                    content: logoutDescription,
+                    yesButton: () => Navigator.of(context).pushNamed(AppRoutes.tabEntry),
+                    buttonText: yesLogout,
                   );
                 },
               ),
@@ -182,11 +183,13 @@ class ProfilePage extends StatelessWidget {
                 title: optOutString,
                 onTap: () {
                   showAlertDialog(
-                    context,
-                    optOutString,
-                    optoutDescription,
+                    context: context,
+                    title: optOutString,
+                    content: optoutDescription,
                     // should navigate user to tabEntry login screen and also delete user data from app
-                    () => Navigator.of(context).pushNamed(AppRoutes.tabEntry),
+                    yesButton: () =>
+                        Navigator.of(context).pushNamed(AppRoutes.tabEntry),
+                    buttonText: yesOptout,
                   );
                 },
               ),
