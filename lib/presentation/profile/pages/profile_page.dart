@@ -5,7 +5,7 @@ import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
-import 'package:icare_mobile/presentation/core/routes.dart';
+import 'package:icare_mobile/application/core/routes.dart';
 import 'package:icare_mobile/presentation/core/utils.dart';
 import 'package:icare_mobile/presentation/profile/widgets/profile_list_item.dart';
 

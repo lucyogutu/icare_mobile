@@ -5,7 +5,7 @@ import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/appointment/pages/canceled_appointments_page.dart';
 import 'package:icare_mobile/presentation/appointment/pages/past_appointment_page.dart';
 import 'package:icare_mobile/presentation/appointment/pages/upcoming_appointment_page.dart';
-import 'package:icare_mobile/presentation/core/routes.dart';
+import 'package:icare_mobile/application/core/routes.dart';
 
 class TabAppointmentPage extends StatefulWidget {
   const TabAppointmentPage({super.key});

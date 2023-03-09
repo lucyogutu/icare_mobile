@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icare_mobile/presentation/core/bottom_nav_screen.dart';
-import 'package:icare_mobile/presentation/core/routes.dart';
+import 'package:icare_mobile/application/core/routes.dart';
 import 'package:icare_mobile/presentation/home/pages/book_page.dart';
 import 'package:icare_mobile/presentation/home/pages/category_specific_page.dart';
 import 'package:icare_mobile/presentation/home/pages/doctor_detail_page.dart';
@@ -16,7 +16,6 @@ import 'package:icare_mobile/presentation/profile/pages/help_page.dart';
 import 'package:icare_mobile/presentation/profile/pages/history_page.dart';
 import 'package:icare_mobile/presentation/profile/pages/personal_details_page.dart';
 import 'package:icare_mobile/presentation/profile/pages/profile_page.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 class GenerateRoute {
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {

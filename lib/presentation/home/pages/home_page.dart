@@ -9,7 +9,7 @@ import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_search_field.dart';
 import 'package:icare_mobile/presentation/core/icare_text_button.dart';
-import 'package:icare_mobile/presentation/core/routes.dart';
+import 'package:icare_mobile/application/core/routes.dart';
 import 'package:icare_mobile/presentation/home/widgets/carousel.dart';
 import 'package:icare_mobile/presentation/home/widgets/category_widget.dart';
 import 'package:icare_mobile/presentation/home/widgets/doctor_list_item_widget.dart';

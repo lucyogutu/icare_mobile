@@ -29,11 +29,13 @@ class ICareTextFormField extends StatelessWidget {
     this.fillColor,
     this.readOnly,
     this.onTap,
+    this.onSaved,
   });
 
   final String label;
   final Key? textFieldKey;
   final ValueChanged<String>? onChanged;
+  final Function(String?)? onSaved;
   final ValueChanged<String>? onFieldSubmitted;
   final String? Function(String?)? validator;
   final String? hintText;
@@ -96,6 +98,7 @@ class ICareTextFormField extends StatelessWidget {
         color: AppColors.blackColor,
       ),
       onChanged: onChanged,
+      onSaved: onSaved,
       onFieldSubmitted: onFieldSubmitted,
       validator: validator,
       autovalidateMode: autovalidateMode,

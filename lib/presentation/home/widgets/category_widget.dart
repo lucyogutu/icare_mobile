@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
-import 'package:icare_mobile/presentation/core/routes.dart';
+import 'package:icare_mobile/application/core/routes.dart';
 
 class CategoryWidget extends StatelessWidget {
   const CategoryWidget({
