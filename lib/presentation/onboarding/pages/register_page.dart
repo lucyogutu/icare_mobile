@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
@@ -11,6 +12,7 @@ import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/presentation/core/icare_text_form_field.dart';
 import 'package:intl/intl.dart';
+import 'package:string_validator/string_validator.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({
@@ -34,7 +36,19 @@ class _RegisterPageState extends State<RegisterPage> {
 
   DateTime? selectedDate = DateTime.now();
   final _formKey = GlobalKey<FormState>();
-  final User _user = User();
+
+  Future<User>? _registerUser;
+
+  User _user = User(
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: 0,
+    gender: '',
+    password1: '',
+    password2: '',
+    dateOfBirth: '',
+  );
 
   @override
   void initState() {
@@ -43,50 +57,51 @@ class _RegisterPageState extends State<RegisterPage> {
     _showConfirmPassword = false;
   }
 
-  Widget _displayGender() {
+  String _displayGender() {
     if (_user.gender == Gender.male.toString()) {
-      return const Text('Gender: Male');
+      return 'Male';
     } else if (_user.gender == Gender.female.toString()) {
-      return const Text('Gender: Female');
+      return 'Female';
     } else {
-      return const Text('Gender: Other');
+      return 'Other';
     }
   }
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      _registerUser = registerUser(_user);
+
       // Show alert dialog with user details
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Registration Details'),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text('Name: ${_user.firstName} ${_user.lastName}'),
-                Text('Email: ${_user.email}'),
-                // Text('Gender: ${_user.gender}'),
-                _displayGender(),
-                Text(
-                    'Date of Birth: ${DateFormat('yyyy-MM-dd').format(_user.dateOfBirth!)}'),
-                Text('Password: ${_user.password1}'),
-                Text('Phone Number: ${_user.phoneNumber}'),
-              ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
+      // showDialog(
+      //   context: context,
+      //   builder: (BuildContext context) {
+      //     return AlertDialog(
+      //       title: const Text('Registration Details'),
+      //       content: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         mainAxisSize: MainAxisSize.min,
+      //         children: <Widget>[
+      //           Text('Name: ${_user.firstName} ${_user.lastName}'),
+      //           Text('Email: ${_user.email}'),
+      //           // Text('Gender: ${_user.gender}'),
+      //           _displayGender(),
+      //           Text('Date of Birth: ${_user.dateOfBirth}'),
+      //           Text('Password: ${_user.password1}'),
+      //           Text('Phone Number: ${_user.phoneNumber}'),
+      //         ],
+      //       ),
+      //       actions: <Widget>[
+      //         TextButton(
+      //           onPressed: () {
+      //             Navigator.of(context).pop();
+      //           },
+      //           child: const Text('OK'),
+      //         ),
+      //       ],
+      //     );
+      //   },
+      // );
     }
   }
 
@@ -189,7 +204,17 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       onSaved: (value) {
                         setState(() {
-                          _user.dateOfBirth = DateTime.tryParse(value!);
+                          _user = User(
+                            firstName: _user.firstName,
+                            lastName: _user.lastName,
+                            email: _user.email,
+                            phoneNumber: _user.phoneNumber,
+                            gender: _user.gender,
+                            password1: _user.password1,
+                            password2: _user.password2,
+                            dateOfBirth: value!,
+                          );
+                          // _user.dateOfBirth = value!;
                         });
                       },
                     ),
@@ -234,6 +259,21 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  FutureBuilder<User> buildFutureBuilder() {
+    return FutureBuilder<User>(
+      future: _registerUser,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Text(snapshot.data!.firstName);
+        } else if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
+
+        return const CircularProgressIndicator();
+      },
+    );
+  }
+
   Column _buildGender() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,7 +302,17 @@ class _RegisterPageState extends State<RegisterPage> {
                 onChanged: (Gender? genderValue) {
                   setState(() {
                     gender = genderValue;
-                    _user.gender = gender.toString();
+                    _user = User(
+                      firstName: _user.firstName,
+                      lastName: _user.lastName,
+                      email: _user.email,
+                      phoneNumber: _user.phoneNumber,
+                      gender: gender as String,
+                      password1: _user.password1,
+                      password2: _user.password2,
+                      dateOfBirth: _user.dateOfBirth,
+                    );
+                    // _user.gender = gender.toString();
                   });
                 },
               ),
@@ -280,7 +330,17 @@ class _RegisterPageState extends State<RegisterPage> {
                 onChanged: (Gender? genderValue) {
                   setState(() {
                     gender = genderValue;
-                    _user.gender = gender.toString();
+                    _user = User(
+                      firstName: _user.firstName,
+                      lastName: _user.lastName,
+                      email: _user.email,
+                      phoneNumber: _user.phoneNumber,
+                      gender: gender as String,
+                      password1: _user.password1,
+                      password2: _user.password2,
+                      dateOfBirth: _user.dateOfBirth,
+                    );
+                    // _user.gender = gender.toString();
                   });
                 },
               ),
@@ -298,7 +358,17 @@ class _RegisterPageState extends State<RegisterPage> {
                 onChanged: (Gender? genderValue) {
                   setState(() {
                     gender = genderValue;
-                    _user.gender = gender.toString();
+                    _user = User(
+                      firstName: _user.firstName,
+                      lastName: _user.lastName,
+                      email: _user.email,
+                      phoneNumber: _user.phoneNumber,
+                      gender: gender as String,
+                      password1: _user.password1,
+                      password2: _user.password2,
+                      dateOfBirth: _user.dateOfBirth,
+                    );
+                    // _user.gender = gender.toString();
                   });
                 },
               ),
@@ -335,7 +405,17 @@ class _RegisterPageState extends State<RegisterPage> {
       },
       onSaved: (value) {
         setState(() {
-          _user.password2 = value;
+          _user = User(
+            firstName: _user.firstName,
+            lastName: _user.lastName,
+            email: _user.email,
+            phoneNumber: _user.phoneNumber,
+            gender: _user.gender,
+            password1: _user.password1,
+            password2: value!,
+            dateOfBirth: _user.dateOfBirth,
+          );
+          // _user.password2 = value;
         });
       },
     );
@@ -357,16 +437,34 @@ class _RegisterPageState extends State<RegisterPage> {
         });
       },
       validator: (String? value) {
+        RegExp passwordRegex = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
+        RegExp numericRegex = RegExp(r'[0-9]');
         if (value!.isEmpty) {
           return 'Field cannot be empty';
         } else if (value.length < 8) {
-          return 'Passwords must atleast be of 8 characters';
+          return 'Passwords must atleast have 8 characters';
+        } else if (isNumeric(value)) {
+          return 'Password cannot contain numbers only';
+        } else if (!value.contains(passwordRegex) ||
+            !value.contains(numericRegex)) {
+          return 'Password too commson, input atleast one special character and a number';
         }
+
         return null;
       },
       onSaved: (value) {
         setState(() {
-          _user.password1 = value;
+          _user = User(
+            firstName: _user.firstName,
+            lastName: _user.lastName,
+            email: _user.email,
+            phoneNumber: _user.phoneNumber,
+            gender: _user.gender,
+            password1: value!,
+            password2: _user.password2,
+            dateOfBirth: _user.dateOfBirth,
+          );
+          // _user.password1 = value;
         });
       },
     );
@@ -387,7 +485,17 @@ class _RegisterPageState extends State<RegisterPage> {
       },
       onSaved: (value) {
         setState(() {
-          _user.phoneNumber = value;
+          _user = User(
+            firstName: _user.firstName,
+            lastName: _user.lastName,
+            email: _user.email,
+            phoneNumber: int.parse(value!),
+            gender: _user.gender,
+            password1: _user.password1,
+            password2: _user.password2,
+            dateOfBirth: _user.dateOfBirth,
+          );
+          // _user.phoneNumber = value;
         });
       },
     );
@@ -409,7 +517,17 @@ class _RegisterPageState extends State<RegisterPage> {
         return null;
       },
       onSaved: (value) {
-        _user.email = value;
+        _user = User(
+          firstName: _user.firstName,
+          lastName: _user.lastName,
+          email: value!,
+          phoneNumber: _user.phoneNumber,
+          gender: _user.gender,
+          password1: _user.password1,
+          password2: _user.password2,
+          dateOfBirth: _user.dateOfBirth,
+        );
+        // _user.email = value;
       },
     );
   }
@@ -428,7 +546,17 @@ class _RegisterPageState extends State<RegisterPage> {
       },
       onSaved: (value) {
         setState(() {
-          _user.lastName = value;
+          _user = User(
+            firstName: _user.firstName,
+            lastName: value!,
+            email: _user.email,
+            phoneNumber: _user.phoneNumber,
+            gender: _user.gender,
+            password1: _user.password1,
+            password2: _user.password2,
+            dateOfBirth: _user.dateOfBirth,
+          );
+          // _user.lastName = value;
         });
       },
     );
@@ -448,7 +576,17 @@ class _RegisterPageState extends State<RegisterPage> {
       },
       onSaved: (value) {
         setState(() {
-          _user.firstName = value;
+          _user = User(
+            firstName: value!,
+            lastName: _user.lastName,
+            email: _user.email,
+            phoneNumber: _user.phoneNumber,
+            gender: _user.gender,
+            password1: _user.password1,
+            password2: _user.password2,
+            dateOfBirth: _user.dateOfBirth,
+          );
+          // _user.firstName = value;
         });
       },
     );

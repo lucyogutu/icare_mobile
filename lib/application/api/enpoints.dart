@@ -1,5 +1,7 @@
+import 'dart:io';
+
 class APIEndpoints {
-  static const String baseUrl = 'http://127.0.0.1:8000/';
+  static String baseUrl = Platform.isAndroid ? 'http://192.168.188.104:8000/' :'http://127.0.0.1:8000/';
 
   //patients
   static const  String registerPatient = 'patients/register-patient/';
