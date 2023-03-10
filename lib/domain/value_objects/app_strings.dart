@@ -115,3 +115,17 @@ const String noCancel = 'No, Cancel';
 const String upcomingString = 'Upcoming';
 const String pastString = 'Past';
 const String canceledString = 'Canceled';
+
+const String fieldCannotBeEmptyString = 'Field cannot be empty';
+const String inputValidEmailString = 'Please input a valid email';
+const String passwordTooCommonString =
+    'Password too commson, input atleast one special character and a number';
+const String passwordCannotContainNumbersOnly =
+    'Password cannot contain numbers only';
+const String passwordHave8Characters =
+    'Passwords must atleast have 8 characters';
+const String passwordsMustMatch = 'Passwords must match';
+
+const String retryString = 'RETRY';
+const String errorString = 'Error';
+const String successUserRegistered = 'User registered successfully';

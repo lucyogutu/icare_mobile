@@ -1,12 +1,12 @@
 class User {
-  final String firstName;
-  final String lastName;
-  final String email;
-  final int phoneNumber;
-  final String password1;
-  final String password2;
-  final String gender;
-  final String dateOfBirth;
+  final String? firstName;
+  final String? lastName;
+  final String? email;
+  final int? phoneNumber;
+  final String? password1;
+  final String? password2;
+  final String? gender;
+  final String? dateOfBirth;
 
   User({
     required this.firstName,

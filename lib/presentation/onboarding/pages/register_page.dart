@@ -8,6 +8,7 @@ import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/user.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/domain/value_objects/enums.dart';
+import 'package:icare_mobile/domain/value_objects/regex.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/presentation/core/icare_text_form_field.dart';
@@ -57,13 +58,43 @@ class _RegisterPageState extends State<RegisterPage> {
     _showConfirmPassword = false;
   }
 
-  String _displayGender() {
-    if (_user.gender == Gender.male.toString()) {
-      return 'Male';
-    } else if (_user.gender == Gender.female.toString()) {
-      return 'Female';
+  User _displayGender(Gender gender) {
+    if (gender == Gender.male) {
+      _user = User(
+        firstName: _user.firstName,
+        lastName: _user.lastName,
+        email: _user.email,
+        phoneNumber: _user.phoneNumber,
+        gender: male,
+        password1: _user.password1,
+        password2: _user.password2,
+        dateOfBirth: _user.dateOfBirth,
+      );
+      return _user;
+    } else if (gender == Gender.female) {
+      _user = User(
+        firstName: _user.firstName,
+        lastName: _user.lastName,
+        email: _user.email,
+        phoneNumber: _user.phoneNumber,
+        gender: female,
+        password1: _user.password1,
+        password2: _user.password2,
+        dateOfBirth: _user.dateOfBirth,
+      );
+      return _user;
     } else {
-      return 'Other';
+      _user = User(
+        firstName: _user.firstName,
+        lastName: _user.lastName,
+        email: _user.email,
+        phoneNumber: _user.phoneNumber,
+        gender: other,
+        password1: _user.password1,
+        password2: _user.password2,
+        dateOfBirth: _user.dateOfBirth,
+      );
+      return _user;
     }
   }
 
@@ -109,145 +140,155 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColorLight,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      body: (_registerUser == null)
+          ? SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: _buildColumn(),
+              ),
+            )
+          : Center(
+              child: buildFutureBuilder(),
+            ),
+    );
+  }
+
+  Widget _buildColumn() {
+    return Column(
+      children: [
+        largeVerticalSizedBox,
+        Center(
+          child: Container(
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              color: AppColors.whiteColor,
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GestureDetector(
+                child: SvgPicture.asset(
+                  userSvg,
+                  fit: BoxFit.cover,
+                  color: AppColors.primaryColor,
+                ),
+              ),
+            ),
+          ),
+        ),
+        mediumVerticalSizedBox,
+        Text(
+          registerString,
+          style: boldSize25Title(
+            AppColors.primaryColor,
+          ),
+        ),
+        mediumVerticalSizedBox,
+        Form(
+          key: _formKey,
           child: Column(
             children: [
-              largeVerticalSizedBox,
-              Center(
-                child: Container(
-                  height: 100,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    color: AppColors.whiteColor,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: GestureDetector(
-                      child: SvgPicture.asset(
-                        userSvg,
-                        fit: BoxFit.cover,
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // first name
+              _buildFirstName(),
               mediumVerticalSizedBox,
-              Text(
-                registerString,
-                style: boldSize25Title(
-                  AppColors.primaryColor,
-                ),
-              ),
+              // last name
+              _buildLastName(),
               mediumVerticalSizedBox,
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    // first name
-                    _buildFirstName(),
-                    mediumVerticalSizedBox,
-                    // last name
-                    _buildLastName(),
-                    mediumVerticalSizedBox,
-                    // email
-                    _buildEmail(),
-                    mediumVerticalSizedBox,
-                    // phone number
-                    _buildPhonenumber(),
-                    mediumVerticalSizedBox,
-                    // password
-                    _buildPassword(),
-                    mediumVerticalSizedBox,
-                    // confirm password
-                    _buildConfirmpassword(),
-                    mediumVerticalSizedBox,
-                    // gender
-                    _buildGender(),
-                    mediumVerticalSizedBox,
-                    // date of birth
-                    ICareTextFormField(
-                      controller: dateinput,
-                      label: dateOfBirthString,
-                      readOnly: true,
-                      prefixIcon: Icons.calendar_today_rounded,
-                      hintText: dateOfBirthHintString,
-                      fillColor: AppColors.whiteColor,
-                      onTap: () async {
-                        // FocusScope.of(context).requestFocus(FocusNode());
-                        DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(
-                                1950), //DateTime.now() - not to allow to choose before today.
-                            lastDate: DateTime.now());
+              // email
+              _buildEmail(),
+              mediumVerticalSizedBox,
+              // phone number
+              _buildPhonenumber(),
+              mediumVerticalSizedBox,
+              // password
+              _buildPassword(),
+              mediumVerticalSizedBox,
+              // confirm password
+              _buildConfirmpassword(),
+              mediumVerticalSizedBox,
+              // gender
+              _buildGender(),
+              mediumVerticalSizedBox,
+              // date of birth
+              ICareTextFormField(
+                controller: dateinput,
+                label: dateOfBirthString,
+                readOnly: true,
+                prefixIcon: Icons.calendar_today_rounded,
+                hintText: dateOfBirthHintString,
+                fillColor: AppColors.whiteColor,
+                onTap: () async {
+                  // FocusScope.of(context).requestFocus(FocusNode());
+                  DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(
+                          1950), //DateTime.now() - not to allow to choose before today.
+                      lastDate: DateTime.now());
 
-                        if (pickedDate != null) {
-                          String formattedDate =
-                              DateFormat('yyyy-MM-dd').format(pickedDate);
-                          setState(() {
-                            dateinput.text =
-                                formattedDate; //set output date to TextField value.
-                          });
-                        } else {
-                          const Text(dateOfBirthHintString);
-                        }
-                      },
-                      validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return 'Field cannot be empty';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        setState(() {
-                          _user = User(
-                            firstName: _user.firstName,
-                            lastName: _user.lastName,
-                            email: _user.email,
-                            phoneNumber: _user.phoneNumber,
-                            gender: _user.gender,
-                            password1: _user.password1,
-                            password2: _user.password2,
-                            dateOfBirth: value!,
-                          );
-                          // _user.dateOfBirth = value!;
-                        });
-                      },
-                    ),
-                    mediumVerticalSizedBox,
-                    SizedBox(
-                      height: 48,
-                      width: double.infinity,
-                      child: ICareElevatedButton(
-                        onPressed: _submitForm,
-                        text: signUpString,
+                  if (pickedDate != null) {
+                    String formattedDate =
+                        DateFormat('yyyy-MM-dd').format(pickedDate);
+                    setState(() {
+                      dateinput.text =
+                          formattedDate; //set output date to TextField value.
+                    });
+                  } else {
+                    const Text(dateOfBirthHintString);
+                  }
+                },
+                validator: (String? value) {
+                  if (value!.isEmpty) {
+                    return fieldCannotBeEmptyString;
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  setState(() {
+                    _user = User(
+                      firstName: _user.firstName,
+                      lastName: _user.lastName,
+                      email: _user.email,
+                      phoneNumber: _user.phoneNumber,
+                      gender: _user.gender,
+                      password1: _user.password1,
+                      password2: _user.password2,
+                      dateOfBirth: value!,
+                    );
+                    // _user.dateOfBirth = value!;
+                  });
+                },
+              ),
+              mediumVerticalSizedBox,
+              SizedBox(
+                height: 48,
+                width: double.infinity,
+                child: ICareElevatedButton(
+                  onPressed: () {
+                    _submitForm();
+                    widget.signIn;
+                  },
+                  text: signUpString,
+                ),
+              ),
+              smallVerticalSizedBox,
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: alreadyHaveAccountString,
+                      style: normalSize12Text(
+                        AppColors.blackColor,
                       ),
                     ),
-                    smallVerticalSizedBox,
-                    RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: alreadyHaveAccountString,
-                            style: normalSize12Text(
-                              AppColors.blackColor,
-                            ),
-                          ),
-                          TextSpan(
-                            text: signInString,
-                            style: normalSize12Text(
-                              AppColors.primaryColor,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = widget.signIn,
-                          ),
-                        ],
+                    TextSpan(
+                      text: signInString,
+                      style: normalSize12Text(
+                        AppColors.primaryColor,
                       ),
+                      recognizer: TapGestureRecognizer()..onTap = widget.signIn,
                     ),
                   ],
                 ),
@@ -255,7 +296,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 
@@ -264,12 +305,35 @@ class _RegisterPageState extends State<RegisterPage> {
       future: _registerUser,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Text(snapshot.data!.firstName);
+          // return const SnackBar(
+          //   content: Text('User registered successfully'),
+          // );
+          return const Center(
+            child: Text(successUserRegistered),
+          );
         } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
+          return Flexible(
+            child: Center(
+              child: AlertDialog(
+                title: const Text(errorString),
+                content: Text('${snapshot.error}'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      _buildColumn();
+                    },
+                    child: const Text(retryString),
+                  ),
+                ],
+              ),
+            ),
+          );
         }
 
-        return const CircularProgressIndicator();
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
       },
     );
   }
@@ -302,17 +366,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 onChanged: (Gender? genderValue) {
                   setState(() {
                     gender = genderValue;
-                    _user = User(
-                      firstName: _user.firstName,
-                      lastName: _user.lastName,
-                      email: _user.email,
-                      phoneNumber: _user.phoneNumber,
-                      gender: gender as String,
-                      password1: _user.password1,
-                      password2: _user.password2,
-                      dateOfBirth: _user.dateOfBirth,
-                    );
-                    // _user.gender = gender.toString();
+                    _user = _displayGender(gender!);
                   });
                 },
               ),
@@ -330,17 +384,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 onChanged: (Gender? genderValue) {
                   setState(() {
                     gender = genderValue;
-                    _user = User(
-                      firstName: _user.firstName,
-                      lastName: _user.lastName,
-                      email: _user.email,
-                      phoneNumber: _user.phoneNumber,
-                      gender: gender as String,
-                      password1: _user.password1,
-                      password2: _user.password2,
-                      dateOfBirth: _user.dateOfBirth,
-                    );
-                    // _user.gender = gender.toString();
+                    _user = _user = _displayGender(gender!);
                   });
                 },
               ),
@@ -358,17 +402,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 onChanged: (Gender? genderValue) {
                   setState(() {
                     gender = genderValue;
-                    _user = User(
-                      firstName: _user.firstName,
-                      lastName: _user.lastName,
-                      email: _user.email,
-                      phoneNumber: _user.phoneNumber,
-                      gender: gender as String,
-                      password1: _user.password1,
-                      password2: _user.password2,
-                      dateOfBirth: _user.dateOfBirth,
-                    );
-                    // _user.gender = gender.toString();
+                    _user = _user = _displayGender(gender!);
                   });
                 },
               ),
@@ -397,9 +431,9 @@ class _RegisterPageState extends State<RegisterPage> {
       },
       validator: (String? value) {
         if (value!.isEmpty) {
-          return 'Field cannot be empty';
+          return fieldCannotBeEmptyString;
         } else if (value != _password.text) {
-          return 'Passwords must match';
+          return passwordsMustMatch;
         }
         return null;
       },
@@ -415,7 +449,6 @@ class _RegisterPageState extends State<RegisterPage> {
             password2: value!,
             dateOfBirth: _user.dateOfBirth,
           );
-          // _user.password2 = value;
         });
       },
     );
@@ -437,17 +470,15 @@ class _RegisterPageState extends State<RegisterPage> {
         });
       },
       validator: (String? value) {
-        RegExp passwordRegex = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
-        RegExp numericRegex = RegExp(r'[0-9]');
         if (value!.isEmpty) {
-          return 'Field cannot be empty';
+          return fieldCannotBeEmptyString;
         } else if (value.length < 8) {
-          return 'Passwords must atleast have 8 characters';
+          return passwordHave8Characters;
         } else if (isNumeric(value)) {
-          return 'Password cannot contain numbers only';
+          return passwordCannotContainNumbersOnly;
         } else if (!value.contains(passwordRegex) ||
             !value.contains(numericRegex)) {
-          return 'Password too commson, input atleast one special character and a number';
+          return passwordTooCommonString;
         }
 
         return null;
@@ -464,7 +495,6 @@ class _RegisterPageState extends State<RegisterPage> {
             password2: _user.password2,
             dateOfBirth: _user.dateOfBirth,
           );
-          // _user.password1 = value;
         });
       },
     );
@@ -479,7 +509,7 @@ class _RegisterPageState extends State<RegisterPage> {
       keyboardType: TextInputType.number,
       validator: (String? value) {
         if (value!.isEmpty) {
-          return 'Field cannot be empty';
+          return fieldCannotBeEmptyString;
         }
         return null;
       },
@@ -495,7 +525,6 @@ class _RegisterPageState extends State<RegisterPage> {
             password2: _user.password2,
             dateOfBirth: _user.dateOfBirth,
           );
-          // _user.phoneNumber = value;
         });
       },
     );
@@ -509,10 +538,8 @@ class _RegisterPageState extends State<RegisterPage> {
       fillColor: AppColors.whiteColor,
       keyboardType: TextInputType.emailAddress,
       validator: (String? value) {
-        if (!RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-                .hasMatch(value!) ||
-            value.isEmpty) {
-          return 'Please input a valid email';
+        if (!emailRegex.hasMatch(value!) || value.isEmpty) {
+          return inputValidEmailString;
         }
         return null;
       },
@@ -527,7 +554,6 @@ class _RegisterPageState extends State<RegisterPage> {
           password2: _user.password2,
           dateOfBirth: _user.dateOfBirth,
         );
-        // _user.email = value;
       },
     );
   }
@@ -540,7 +566,7 @@ class _RegisterPageState extends State<RegisterPage> {
       fillColor: AppColors.whiteColor,
       validator: (String? value) {
         if (value!.isEmpty) {
-          return 'Field cannot be empty';
+          return fieldCannotBeEmptyString;
         }
         return null;
       },
@@ -570,7 +596,7 @@ class _RegisterPageState extends State<RegisterPage> {
       fillColor: AppColors.whiteColor,
       validator: (String? value) {
         if (value!.isEmpty) {
-          return 'Field cannot be empty';
+          return fieldCannotBeEmptyString;
         }
         return null;
       },
@@ -586,7 +612,6 @@ class _RegisterPageState extends State<RegisterPage> {
             password2: _user.password2,
             dateOfBirth: _user.dateOfBirth,
           );
-          // _user.firstName = value;
         });
       },
     );

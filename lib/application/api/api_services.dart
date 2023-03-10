@@ -6,12 +6,12 @@ import 'package:icare_mobile/domain/entities/user.dart';
 
 class APIService {
   // handle the api futures here
-  
+
 }
 
 Future<User> registerUser(User user) async {
-  
-    Uri url = Uri.parse(APIEndpoints.baseUrl+APIEndpoints.registerPatient);
+  Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.registerPatient);
+  try {
     final response = await http.post(
       url,
       headers: <String, String>{
@@ -36,6 +36,9 @@ Future<User> registerUser(User user) async {
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
-      throw Exception('Failed to create user.');
+      throw Exception(response.body);
     }
+  } catch (e) {
+    throw Exception(e.toString());
   }
+}
