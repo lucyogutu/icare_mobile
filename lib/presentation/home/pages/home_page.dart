@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
@@ -14,8 +15,21 @@ import 'package:icare_mobile/presentation/home/widgets/carousel.dart';
 import 'package:icare_mobile/presentation/home/widgets/category_widget.dart';
 import 'package:icare_mobile/presentation/home/widgets/doctor_list_item_widget.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Future<List<Doctor>>? _doctors;
+
+  @override
+  void initState() {
+    super.initState();
+    _doctors = getDoctors();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,37 +64,6 @@ class HomePage extends StatelessWidget {
         name: dermatologyString,
         svgPicture: dermatologySvg,
       ),
-    ];
-
-    List<Doctor> doctors = [
-      // Doctor(
-      //   name: 'Ali Yusuf',
-      //   profession: 'Dentist',
-      //   clinic: 'Aga Khan hospital, Kiambu',
-      //   rating: 5,
-      //   reviews: 500,
-      // ),
-      // Doctor(
-      //   name: 'Rian Ramires',
-      //   profession: 'Nurse',
-      //   clinic: 'St. Anne\'s hospital, Kisumu',
-      //   rating: 5,
-      //   reviews: 500,
-      // ),
-      // Doctor(
-      //   name: 'Bruno Rodrigues',
-      //   profession: 'Physician',
-      //   clinic: 'MP Shar hospital, Nairobi',
-      //   rating: 5,
-      //   reviews: 450,
-      // ),
-      // Doctor(
-      //   name: 'Rian Ramires',
-      //   profession: 'Nurse',
-      //   clinic: 'St. Anne\'s hospital, Kisumu',
-      //   rating: 5,
-      //   reviews: 500,
-      // ),
     ];
 
     return Scaffold(
@@ -195,21 +178,48 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-            Column(
-              children: [
-                ...doctors.map((doctor) {
-                  return DoctorListItemWidget(
-                    doctorFirstName: doctor.firstName!,
-                    doctorLastName: doctor.lastName!,
-                    doctorProfession: doctor.specialization!,
-                    doctorClinic: doctor.clinic!,
-                    // remove hard coding
-                    rating: 5,
-                    reviews: 500,
-                  );
-                }).toList(),
-              ],
+            FutureBuilder(
+              future: _doctors,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const CircularProgressIndicator();
+                }
+                return Flexible(
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext ctx, int index) {
+                      var doctor = snapshot.data![index];
+                      return DoctorListItemWidget(
+                        doctorFirstName: doctor.firstName!,
+                        doctorLastName: doctor.lastName!,
+                        doctorProfession: doctor.specialization!,
+                        doctorClinic: doctor.clinic!,
+                        // remove hard coding
+                        rating: 5,
+                        reviews: 500,
+                      );
+                    },
+                  ),
+                );
+              },
             ),
+            // Column(
+            //   children: [
+            //     ..._doctors.map((doctor) {
+            //       return DoctorListItemWidget(
+            //         doctorFirstName: doctor.firstName,
+            //         doctorLastName: doctor.lastName,
+            //         doctorProfession: doctor.specialization,
+            //         doctorClinic: doctor.clinic,
+            //         // remove hard coding
+            //         rating: 5,
+            //         reviews: 500,
+            //       );
+            //     }).toList(),
+            //   ],
+            // ),
           ],
         ),
       )),

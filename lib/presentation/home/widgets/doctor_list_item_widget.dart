@@ -93,7 +93,7 @@ class DoctorListItemWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '$doctorFirstName + ' ' +$doctorLastName',
+                                '$doctorFirstName $doctorLastName',
                                 style: boldSize14Text(AppColors.blackColor),
                               ),
                               IconButton(

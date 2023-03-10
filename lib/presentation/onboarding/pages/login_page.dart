@@ -163,9 +163,10 @@ class _LoginPageState extends State<LoginPage> {
                                 if (_formKey.currentState!.validate()) {
                                   _formKey.currentState!.save();
                                   _loginUser = loginUser(_user);
-                                  Navigator.of(context).pushReplacementNamed(
-                                      AppRoutes.bottomNav);
+                                  
                                 }
+                                Navigator.of(context).pushReplacementNamed(
+                                      AppRoutes.bottomNav);
                               }
                             : buildFutureBuilder,
                         text: signInString,

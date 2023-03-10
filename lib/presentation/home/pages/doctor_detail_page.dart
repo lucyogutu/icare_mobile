@@ -27,7 +27,7 @@ class DoctorDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '$doctorFirstName +' '+$doctorLastName',
+          '$doctorFirstName $doctorLastName',
           style: boldSize16Text(AppColors.blackColor),
         ),
         foregroundColor: AppColors.blackColor,
@@ -66,7 +66,7 @@ class DoctorDetailPage extends StatelessWidget {
                   ),
                   mediumVerticalSizedBox,
                   Text(
-                    '$doctorFirstName +' '+$doctorLastName',
+                    '$doctorFirstName $doctorLastName',
                     style: boldSize25Title(AppColors.blackColor),
                   ),
                   smallVerticalSizedBox,

@@ -1,4 +1,5 @@
 class Doctor {
+  final int? id;
   final String? firstName;
   final String? lastName;
   final String? email;
@@ -15,6 +16,7 @@ class Doctor {
   final String? address;
 
   Doctor({
+    required this.id,
     required this.firstName,
     required this.lastName,
     required this.email,
@@ -32,6 +34,7 @@ class Doctor {
 
   factory Doctor.fromJson(Map<String, dynamic> json) {
     return Doctor(
+      id: json['id'],
       firstName: json['first_name'],
       lastName: json['last_name'],
       email: json['email'],
@@ -49,6 +52,7 @@ class Doctor {
   }
 
   Map<String, dynamic> toJson() => {
+        'id': id,
         'first_name': firstName,
         'last_name': lastName,
         'email': email,
