@@ -11,12 +11,14 @@ import 'package:icare_mobile/application/core/routes.dart';
 class DoctorDetailPage extends StatelessWidget {
   const DoctorDetailPage({
     super.key,
-    required this.doctorName,
+    required this.doctorFirstName,
+    required this.doctorLastName,
     required this.doctorProfession,
     required this.doctorClinic,
   });
 
-  final String doctorName;
+  final String doctorFirstName;
+  final String doctorLastName;
   final String doctorProfession;
   final String doctorClinic;
 
@@ -25,7 +27,7 @@ class DoctorDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          doctorName,
+          '$doctorFirstName +' '+$doctorLastName',
           style: boldSize16Text(AppColors.blackColor),
         ),
         foregroundColor: AppColors.blackColor,
@@ -64,7 +66,7 @@ class DoctorDetailPage extends StatelessWidget {
                   ),
                   mediumVerticalSizedBox,
                   Text(
-                    doctorName,
+                    '$doctorFirstName +' '+$doctorLastName',
                     style: boldSize25Title(AppColors.blackColor),
                   ),
                   smallVerticalSizedBox,
@@ -123,8 +125,11 @@ class DoctorDetailPage extends StatelessWidget {
                 height: 40,
                 child: ICareElevatedButton(
                   text: bookAppointmentString,
-                  onPressed: () => Navigator.of(context).pushNamed(AppRoutes.bookAppointment, arguments: doctorName),
-                  
+                  onPressed: () => Navigator.of(context)
+                      .pushNamed(AppRoutes.bookAppointment, arguments: {
+                    'doctorFirstName': doctorFirstName,
+                    'doctorLastName': doctorLastName,
+                  }),
                 ),
               ),
             ],

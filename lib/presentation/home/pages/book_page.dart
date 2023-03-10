@@ -10,10 +10,12 @@ import 'package:table_calendar/table_calendar.dart';
 class BookPage extends StatefulWidget {
   const BookPage({
     super.key,
-    required this.doctorName,
+    required this.doctorFirstName,
+    required this.doctorLastName,
   });
 
-  final String doctorName;
+  final String doctorFirstName;
+  final String doctorLastName;
 
   @override
   State<BookPage> createState() => _BookPageState();
@@ -50,7 +52,7 @@ class _BookPageState extends State<BookPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.doctorName,
+          '${widget.doctorFirstName} + '' + ${widget.doctorLastName}',
         ),
         foregroundColor: AppColors.blackColor,
         backgroundColor: AppColors.whiteColor,

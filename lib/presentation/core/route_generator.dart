@@ -51,9 +51,12 @@ class GenerateRoute {
           builder: (BuildContext context) => const ListDoctorsPage(),
         );
       case AppRoutes.bookAppointment:
+        final bookArgs = args as Map<String, String>;
         return MaterialPageRoute(
-          builder: (BuildContext context) =>
-              BookPage(doctorName: args as String),
+          builder: (BuildContext context) => BookPage(
+            doctorFirstName: bookArgs['doctorFirstName']!,
+            doctorLastName: bookArgs['doctorLastName']!,
+          ),
         );
 
       case AppRoutes.bottomNav:
@@ -103,7 +106,8 @@ class GenerateRoute {
           builder: (BuildContext context) {
             final docArgs = args as Map<String, String>;
             return DoctorDetailPage(
-              doctorName: docArgs['doctorName']!,
+              doctorFirstName: docArgs['doctorFirstName']!,
+              doctorLastName: docArgs['doctorLastName']!,
               doctorProfession: docArgs['doctorProfession']!,
               doctorClinic: docArgs['doctorClinic']!,
             );

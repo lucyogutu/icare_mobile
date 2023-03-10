@@ -81,13 +81,6 @@ class HomePage extends StatelessWidget {
       //   rating: 5,
       //   reviews: 500,
       // ),
-      Doctor(
-        name: 'Bruno Rodrigues',
-        profession: 'Physician',
-        clinic: 'MP Shar hospital, Nairobi',
-        rating: 5,
-        reviews: 450,
-      ),
     ];
 
     return Scaffold(
@@ -206,11 +199,13 @@ class HomePage extends StatelessWidget {
               children: [
                 ...doctors.map((doctor) {
                   return DoctorListItemWidget(
-                    doctorName: doctor.name!,
-                    doctorProfession: doctor.profession!,
+                    doctorFirstName: doctor.firstName!,
+                    doctorLastName: doctor.lastName!,
+                    doctorProfession: doctor.specialization!,
                     doctorClinic: doctor.clinic!,
-                    rating: doctor.rating!,
-                    reviews: doctor.reviews!,
+                    // remove hard coding
+                    rating: 5,
+                    reviews: 500,
                   );
                 }).toList(),
               ],

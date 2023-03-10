@@ -11,7 +11,8 @@ import 'package:icare_mobile/application/core/routes.dart';
 class DoctorListItemWidget extends StatelessWidget {
   const DoctorListItemWidget({
     super.key,
-    required this.doctorName,
+    required this.doctorFirstName,
+    required this.doctorLastName,
     required this.doctorProfession,
     required this.doctorClinic,
     this.onIconPressed,
@@ -20,7 +21,8 @@ class DoctorListItemWidget extends StatelessWidget {
     this.onButtonPressed,
   });
 
-  final String doctorName;
+  final String doctorFirstName;
+  final String doctorLastName;
   final String doctorProfession;
   final String doctorClinic;
   final int rating;
@@ -35,7 +37,8 @@ class DoctorListItemWidget extends StatelessWidget {
         InkWell(
           onTap: () => Navigator.of(context)
               .pushNamed(AppRoutes.doctorDetail, arguments: {
-            'doctorName': doctorName,
+            'doctorFirstName': doctorFirstName,
+            'doctorLastName': doctorLastName,
             'doctorProfession': doctorProfession,
             'doctorClinic': doctorClinic,
           }),
@@ -90,7 +93,7 @@ class DoctorListItemWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                doctorName,
+                                '$doctorFirstName + ' ' +$doctorLastName',
                                 style: boldSize14Text(AppColors.blackColor),
                               ),
                               IconButton(
@@ -139,7 +142,10 @@ class DoctorListItemWidget extends StatelessWidget {
                                       boldSize12Text(AppColors.whiteColor),
                                   onPressed: () => Navigator.of(context)
                                       .pushNamed(AppRoutes.bookAppointment,
-                                          arguments: doctorName),
+                                          arguments: {
+                                        'doctorFirstName': doctorFirstName,
+                                        'doctorLastName': doctorLastName,
+                                      }),
                                 ),
                               ),
                             ],
