@@ -53,34 +53,34 @@ class HomePage extends StatelessWidget {
     ];
 
     List<Doctor> doctors = [
-      Doctor(
-        name: 'Ali Yusuf',
-        profession: 'Dentist',
-        clinic: 'Aga Khan hospital, Kiambu',
-        rating: 5,
-        reviews: 500,
-      ),
-      Doctor(
-        name: 'Rian Ramires',
-        profession: 'Nurse',
-        clinic: 'St. Anne\'s hospital, Kisumu',
-        rating: 5,
-        reviews: 500,
-      ),
-      Doctor(
-        name: 'Bruno Rodrigues',
-        profession: 'Physician',
-        clinic: 'MP Shar hospital, Nairobi',
-        rating: 5,
-        reviews: 450,
-      ),
-      Doctor(
-        name: 'Rian Ramires',
-        profession: 'Nurse',
-        clinic: 'St. Anne\'s hospital, Kisumu',
-        rating: 5,
-        reviews: 500,
-      ),
+      // Doctor(
+      //   name: 'Ali Yusuf',
+      //   profession: 'Dentist',
+      //   clinic: 'Aga Khan hospital, Kiambu',
+      //   rating: 5,
+      //   reviews: 500,
+      // ),
+      // Doctor(
+      //   name: 'Rian Ramires',
+      //   profession: 'Nurse',
+      //   clinic: 'St. Anne\'s hospital, Kisumu',
+      //   rating: 5,
+      //   reviews: 500,
+      // ),
+      // Doctor(
+      //   name: 'Bruno Rodrigues',
+      //   profession: 'Physician',
+      //   clinic: 'MP Shar hospital, Nairobi',
+      //   rating: 5,
+      //   reviews: 450,
+      // ),
+      // Doctor(
+      //   name: 'Rian Ramires',
+      //   profession: 'Nurse',
+      //   clinic: 'St. Anne\'s hospital, Kisumu',
+      //   rating: 5,
+      //   reviews: 500,
+      // ),
       Doctor(
         name: 'Bruno Rodrigues',
         profession: 'Physician',
@@ -206,11 +206,11 @@ class HomePage extends StatelessWidget {
               children: [
                 ...doctors.map((doctor) {
                   return DoctorListItemWidget(
-                    doctorName: doctor.name,
-                    doctorProfession: doctor.profession,
-                    doctorClinic: doctor.clinic,
-                    rating: doctor.rating,
-                    reviews: doctor.reviews,
+                    doctorName: doctor.name!,
+                    doctorProfession: doctor.profession!,
+                    doctorClinic: doctor.clinic!,
+                    rating: doctor.rating!,
+                    reviews: doctor.reviews!,
                   );
                 }).toList(),
               ],
