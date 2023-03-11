@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
@@ -7,49 +8,24 @@ import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_search_field.dart';
 import 'package:icare_mobile/presentation/home/widgets/doctor_list_item_widget.dart';
 
-class ListDoctorsPage extends StatelessWidget {
+class ListDoctorsPage extends StatefulWidget {
   const ListDoctorsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    List<Doctor> doctors = [
-      // Doctor(
-      //   name: 'Ali Yusuf',
-      //   profession: 'Dentist',
-      //   clinic: 'Aga Khan hospital, Kiambu',
-      //   rating: 5,
-      //   reviews: 500,
-      // ),
-      // Doctor(
-      //   name: 'Rian Ramires',
-      //   profession: 'Nurse',
-      //   clinic: 'St. Anne\'s hospital, Kisumu',
-      //   rating: 5,
-      //   reviews: 500,
-      // ),
-      // Doctor(
-      //   name: 'Bruno Rodrigues',
-      //   profession: 'Physician',
-      //   clinic: 'MP Shar hospital, Nairobi',
-      //   rating: 5,
-      //   reviews: 450,
-      // ),
-      // Doctor(
-      //   name: 'Rian Ramires',
-      //   profession: 'Nurse',
-      //   clinic: 'St. Anne\'s hospital, Kisumu',
-      //   rating: 5,
-      //   reviews: 500,
-      // ),
-      // Doctor(
-      //   name: 'Bruno Rodrigues',
-      //   profession: 'Physician',
-      //   clinic: 'MP Shar hospital, Nairobi',
-      //   rating: 5,
-      //   reviews: 450,
-      // ),
-    ];
+  State<ListDoctorsPage> createState() => _ListDoctorsPageState();
+}
 
+class _ListDoctorsPageState extends State<ListDoctorsPage> {
+  Future<List<Doctor>>? _doctors;
+
+  @override
+  void initState() {
+    super.initState();
+    _doctors = getDoctors();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -71,21 +47,31 @@ class ListDoctorsPage extends StatelessWidget {
               onSubmitted: (value) {},
             ),
             size15VerticalSizedBox,
-            Column(
-              children: [
-                ...doctors.map((doctor) {
-                  return DoctorListItemWidget(
-                    id: doctor.id!,
-                    doctorFirstName: doctor.firstName!,
-                    doctorLastName: doctor.lastName!,
-                    doctorProfession: doctor.specialization!,
-                    doctorClinic: doctor.clinic!,
-                    // remove hard coding
-                    rating: 5,
-                    reviews: 500,
-                  );
-                }).toList(),
-              ],
+            FutureBuilder(
+              future: _doctors,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const CircularProgressIndicator();
+                }
+                return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext ctx, int index) {
+                    var doctor = snapshot.data![index];
+                    return DoctorListItemWidget(
+                      id: doctor.id!,
+                      doctorFirstName: doctor.firstName!,
+                      doctorLastName: doctor.lastName!,
+                      doctorProfession: doctor.specialization!,
+                      doctorClinic: doctor.clinic!,
+                      // remove hard coding
+                      rating: 5,
+                      reviews: 500,
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),

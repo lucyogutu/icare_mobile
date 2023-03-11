@@ -85,7 +85,7 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        firstNameHintString,
+                        firstNameString,
                         style: boldSize14Text(AppColors.blackColor),
                       ),
                       verySmallVerticalSizedBox,
@@ -97,7 +97,7 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
                       ),
                       verySmallVerticalSizedBox,
                       Text(
-                        lastNameHintString,
+                        lastNameString,
                         style: boldSize14Text(AppColors.blackColor),
                       ),
                       verySmallVerticalSizedBox,
@@ -163,8 +163,10 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
                     height: 40,
                     child: ICareElevatedButton(
                       text: editString,
-                      onPressed: () => Navigator.of(context)
-                          .pushNamed(AppRoutes.editPersonalDetails),
+                      onPressed: () => Navigator.of(context).pushNamed(
+                        AppRoutes.editPersonalDetails,
+                        arguments: _getProfileDetails,
+                      ),
                     ),
                   ),
                 ],

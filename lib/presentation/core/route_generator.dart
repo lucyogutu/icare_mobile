@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icare_mobile/domain/entities/user.dart';
 import 'package:icare_mobile/presentation/core/bottom_nav_screen.dart';
 import 'package:icare_mobile/application/core/routes.dart';
 import 'package:icare_mobile/presentation/home/pages/book_page.dart';
@@ -69,7 +70,8 @@ class GenerateRoute {
         );
       case AppRoutes.editPersonalDetails:
         return MaterialPageRoute(
-          builder: (BuildContext context) => const EditPersonalDetailsPage(),
+          builder: (BuildContext context) =>
+              EditPersonalDetailsPage(getProfileDetails: args as Future<User>?),
         );
       case AppRoutes.history:
         return MaterialPageRoute(

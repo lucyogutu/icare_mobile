@@ -224,21 +224,6 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-            // Column(
-            //   children: [
-            //     ..._doctors.map((doctor) {
-            //       return DoctorListItemWidget(
-            //         doctorFirstName: doctor.firstName,
-            //         doctorLastName: doctor.lastName,
-            //         doctorProfession: doctor.specialization,
-            //         doctorClinic: doctor.clinic,
-            //         // remove hard coding
-            //         rating: 5,
-            //         reviews: 500,
-            //       );
-            //     }).toList(),
-            //   ],
-            // ),
           ],
         ),
       )),

@@ -118,9 +118,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Align(
                                   alignment: Alignment.bottomLeft,
                                   child: InkWell(
-                                    onTap: () => Navigator.of(context)
-                                        .pushNamed(
-                                            AppRoutes.editPersonalDetails),
+                                    onTap: () =>
+                                        Navigator.of(context).pushNamed(
+                                      AppRoutes.editPersonalDetails,
+                                      arguments: _getProfileDetails,
+                                    ),
                                     splashColor: AppColors.primaryColor,
                                     child: Container(
                                       decoration: BoxDecoration(

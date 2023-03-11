@@ -69,8 +69,6 @@ Future<User> loginUser(User user) async {
 
       return User.fromJson(jsonDecode(response.body));
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
       throw Exception(response.body);
     }
   } catch (e) {
@@ -91,13 +89,9 @@ Future<List<Doctor>> getDoctors() async {
     );
 
     if (response.statusCode == 200) {
-      // If the server did return a 200 CREATED response,
-      // then parse the JSON.
       Iterable jsonList = json.decode(response.body);
       return List<Doctor>.from(jsonList.map((model) => Doctor.fromJson(model)));
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
       throw Exception(response.body);
     }
   } catch (e) {
@@ -119,12 +113,8 @@ Future<Doctor> getDoctor(int id) async {
     );
 
     if (response.statusCode == 200) {
-      // If the server did return a 200 CREATED response,
-      // then parse the JSON.
       return Doctor.fromJson(jsonDecode(response.body));
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
       throw Exception(response.body);
     }
   } catch (e) {
@@ -145,12 +135,40 @@ Future<User> getProfile() async {
     );
 
     if (response.statusCode == 200) {
-      // If the server did return a 200 CREATED response,
-      // then parse the JSON.
       return User.fromJson(jsonDecode(response.body));
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
+      throw Exception(response.body);
+    }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
+}
+
+Future<User> editUserProfile(User user) async {
+  final authToken = await storage.read(key: 'access');
+
+  Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.editPatientProfile);
+  try {
+    final response = await http.put(
+      url,
+      headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'first_name': user.firstName,
+        'last_name': user.lastName,
+        'email': user.email,
+        'phone_number': user.phoneNumber,
+        'password': user.password1,
+        'gender': user.gender,
+        'date_of_birth': user.dateOfBirth,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      return User.fromJson(jsonDecode(response.body));
+    } else {
       throw Exception(response.body);
     }
   } catch (e) {

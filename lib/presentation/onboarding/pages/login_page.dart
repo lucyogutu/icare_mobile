@@ -144,75 +144,73 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                     smallVerticalSizedBox,
-                    ICareTextButton(
-                      onPressed: () => Navigator.of(context)
-                          .pushNamed(AppRoutes.forgotPassword),
-                      text: forgotPasswordString,
-                      style: boldSize16Text(AppColors.primaryColor),
-                    ),
-                    smallVerticalSizedBox,
-                    SizedBox(
-                      height: 48,
-                      width: double.infinity,
-                      child: ICareElevatedButton(
-                        onPressed: (_loginUser == null)
-                            ? () async {
-                                final prefs =
-                                    await SharedPreferences.getInstance();
-                                prefs.setBool('showHome', true);
-                                if (_formKey.currentState!.validate()) {
-                                  _formKey.currentState!.save();
-                                  _loginUser = loginUser(_user);
-                                }
-                                Navigator.of(context)
-                                    .pushReplacementNamed(AppRoutes.bottomNav);
-                              }
-                            : buildFutureBuilder,
-                        text: signInString,
+                  ],
+                ),
+              ),
+              ICareTextButton(
+                onPressed: () =>
+                    Navigator.of(context).pushNamed(AppRoutes.forgotPassword),
+                text: forgotPasswordString,
+                style: boldSize16Text(AppColors.primaryColor),
+              ),
+              smallVerticalSizedBox,
+              SizedBox(
+                height: 48,
+                width: double.infinity,
+                child: ICareElevatedButton(
+                  onPressed: (_loginUser == null)
+                      ? () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          prefs.setBool('showHome', true);
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            _loginUser = loginUser(_user);
+                            Navigator.of(context)
+                                .pushReplacementNamed(AppRoutes.bottomNav);
+                          }
+                        }
+                      : buildFutureBuilder,
+                  text: signInString,
+                ),
+              ),
+              smallVerticalSizedBox,
+              Text(
+                orString,
+                textAlign: TextAlign.center,
+                style: normalSize14Text(AppColors.greyTextColor),
+              ),
+              smallVerticalSizedBox,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: SvgPicture.asset(googleIconSvg),
+                    onPressed: () {},
+                  ),
+                  largeHorizontalSizedBox,
+                  IconButton(
+                    icon: SvgPicture.asset(facebookIconSvg),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+              smallVerticalSizedBox,
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: dontHaveAccountString,
+                      style: normalSize12Text(
+                        AppColors.blackColor,
                       ),
                     ),
-                    smallVerticalSizedBox,
-                    Text(
-                      orString,
-                      textAlign: TextAlign.center,
-                      style: normalSize14Text(AppColors.greyTextColor),
-                    ),
-                    smallVerticalSizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: SvgPicture.asset(googleIconSvg),
-                          onPressed: () {},
-                        ),
-                        largeHorizontalSizedBox,
-                        IconButton(
-                          icon: SvgPicture.asset(facebookIconSvg),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                    smallVerticalSizedBox,
-                    RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: dontHaveAccountString,
-                            style: normalSize12Text(
-                              AppColors.blackColor,
-                            ),
-                          ),
-                          TextSpan(
-                            text: signUpString,
-                            style: normalSize12Text(
-                              AppColors.primaryColor,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = widget.signUp,
-                          ),
-                        ],
+                    TextSpan(
+                      text: signUpString,
+                      style: normalSize12Text(
+                        AppColors.primaryColor,
                       ),
+                      recognizer: TapGestureRecognizer()..onTap = widget.signUp,
                     ),
                   ],
                 ),

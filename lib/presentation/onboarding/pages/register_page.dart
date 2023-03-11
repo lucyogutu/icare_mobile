@@ -102,37 +102,6 @@ class _RegisterPageState extends State<RegisterPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       _registerUser = registerUser(_user);
-
-      // Show alert dialog with user details
-      // showDialog(
-      //   context: context,
-      //   builder: (BuildContext context) {
-      //     return AlertDialog(
-      //       title: const Text('Registration Details'),
-      //       content: Column(
-      //         crossAxisAlignment: CrossAxisAlignment.start,
-      //         mainAxisSize: MainAxisSize.min,
-      //         children: <Widget>[
-      //           Text('Name: ${_user.firstName} ${_user.lastName}'),
-      //           Text('Email: ${_user.email}'),
-      //           // Text('Gender: ${_user.gender}'),
-      //           _displayGender(),
-      //           Text('Date of Birth: ${_user.dateOfBirth}'),
-      //           Text('Password: ${_user.password1}'),
-      //           Text('Phone Number: ${_user.phoneNumber}'),
-      //         ],
-      //       ),
-      //       actions: <Widget>[
-      //         TextButton(
-      //           onPressed: () {
-      //             Navigator.of(context).pop();
-      //           },
-      //           child: const Text('OK'),
-      //         ),
-      //       ],
-      //     );
-      //   },
-      // );
     }
   }
 
@@ -256,7 +225,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       password2: _user.password2,
                       dateOfBirth: value!,
                     );
-                    // _user.dateOfBirth = value!;
                   });
                 },
               ),
@@ -582,7 +550,6 @@ class _RegisterPageState extends State<RegisterPage> {
             password2: _user.password2,
             dateOfBirth: _user.dateOfBirth,
           );
-          // _user.lastName = value;
         });
       },
     );
