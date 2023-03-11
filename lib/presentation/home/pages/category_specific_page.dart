@@ -87,6 +87,7 @@ class CategorySpecificPage extends StatelessWidget {
                 if (filteredDoctors.isNotEmpty) ...[
                   ...filteredDoctors.map((doctor) {
                     return DoctorListItemWidget(
+                    id: doctor.id!,
                     doctorFirstName: doctor.firstName!,
                     doctorLastName: doctor.lastName!,
                     doctorProfession: doctor.specialization!,

@@ -52,7 +52,7 @@ class _BookPageState extends State<BookPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${widget.doctorFirstName} + '' + ${widget.doctorLastName}',
+          '${widget.doctorFirstName} ${widget.doctorLastName}',
         ),
         foregroundColor: AppColors.blackColor,
         backgroundColor: AppColors.whiteColor,

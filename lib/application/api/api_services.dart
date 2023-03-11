@@ -6,7 +6,7 @@ import 'package:icare_mobile/application/api/enpoints.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
 import 'package:icare_mobile/domain/entities/user.dart';
 
-final storage = FlutterSecureStorage();
+const FlutterSecureStorage storage = FlutterSecureStorage();
 
 class APIService {
   // handle the api futures here
@@ -66,7 +66,7 @@ Future<User> loginUser(User user) async {
       // then parse the JSON.
       final authToken = jsonDecode(response.body)['tokens'];
       await storage.write(key: 'access', value: authToken['access']);
-      
+
       return User.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 201 CREATED response,
@@ -95,6 +95,59 @@ Future<List<Doctor>> getDoctors() async {
       // then parse the JSON.
       Iterable jsonList = json.decode(response.body);
       return List<Doctor>.from(jsonList.map((model) => Doctor.fromJson(model)));
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception(response.body);
+    }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
+}
+
+Future<Doctor> getDoctor(int id) async {
+  final authToken = await storage.read(key: 'access');
+  Uri url = Uri.parse(
+      '${APIEndpoints.baseUrl}${APIEndpoints.viewSpecificDoctor}$id/');
+  try {
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 CREATED response,
+      // then parse the JSON.
+      return Doctor.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception(response.body);
+    }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
+}
+
+Future<User> getProfile() async {
+  final authToken = await storage.read(key: 'access');
+  Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.patientProfile);
+  try {
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 CREATED response,
+      // then parse the JSON.
+      return User.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.

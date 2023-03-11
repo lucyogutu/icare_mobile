@@ -6,6 +6,7 @@ import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/category.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
+import 'package:icare_mobile/domain/entities/user.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_search_field.dart';
@@ -24,10 +25,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Future<List<Doctor>>? _doctors;
+  Future<User>? _getUser;
 
   @override
   void initState() {
     super.initState();
+    _getUser = getProfile();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _doctors = getDoctors();
   }
 
@@ -87,7 +95,17 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        title: const Text(fullNameHintString),
+        title: FutureBuilder(
+            future: _getUser,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return Text(
+                  "${snapshot.data?.firstName!} ${snapshot.data?.lastName!}");
+            }),
         actions: [
           IconButton(
             onPressed: () =>
@@ -192,6 +210,7 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (BuildContext ctx, int index) {
                       var doctor = snapshot.data![index];
                       return DoctorListItemWidget(
+                        id: doctor.id!,
                         doctorFirstName: doctor.firstName!,
                         doctorLastName: doctor.lastName!,
                         doctorProfession: doctor.specialization!,

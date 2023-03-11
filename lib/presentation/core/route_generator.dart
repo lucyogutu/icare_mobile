@@ -104,8 +104,9 @@ class GenerateRoute {
       case AppRoutes.doctorDetail:
         return MaterialPageRoute(
           builder: (BuildContext context) {
-            final docArgs = args as Map<String, String>;
+            final docArgs = args as Map<String, dynamic>;
             return DoctorDetailPage(
+              id: docArgs['id']! as int,
               doctorFirstName: docArgs['doctorFirstName']!,
               doctorLastName: docArgs['doctorLastName']!,
               doctorProfession: docArgs['doctorProfession']!,

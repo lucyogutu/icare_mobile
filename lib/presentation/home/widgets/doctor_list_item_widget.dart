@@ -11,6 +11,7 @@ import 'package:icare_mobile/application/core/routes.dart';
 class DoctorListItemWidget extends StatelessWidget {
   const DoctorListItemWidget({
     super.key,
+    required this.id,
     required this.doctorFirstName,
     required this.doctorLastName,
     required this.doctorProfession,
@@ -20,7 +21,7 @@ class DoctorListItemWidget extends StatelessWidget {
     required this.reviews,
     this.onButtonPressed,
   });
-
+  final int id;
   final String doctorFirstName;
   final String doctorLastName;
   final String doctorProfession;
@@ -37,6 +38,7 @@ class DoctorListItemWidget extends StatelessWidget {
         InkWell(
           onTap: () => Navigator.of(context)
               .pushNamed(AppRoutes.doctorDetail, arguments: {
+                'id': id,
             'doctorFirstName': doctorFirstName,
             'doctorLastName': doctorLastName,
             'doctorProfession': doctorProfession,

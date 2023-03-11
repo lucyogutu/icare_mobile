@@ -75,6 +75,7 @@ class ListDoctorsPage extends StatelessWidget {
               children: [
                 ...doctors.map((doctor) {
                   return DoctorListItemWidget(
+                    id: doctor.id!,
                     doctorFirstName: doctor.firstName!,
                     doctorLastName: doctor.lastName!,
                     doctorProfession: doctor.specialization!,
