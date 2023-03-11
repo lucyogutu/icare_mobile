@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
+import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_search_field.dart';
 import 'package:icare_mobile/presentation/profile/widgets/history_item_widget.dart';
@@ -14,14 +16,18 @@ class PastAppointmentsPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              smallHorizontalSizedBox,
+              Text(
+                pastAppointmentsString,
+                style: boldSize18Text(AppColors.primaryColor),
+              ),
+              smallVerticalSizedBox,
               ICareSearchField(
                 hintText: 'Search',
                 onSubmitted: (value) {},
               ),
               size15VerticalSizedBox,
-              
               const HistoryItemWidget(
                 date: dateString,
                 time: '0600hrs',

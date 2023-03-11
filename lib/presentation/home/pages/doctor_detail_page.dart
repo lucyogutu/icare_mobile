@@ -153,6 +153,7 @@ class _DoctorDetailPageState extends State<DoctorDetailPage> {
                       text: bookAppointmentString,
                       onPressed: () => Navigator.of(context)
                           .pushNamed(AppRoutes.bookAppointment, arguments: {
+                        'doctorId': widget.id,
                         'doctorFirstName': widget.doctorFirstName,
                         'doctorLastName': widget.doctorLastName,
                       }),

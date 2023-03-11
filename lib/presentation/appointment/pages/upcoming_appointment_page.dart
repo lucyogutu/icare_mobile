@@ -59,6 +59,7 @@ class _UpcomingAppointmentsPageState extends State<UpcomingAppointmentsPage> {
                     itemBuilder: (BuildContext ctx, int index) {
                       var appointment = snapshot.data![index];
 
+                      // TODO: implement doctor to output doctor name and profession rather than doctor id
                       return AppointmentListItemWidget(
                         doctorName: '${appointment.doctor}',
                         doctorProfession: '${appointment.doctor}',

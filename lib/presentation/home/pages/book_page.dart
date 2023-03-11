@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
+import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/core/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../core/zero_state_widget.dart';
+
 class BookPage extends StatefulWidget {
   const BookPage({
     super.key,
+    required this.doctorId,
     required this.doctorFirstName,
     required this.doctorLastName,
   });
 
+  final int doctorId;
   final String doctorFirstName;
   final String doctorLastName;
 
@@ -31,22 +37,42 @@ class _BookPageState extends State<BookPage> {
   bool _dateSelected = false;
   bool _timeSelected = false;
 
+  Future<Appointment>? _bookAppointment;
+
   @override
   Widget build(BuildContext context) {
-    // DateTime now = DateTime.now();
-    DateTime startTime =
-        DateTime(_focusDay.year, _focusDay.month, _focusDay.day, 6, 0, 0);
-    DateTime endTime =
-        DateTime(_focusDay.year, _focusDay.month, _focusDay.day, 22, 0, 0);
+    DateTime now = DateTime.now();
+    DateTime startTime;
+    DateTime endTime;
     Duration step = const Duration(minutes: 60);
-
     List<String> timeSlots = [];
 
-    while (startTime.isBefore(endTime)) {
-      DateTime timeIncrement = startTime.add(step);
-      timeSlots.add(DateFormat.jm().format(timeIncrement));
-      startTime = timeIncrement;
-      // DateFormat.jm().format(timeIncrement)
+    bool isToday = _focusDay.year == DateTime.now().year &&
+        _focusDay.month == DateTime.now().month &&
+        _focusDay.day == DateTime.now().day;
+
+    if (isToday) {
+      timeSlots.clear();
+      startTime = DateTime(_focusDay.year, _focusDay.month, _focusDay.day,
+          DateTime.now().hour, 0, 0);
+      endTime =
+          DateTime(_focusDay.year, _focusDay.month, _focusDay.day, 23, 0, 0);
+      while (startTime.isBefore(endTime)) {
+        DateTime timeIncrement = startTime.add(step);
+        timeSlots.add(DateFormat.jm().format(timeIncrement));
+        startTime = timeIncrement;
+      }
+    } else if (!isToday) {
+      timeSlots.clear();
+      startTime =
+          DateTime(_focusDay.year, _focusDay.month, _focusDay.day, 6, 0, 0);
+      endTime =
+          DateTime(_focusDay.year, _focusDay.month, _focusDay.day, 23, 0, 0);
+      while (startTime.isBefore(endTime)) {
+        DateTime timeIncrement = startTime.add(step);
+        timeSlots.add(DateFormat.jm().format(timeIncrement));
+        startTime = timeIncrement;
+      }
     }
 
     return Scaffold(
@@ -87,6 +113,13 @@ class _BookPageState extends State<BookPage> {
             SliverToBoxAdapter(
               child: size15VerticalSizedBox,
             ),
+            if (timeSlots.isEmpty)
+              SliverToBoxAdapter(
+                child: ZeroStateWidget(
+                  text: 'Time slots done for the day',
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
             SliverGrid(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
@@ -131,7 +164,7 @@ class _BookPageState extends State<BookPage> {
               ),
             ),
             SliverToBoxAdapter(
-              child: mediumVerticalSizedBox,
+              child: largeVerticalSizedBox,
             ),
           ],
         ),
@@ -141,14 +174,55 @@ class _BookPageState extends State<BookPage> {
         margin: const EdgeInsets.symmetric(horizontal: 16),
         child: FloatingActionButton.extended(
           onPressed: () {
-            showAlertDialog(
-              context: context,
-              title: 'Book',
-              content:
-                  '${DateFormat.yMd().format(_focusDay)} ${timeSlots[_currentIndex!].toString()}',
-              yesButton: () {},
-              buttonText: "Back",
+            // showAlertDialog(
+            //   context: context,
+            //   title: 'Book',
+            //   content:
+            //       '${DateFormat.yMd().format(_focusDay)} ${timeSlots[_currentIndex!].toString()}',
+            //   yesButton: () {},
+            //   buttonText: "Back",
+            // );
+
+            DateTime startTimeJm =
+                DateFormat.jm().parse(timeSlots[_currentIndex!]);
+
+            String startTime = DateFormat.Hms().format(startTimeJm);
+
+            DateTime endTimeDate = DateTime.parse(
+                    '${DateFormat('yyyy-MM-dd').format(_focusDay)} $startTime')
+                .add(
+              const Duration(
+                minutes: 60,
+              ),
             );
+            String endTime = DateFormat.Hms().format(endTimeDate);
+
+            Appointment appointment = Appointment(
+              doctor: widget.doctorId,
+              date: DateFormat('yyyy-MM-dd').format(_focusDay),
+              startTime: startTime,
+              endTime: endTime,
+            );
+            if (_bookAppointment == null) {
+              _bookAppointment = bookAppointment(appointment);
+            } else {
+              FutureBuilder(
+                future: _bookAppointment,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return const SnackBar(
+                      content: Text('Appointment booked successfully'),
+                    );
+                  } else if (snapshot.hasError) {
+                    return const Text('Error Occurred');
+                  }
+
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              );
+            }
           },
           backgroundColor: AppColors.primaryColor,
           foregroundColor: AppColors.whiteColor,

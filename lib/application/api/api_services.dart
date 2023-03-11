@@ -191,7 +191,8 @@ Future<List<Appointment>> getUpcomingAppointments() async {
 
     if (response.statusCode == 200) {
       Iterable jsonList = json.decode(response.body);
-      return List<Appointment>.from(jsonList.map((model) => Appointment.fromJson(model)));
+      return List<Appointment>.from(
+          jsonList.map((model) => Appointment.fromJson(model)));
     } else {
       throw Exception(response.body);
     }
@@ -202,7 +203,8 @@ Future<List<Appointment>> getUpcomingAppointments() async {
 
 Future<List<Appointment>> getCanceledAppointments() async {
   final authToken = await storage.read(key: 'access');
-  Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.viewCanceledAppointments);
+  Uri url =
+      Uri.parse(APIEndpoints.baseUrl + APIEndpoints.viewCanceledAppointments);
   try {
     final response = await http.get(
       url,
@@ -214,7 +216,65 @@ Future<List<Appointment>> getCanceledAppointments() async {
 
     if (response.statusCode == 200) {
       Iterable jsonList = json.decode(response.body);
-      return List<Appointment>.from(jsonList.map((model) => Appointment.fromJson(model)));
+      return List<Appointment>.from(
+          jsonList.map((model) => Appointment.fromJson(model)));
+    } else {
+      throw Exception(response.body);
+    }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
+}
+
+Future<Appointment> bookAppointment(Appointment appointment) async {
+  final authToken = await storage.read(key: 'access');
+  Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.bookAppointment);
+  try {
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'doctor': appointment.doctor,
+        'date': appointment.date,
+        'start_time': appointment.startTime,
+        'end_time': appointment.endTime,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      return Appointment.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception(response.body);
+    }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
+}
+
+// TODO: Implement reschedule book appointment
+Future<Appointment> _rescheduleAppointment(Appointment appointment) async {
+  final authToken = await storage.read(key: 'access');
+  Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.rescheduleAppointment);
+  try {
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'doctor': appointment.doctor,
+        'date': appointment.date,
+        'start_time': appointment.startTime,
+        'end_time': appointment.endTime,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      return Appointment.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);
     }

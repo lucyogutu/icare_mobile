@@ -38,7 +38,7 @@ class DoctorListItemWidget extends StatelessWidget {
         InkWell(
           onTap: () => Navigator.of(context)
               .pushNamed(AppRoutes.doctorDetail, arguments: {
-                'id': id,
+            'id': id,
             'doctorFirstName': doctorFirstName,
             'doctorLastName': doctorLastName,
             'doctorProfession': doctorProfession,
@@ -142,12 +142,16 @@ class DoctorListItemWidget extends StatelessWidget {
                                   text: bookString,
                                   textStyle:
                                       boldSize12Text(AppColors.whiteColor),
-                                  onPressed: () => Navigator.of(context)
-                                      .pushNamed(AppRoutes.bookAppointment,
-                                          arguments: {
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed(
+                                      AppRoutes.bookAppointment,
+                                      arguments: {
+                                        'doctorId': id,
                                         'doctorFirstName': doctorFirstName,
                                         'doctorLastName': doctorLastName,
-                                      }),
+                                      },
+                                    );
+                                  },
                                 ),
                               ),
                             ],

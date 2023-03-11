@@ -7,8 +7,8 @@ class Appointment {
   final String? endTime;
 
   Appointment({
-    required this.id,
-    required this.patient,
+    this.id,
+    this.patient,
     required this.doctor,
     required this.date,
     required this.startTime,

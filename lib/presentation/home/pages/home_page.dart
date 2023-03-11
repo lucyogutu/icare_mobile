@@ -4,6 +4,7 @@ import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
+import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/entities/category.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
 import 'package:icare_mobile/domain/entities/user.dart';
@@ -167,18 +168,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            // Wrap(
-            //   spacing: 8,
-            //   runSpacing: 5,
-            //   children: [
-            //     ...categories.map((category) {
-            //       return CategoryWidget(
-            //         label: category.name,
-            //         assetName: category.svgPicture,
-            //       );
-            //     }).toList(),
-            //   ],
-            // ),
             Row(
               children: [
                 Text(

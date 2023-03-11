@@ -52,9 +52,10 @@ class GenerateRoute {
           builder: (BuildContext context) => const ListDoctorsPage(),
         );
       case AppRoutes.bookAppointment:
-        final bookArgs = args as Map<String, String>;
+        final bookArgs = args as Map<String, dynamic>;
         return MaterialPageRoute(
           builder: (BuildContext context) => BookPage(
+            doctorId: bookArgs['doctorId']! as int,
             doctorFirstName: bookArgs['doctorFirstName']!,
             doctorLastName: bookArgs['doctorLastName']!,
           ),
