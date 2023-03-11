@@ -10,14 +10,13 @@ class APIEndpoints {
   static const  String logoutPatient = 'patients/logout-patient/';
   static const  String viewDoctors = 'patients/view-doctors/';
   static const  String viewSpecificDoctor = 'patients/view-doctor/';
-  
   static const  String patientProfile = 'patients/profile-view/';
   static const  String editPatientProfile = 'patients/edit-profile-view/';
-  
   static const  String viewAppointments = 'patients/view-appointments/';
   static const  String viewCanceledAppointments = 'patients/view-canceled-appointments/';
 
   // appointments
+  // TODO: link book appointments and reschedule appointments
   static const  String bookAppointment = 'appointments/';
   static const  String rescheduleAppointment = 'appointments/reschedule-appointment/<str:pk>/';
 

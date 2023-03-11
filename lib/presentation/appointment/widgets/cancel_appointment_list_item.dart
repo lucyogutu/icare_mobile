@@ -13,11 +13,15 @@ class CancelAppointmentListItemWidget extends StatelessWidget {
     required this.doctorName,
     required this.doctorProfession,
     required this.date,
+    required this.startTime,
+    required this.endTime,
   });
 
   final String doctorName;
   final String doctorProfession;
   final DateTime date;
+  final DateTime startTime;
+  final DateTime endTime;
 
   @override
   Widget build(BuildContext context) {

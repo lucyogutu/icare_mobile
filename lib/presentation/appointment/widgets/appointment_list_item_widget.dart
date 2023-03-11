@@ -13,11 +13,15 @@ class AppointmentListItemWidget extends StatelessWidget {
     required this.doctorName,
     required this.doctorProfession,
     required this.date,
+    required this.startTime,
+    required this.endTime,
   });
 
   final String doctorName;
   final String doctorProfession;
   final DateTime date;
+  final DateTime startTime;
+  final DateTime endTime;
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +51,19 @@ class AppointmentListItemWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
+                          // month
                           DateFormat.MMM().format(date),
-                          style: boldSize16Text(AppColors.blackColor),
+                          style: boldSize18Text(AppColors.blackColor),
                         ),
+                        // day
                         Text(
                           DateFormat.d().format(date),
                           style: boldSize25Title(AppColors.blackColor),
                         ),
+                        // weekday
                         Text(
                           DateFormat.E().format(date),
-                          style: boldSize16Text(AppColors.blackColor),
+                          style: boldSize18Text(AppColors.blackColor),
                         ),
                       ],
                     ),
@@ -75,7 +82,8 @@ class AppointmentListItemWidget extends StatelessWidget {
                               style: boldSize18Text(AppColors.blackColor),
                             ),
                             Text(
-                              DateFormat.Hm().format(date),
+                              //start time
+                              DateFormat.Hm().format(startTime),
                               style: boldSize16Text(AppColors.blackColor),
                             ),
                           ],
@@ -92,15 +100,15 @@ class AppointmentListItemWidget extends StatelessWidget {
                                 text: cancelString,
                                 buttonColor: AppColors.errorColor,
                                 borderColor: Colors.transparent,
-                                onPressed: (){},
+                                onPressed: () {},
                               ),
                             ),
                             SizedBox(
                               child: ICareElevatedButton(
                                 text: rescheduleString,
-                                onPressed: () => Navigator.of(context).pushNamed(
-                                AppRoutes.bookAppointment,
-                                arguments: doctorName),
+                                onPressed: () => Navigator.of(context)
+                                    .pushNamed(AppRoutes.bookAppointment,
+                                        arguments: doctorName),
                               ),
                             ),
                           ],

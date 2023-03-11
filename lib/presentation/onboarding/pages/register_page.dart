@@ -119,6 +119,12 @@ class _RegisterPageState extends State<RegisterPage> {
           : Center(
               child: buildFutureBuilder(),
             ),
+      // body: SingleChildScrollView(
+      //   child: Padding(
+      //     padding: const EdgeInsets.all(16.0),
+      //     child: _buildColumn(),
+      //   ),
+      // ),
     );
   }
 

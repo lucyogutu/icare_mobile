@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:icare_mobile/application/api/enpoints.dart';
+import 'package:icare_mobile/application/api/endpoints.dart';
+import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
 import 'package:icare_mobile/domain/entities/user.dart';
 
@@ -168,6 +169,52 @@ Future<User> editUserProfile(User user) async {
 
     if (response.statusCode == 201) {
       return User.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception(response.body);
+    }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
+}
+
+Future<List<Appointment>> getUpcomingAppointments() async {
+  final authToken = await storage.read(key: 'access');
+  Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.viewAppointments);
+  try {
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      Iterable jsonList = json.decode(response.body);
+      return List<Appointment>.from(jsonList.map((model) => Appointment.fromJson(model)));
+    } else {
+      throw Exception(response.body);
+    }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
+}
+
+Future<List<Appointment>> getCanceledAppointments() async {
+  final authToken = await storage.read(key: 'access');
+  Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.viewCanceledAppointments);
+  try {
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      Iterable jsonList = json.decode(response.body);
+      return List<Appointment>.from(jsonList.map((model) => Appointment.fromJson(model)));
     } else {
       throw Exception(response.body);
     }
