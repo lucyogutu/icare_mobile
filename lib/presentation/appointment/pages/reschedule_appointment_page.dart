@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
+import 'package:icare_mobile/presentation/core/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../core/zero_state_widget.dart';
 
-class BookPage extends StatefulWidget {
-  const BookPage({
+class RescheduleAppointmentPage extends StatefulWidget {
+  const RescheduleAppointmentPage({
     super.key,
     required this.doctorId,
     required this.doctorFirstName,
@@ -23,16 +23,16 @@ class BookPage extends StatefulWidget {
   final String doctorLastName;
 
   @override
-  State<BookPage> createState() => _BookPageState();
+  State<RescheduleAppointmentPage> createState() => _RescheduleAppointmentPageState();
 }
 
-class _BookPageState extends State<BookPage> {
+class _RescheduleAppointmentPageState extends State<RescheduleAppointmentPage> {
   CalendarFormat _format = CalendarFormat.twoWeeks;
   DateTime _focusDay = DateTime.now();
   DateTime _currentDay = DateTime.now();
 
   int? _currentIndex;
-  bool _isWeekend = false;
+  // bool _isWeekend = false;
   bool _dateSelected = false;
   bool _timeSelected = false;
 
@@ -175,60 +175,60 @@ class _BookPageState extends State<BookPage> {
         margin: const EdgeInsets.symmetric(horizontal: 16),
         child: FloatingActionButton.extended(
           onPressed: () {
-            // showAlertDialog(
-            //   context: context,
-            //   title: 'Book',
-            //   content:
-            //       '${DateFormat.yMd().format(_focusDay)} ${timeSlots[_currentIndex!].toString()}',
-            //   yesButton: () {},
-            //   buttonText: "Back",
+            showAlertDialog(
+              context: context,
+              title: 'Book',
+              content:
+                  '${DateFormat.yMd().format(_focusDay)} ${timeSlots[_currentIndex!].toString()}',
+              yesButton: () {},
+              buttonText: "Back",
+            );
+
+            // DateTime startTimeJm =
+            //     DateFormat.jm().parse(timeSlots[_currentIndex!]);
+
+            // String startTime = DateFormat.Hms().format(startTimeJm);
+
+            // DateTime endTimeDate = DateTime.parse(
+            //         '${DateFormat('yyyy-MM-dd').format(_focusDay)} $startTime')
+            //     .add(
+            //   const Duration(
+            //     minutes: 60,
+            //   ),
             // );
+            // String endTime = DateFormat.Hms().format(endTimeDate);
 
-            DateTime startTimeJm =
-                DateFormat.jm().parse(timeSlots[_currentIndex!]);
+            // Appointment appointment = Appointment(
+            //   doctor: widget.doctorId,
+            //   date: DateFormat('yyyy-MM-dd').format(_focusDay),
+            //   startTime: startTime,
+            //   endTime: endTime,
+            // );
+            // if (_bookAppointment == null) {
+            //   _bookAppointment = bookAppointment(appointment);
+            // } else {
+            //   FutureBuilder(
+            //     future: _bookAppointment,
+            //     builder: (context, snapshot) {
+            //       if (snapshot.hasData) {
+            //         return const SnackBar(
+            //           content: Text('Appointment booked successfully'),
+            //         );
+            //       } else if (snapshot.hasError) {
+            //         return const Text('Error Occurred');
+            //       }
 
-            String startTime = DateFormat.Hms().format(startTimeJm);
-
-            DateTime endTimeDate = DateTime.parse(
-                    '${DateFormat('yyyy-MM-dd').format(_focusDay)} $startTime')
-                .add(
-              const Duration(
-                minutes: 60,
-              ),
-            );
-            String endTime = DateFormat.Hms().format(endTimeDate);
-
-            Appointment appointment = Appointment(
-              doctor: widget.doctorId,
-              date: DateFormat('yyyy-MM-dd').format(_focusDay),
-              startTime: startTime,
-              endTime: endTime,
-            );
-            if (_bookAppointment == null) {
-              _bookAppointment = bookAppointment(appointment);
-            } else {
-              FutureBuilder(
-                future: _bookAppointment,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return const SnackBar(
-                      content: Text('Appointment booked successfully'),
-                    );
-                  } else if (snapshot.hasError) {
-                    return const Text('Error Occurred');
-                  }
-
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              );
-            }
+            //       return const Center(
+            //         child: CircularProgressIndicator(),
+            //       );
+            //     },
+            //   );
+            // }
           },
           backgroundColor: AppColors.primaryColor,
           foregroundColor: AppColors.whiteColor,
           label: Text(
-            bookAppointmentString,
+            rescheduleAppointmentString,
             style: boldSize16Text(AppColors.whiteColor),
           ),
           shape: RoundedRectangleBorder(
@@ -265,13 +265,6 @@ class _BookPageState extends State<BookPage> {
           _currentDay = selectedDay;
           _focusDay = focusedDay;
           _dateSelected = true;
-          // if (selectedDay.weekday == 6 || selectedDay.weekday == 7) {
-          //   _isWeekend = true;
-          //   _timeSelected = false;
-          //   _currentIndex = null;
-          // } else {
-          //   _isWeekend = false;
-          // }
         });
       }),
     );

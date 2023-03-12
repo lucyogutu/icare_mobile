@@ -79,11 +79,11 @@ class CancelAppointmentListItemWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              doctorFirstName,
-                              style: boldSize18Text(AppColors.blackColor),
+                              'Dr. $doctorFirstName $doctorLastName',
+                              style: boldSize16Text(AppColors.blackColor),
                             ),
                             Text(
-                              DateFormat.Hm().format(startTime),
+                              DateFormat.jm().format(startTime),
                               style: boldSize16Text(AppColors.blackColor),
                             ),
                           ],
@@ -97,7 +97,7 @@ class CancelAppointmentListItemWidget extends StatelessWidget {
                           child: ICareElevatedButton(
                             text: rescheduleString,
                             onPressed: () => Navigator.of(context).pushNamed(
-                              AppRoutes.bookAppointment,
+                              AppRoutes.rescheduleAppointment,
                               arguments: {
                                 'doctorId': doctorId,
                                 'doctorFirstName': doctorFirstName,

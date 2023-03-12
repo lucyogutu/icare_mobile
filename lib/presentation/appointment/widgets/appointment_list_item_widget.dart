@@ -56,114 +56,117 @@ class _AppointmentListItemWidgetState extends State<AppointmentListItemWidget> {
             color: AppColors.primaryColorLight,
           ),
           child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: constraints.maxWidth * 0.2,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          // month
-                          DateFormat.MMM().format(widget.date),
-                          style: boldSize18Text(AppColors.blackColor),
-                        ),
-                        // day
-                        Text(
-                          DateFormat.d().format(widget.date),
-                          style: boldSize25Title(AppColors.blackColor),
-                        ),
-                        // weekday
-                        Text(
-                          DateFormat.E().format(widget.date),
-                          style: boldSize18Text(AppColors.blackColor),
-                        ),
-                      ],
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: constraints.maxWidth * 0.2,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            // month
+                            DateFormat.MMM().format(widget.date),
+                            style: boldSize18Text(AppColors.blackColor),
+                          ),
+                          // day
+                          Text(
+                            DateFormat.d().format(widget.date),
+                            style: boldSize25Title(AppColors.blackColor),
+                          ),
+                          // weekday
+                          Text(
+                            DateFormat.E().format(widget.date),
+                            style: boldSize18Text(AppColors.blackColor),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: constraints.maxWidth * 0.7,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              widget.doctorFirstName,
-                              style: boldSize18Text(AppColors.blackColor),
-                            ),
-                            Text(
-                              //start time
-                              DateFormat.Hm().format(widget.startTime),
-                              style: boldSize16Text(AppColors.blackColor),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          widget.doctorProfession,
-                          style: normalSize14Text(AppColors.blackColor),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              child: ICareElevatedButton(
-                                text: cancelString,
-                                buttonColor: AppColors.errorColor,
-                                borderColor: Colors.transparent,
-                                onPressed: () {
-                                  if (_cancelAppointment == null) {
-                                    _cancelAppointment =
-                                        cancelAppointment(widget.id);
-                                  } else {
-                                    FutureBuilder(
-                                      future: _cancelAppointment,
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasData) {
-                                          return SnackBar(
-                                            content: Text(
-                                                'Appointment with Dr. ${widget.doctorLastName} canceled'),
-                                          );
-                                        } else if (snapshot.hasError) {
-                                          return const Text(
-                                              'Error Occurred while canceling appointment');
-                                        }
+                    SizedBox(
+                      width: constraints.maxWidth * 0.7,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Dr. ${widget.doctorFirstName} ${widget.doctorLastName}',
+                                style: boldSize16Text(AppColors.blackColor),
+                              ),
+                              Text(
+                                //start time
+                                DateFormat.jm().format(widget.startTime),
+                                style: boldSize16Text(AppColors.blackColor),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            widget.doctorProfession,
+                            style: normalSize14Text(AppColors.blackColor),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                child: ICareElevatedButton(
+                                  text: cancelString,
+                                  buttonColor: AppColors.errorColor,
+                                  borderColor: Colors.transparent,
+                                  onPressed: () {
+                                    if (_cancelAppointment == null) {
+                                      _cancelAppointment =
+                                          cancelAppointment(widget.id);
+                                    } else {
+                                      FutureBuilder(
+                                        future: _cancelAppointment,
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return SnackBar(
+                                              content: Text(
+                                                  'Appointment with Dr. ${widget.doctorLastName} canceled'),
+                                            );
+                                          } else if (snapshot.hasError) {
+                                            return const Text(
+                                                'Error Occurred while canceling appointment');
+                                          }
 
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      },
-                                    );
-                                  }
-                                },
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              child: ICareElevatedButton(
-                                text: rescheduleString,
-                                onPressed: () => Navigator.of(context)
-                                    .pushNamed(AppRoutes.bookAppointment,
-                                        arguments: {
-                                      'doctorId': widget.doctorId,
-                                      'doctorFirstName': widget.doctorFirstName,
-                                      'doctorLastName': widget.doctorLastName,
-                                    }),
+                              SizedBox(
+                                child: ICareElevatedButton(
+                                  text: rescheduleString,
+                                  onPressed: () => Navigator.of(context)
+                                      .pushNamed(
+                                          AppRoutes.rescheduleAppointment,
+                                          arguments: {
+                                        'doctorId': widget.doctorId,
+                                        'doctorFirstName':
+                                            widget.doctorFirstName,
+                                        'doctorLastName': widget.doctorLastName,
+                                      }),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          }),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
         smallVerticalSizedBox,
       ],

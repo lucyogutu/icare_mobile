@@ -76,6 +76,7 @@ const String bookString = 'Book';
 const String aboutString = 'About';
 const String workingHoursString = 'Working Hours';
 const String bookAppointmentString = 'Book An Appointment';
+const String rescheduleAppointmentString = 'Reschedule Appointment';
 
 const String okayThanksString = 'Okay, Thanks';
 const String cancelString = 'Cancel';

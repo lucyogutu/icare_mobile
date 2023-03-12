@@ -11,6 +11,7 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String listDoctors = '/listDoctors';
   static const String bookAppointment = '/bookAppointment';
+  static const String rescheduleAppointment = '/rescheduleAppointment';
 
   static const String personalDetails = '/personalDetails';
   static const String editPersonalDetails = '/editPersonalDetails';

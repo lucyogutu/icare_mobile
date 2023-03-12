@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:icare_mobile/domain/entities/user.dart';
+import 'package:icare_mobile/presentation/appointment/pages/reschedule_appointment_page.dart';
 import 'package:icare_mobile/presentation/core/bottom_nav_screen.dart';
 import 'package:icare_mobile/application/core/routes.dart';
-import 'package:icare_mobile/presentation/home/pages/book_page.dart';
+import 'package:icare_mobile/presentation/appointment/pages/book_page.dart';
 import 'package:icare_mobile/presentation/home/pages/category_specific_page.dart';
 import 'package:icare_mobile/presentation/home/pages/doctor_detail_page.dart';
 import 'package:icare_mobile/presentation/home/pages/home_page.dart';
@@ -55,6 +56,15 @@ class GenerateRoute {
         final bookArgs = args as Map<String, dynamic>;
         return MaterialPageRoute(
           builder: (BuildContext context) => BookPage(
+            doctorId: bookArgs['doctorId']! as int,
+            doctorFirstName: bookArgs['doctorFirstName']!,
+            doctorLastName: bookArgs['doctorLastName']!,
+          ),
+        );
+      case AppRoutes.rescheduleAppointment:
+        final bookArgs = args as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (BuildContext context) => RescheduleAppointmentPage(
             doctorId: bookArgs['doctorId']! as int,
             doctorFirstName: bookArgs['doctorFirstName']!,
             doctorLastName: bookArgs['doctorLastName']!,
