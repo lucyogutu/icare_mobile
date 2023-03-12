@@ -3,6 +3,7 @@ import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/appointment.dart';
+import 'package:icare_mobile/domain/entities/doctor.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/appointment/widgets/appointment_list_item_widget.dart';
 import 'package:icare_mobile/presentation/core/zero_state_widget.dart';
@@ -52,14 +53,17 @@ class _UpcomingAppointmentsPageState extends State<UpcomingAppointmentsPage> {
                         onPressed: () => Navigator.of(context).pop(),
                       );
                     }
-      
+
                     return ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext ctx, int index) {
                         var appointment = snapshot.data![index];
-      
+
+                        Future<List<Doctor>>? _doctors = getDoctors();
+                        // traverse list
+
                         // TODO: implement doctor to output doctor name and profession rather than doctor id
                         return AppointmentListItemWidget(
                           id: appointment.id!,

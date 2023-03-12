@@ -19,48 +19,46 @@ class _TabbarEntryPageState extends State<TabbarEntryPage>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: DefaultTabController(
-        length: 2,
-        child: NestedScrollView(
-          headerSliverBuilder: (context, value) {
-            return [
-              SliverAppBar(
-                automaticallyImplyLeading: false,
-                title: Text(
-                  iCareString,
-                  style: heavySize20Text(AppColors.whiteColor),
-                ),
-                floating: true,
-                pinned: true,
-                backgroundColor: AppColors.primaryColor,
-                bottom: TabBar(
-                  indicatorColor: AppColors.whiteColor,
-                  indicatorWeight: 3,
-                  controller: _tabController,
-                  tabs: const [
-                    Tab(
-                      text: signInString,
-                    ),
-                    Tab(
-                      text: signUpString,
-                    ),
-                  ],
-                ),
+    return DefaultTabController(
+      length: 2,
+      child: NestedScrollView(
+        headerSliverBuilder: (context, value) {
+          return [
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              title: Text(
+                iCareString,
+                style: heavySize20Text(AppColors.whiteColor),
               ),
-            ];
-          },
-          body: TabBarView(
-            controller: _tabController,
-            children: [
-              LoginPage(
-                signUp: () => _tabController.index = 1,
+              floating: true,
+              pinned: true,
+              backgroundColor: AppColors.primaryColor,
+              bottom: TabBar(
+                indicatorColor: AppColors.whiteColor,
+                indicatorWeight: 3,
+                controller: _tabController,
+                tabs: const [
+                  Tab(
+                    text: signInString,
+                  ),
+                  Tab(
+                    text: signUpString,
+                  ),
+                ],
               ),
-              RegisterPage(
-                signIn: () => _tabController.index = 0,
-              ),
-            ],
-          ),
+            ),
+          ];
+        },
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            LoginPage(
+              signUp: () => _tabController.index = 1,
+            ),
+            RegisterPage(
+              signIn: () => _tabController.index = 0,
+            ),
+          ],
         ),
       ),
     );
