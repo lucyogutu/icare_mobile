@@ -37,24 +37,26 @@ class FavouritesPage extends StatelessWidget {
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColor.withOpacity(0.25),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              ...doctors.map((doctor) {
-                return DoctorListItemWidget(
-                  id: doctor.id!,
-                  doctorFirstName: doctor.firstName!,
-                  doctorLastName: doctor.lastName!,
-                  doctorProfession: doctor.specialization!,
-                  doctorClinic: doctor.clinic!,
-                  // remove hard coding
-                  rating: 5,
-                  reviews: 500,
-                );
-              }).toList(),
-            ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                ...doctors.map((doctor) {
+                  return DoctorListItemWidget(
+                    id: doctor.id!,
+                    doctorFirstName: doctor.firstName!,
+                    doctorLastName: doctor.lastName!,
+                    doctorProfession: doctor.specialization!,
+                    doctorClinic: doctor.clinic!,
+                    // remove hard coding
+                    rating: 5,
+                    reviews: 500,
+                  );
+                }).toList(),
+              ],
+            ),
           ),
         ),
       ),

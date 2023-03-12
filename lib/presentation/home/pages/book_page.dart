@@ -83,89 +83,91 @@ class _BookPageState extends State<BookPage> {
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColorLight,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppColors.primaryColorLight,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: tableCalender(),
-                    ),
-                  ),
-                  mediumVerticalSizedBox,
-                  Text(
-                    'Choose a time slot below',
-                    style: boldSize16Text(AppColors.blackColor),
-                  ),
-                ],
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: size15VerticalSizedBox,
-            ),
-            if (timeSlots.isEmpty)
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: CustomScrollView(
+            slivers: [
               SliverToBoxAdapter(
-                child: ZeroStateWidget(
-                  text: 'Time slots done for the day',
-                  onPressed: () => Navigator.of(context).pop(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.primaryColorLight,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: tableCalender(),
+                      ),
+                    ),
+                    mediumVerticalSizedBox,
+                    Text(
+                      'Choose a time slot below',
+                      style: boldSize16Text(AppColors.blackColor),
+                    ),
+                  ],
                 ),
               ),
-            SliverGrid(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return InkWell(
-                    splashColor: AppColors.primaryColor,
-                    onTap: () {
-                      setState(() {
-                        _currentIndex = index;
-                        _timeSelected = true;
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        // border: Border.all(
-                        //   color: _currentIndex == index
-                        //       ? Colors.white
-                        //       : AppColors.primaryColor,
-                        // ),
-                        borderRadius: BorderRadius.circular(10),
-                        color: _currentIndex == index
-                            ? AppColors.primaryColor
-                            : AppColors.primaryColorLight,
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        timeSlots[index].toString(),
-                        // '${index + 7}:00 ${index + 7 > 11 ? "PM" : "AM"}',
-                        style: boldSize14Text(
-                          _currentIndex == index ? AppColors.whiteColor : null,
+              SliverToBoxAdapter(
+                child: size15VerticalSizedBox,
+              ),
+              if (timeSlots.isEmpty)
+                SliverToBoxAdapter(
+                  child: ZeroStateWidget(
+                    text: 'Time slots done for the day',
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ),
+              SliverGrid(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return InkWell(
+                      splashColor: AppColors.primaryColor,
+                      onTap: () {
+                        setState(() {
+                          _currentIndex = index;
+                          _timeSelected = true;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          // border: Border.all(
+                          //   color: _currentIndex == index
+                          //       ? Colors.white
+                          //       : AppColors.primaryColor,
+                          // ),
+                          borderRadius: BorderRadius.circular(10),
+                          color: _currentIndex == index
+                              ? AppColors.primaryColor
+                              : AppColors.primaryColorLight,
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          timeSlots[index].toString(),
+                          // '${index + 7}:00 ${index + 7 > 11 ? "PM" : "AM"}',
+                          style: boldSize14Text(
+                            _currentIndex == index ? AppColors.whiteColor : null,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-                childCount: timeSlots.length,
+                    );
+                  },
+                  childCount: timeSlots.length,
+                ),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  childAspectRatio: 3 / 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                ),
               ),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                childAspectRatio: 3 / 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
+              SliverToBoxAdapter(
+                child: largeVerticalSizedBox,
               ),
-            ),
-            SliverToBoxAdapter(
-              child: largeVerticalSizedBox,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: Container(

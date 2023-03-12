@@ -37,26 +37,28 @@ class _NotificationsPageState extends State<NotificationsPage> {
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColorLight,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                upcomingAppointmentsString,
-                style: boldSize18Text(AppColors.primaryColor),
-              ),
-              smallVerticalSizedBox,
-              // ...appointments.map((appointment) {
-              //   return AppointmentListItemWidget(
-              //     doctorName: appointment.doctor,
-              //     doctorProfession: appointment.profession,
-              //     date: appointment.date,
-              //   );
-              // }).toList(),
-            ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  upcomingAppointmentsString,
+                  style: boldSize18Text(AppColors.primaryColor),
+                ),
+                smallVerticalSizedBox,
+                // ...appointments.map((appointment) {
+                //   return AppointmentListItemWidget(
+                //     doctorName: appointment.doctor,
+                //     doctorProfession: appointment.profession,
+                //     date: appointment.date,
+                //   );
+                // }).toList(),
+              ],
+            ),
           ),
         ),
       ),

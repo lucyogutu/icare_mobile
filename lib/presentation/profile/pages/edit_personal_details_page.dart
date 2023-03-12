@@ -109,390 +109,392 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColor.withOpacity(0.25),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: FutureBuilder(
-            future: widget.getProfileDetails,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (snapshot.hasError) {
-                return const Text('error occurred');
-              }
-              firstName.text = snapshot.data!.firstName!;
-              lastName.text = snapshot.data!.lastName!;
-              email.text = snapshot.data!.email!;
-              phoneNumber.text = '0${snapshot.data!.phoneNumber}';
-              // gender = snapshot.data!.gender as Gender;
-              dateinput.text = snapshot.data!.dateOfBirth!;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  smallVerticalSizedBox,
-                  Center(
-                    child: Container(
-                      height: 120,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: AppColors.primaryColor.withOpacity(0.25),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: FittedBox(
-                          child: SvgPicture.asset(userSvg),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: FutureBuilder(
+              future: widget.getProfileDetails,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (snapshot.hasError) {
+                  return const Text('error occurred');
+                }
+                firstName.text = snapshot.data!.firstName!;
+                lastName.text = snapshot.data!.lastName!;
+                email.text = snapshot.data!.email!;
+                phoneNumber.text = '0${snapshot.data!.phoneNumber}';
+                // gender = snapshot.data!.gender as Gender;
+                dateinput.text = snapshot.data!.dateOfBirth!;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    smallVerticalSizedBox,
+                    Center(
+                      child: Container(
+                        height: 120,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: AppColors.primaryColor.withOpacity(0.25),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: FittedBox(
+                            child: SvgPicture.asset(userSvg),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  smallVerticalSizedBox,
-                  Text(
-                    '${snapshot.data!.firstName} ${snapshot.data!.lastName}',
-                    style: boldSize18Text(AppColors.blackColor),
-                  ),
-                  verySmallVerticalSizedBox,
-                  Divider(
-                    color: AppColors.primaryColor.withOpacity(0.25),
-                  ),
-                  verySmallVerticalSizedBox,
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // first name
-                        ICareTextFormField(
-                          controller: firstName,
-                          label: firstNameString,
-                          prefixIcon: Icons.person,
-                          hintText: firstNameHintString,
-                          fillColor: AppColors.primaryColorLight,
-                          validator: (String? value) {
-                            if (value!.isEmpty) {
-                              return fieldCannotBeEmptyString;
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            setState(() {
-                              _user = User(
-                                firstName: value!,
-                                lastName: _user.lastName,
-                                email: _user.email,
-                                phoneNumber: _user.phoneNumber,
-                                gender: _user.gender,
-                                password1: _user.password1,
-                                password2: _user.password2,
-                                dateOfBirth: _user.dateOfBirth,
-                              );
-                            });
-                          },
-                        ),
-                        mediumVerticalSizedBox,
-                        // last name
-                        ICareTextFormField(
-                          controller: lastName,
-                          label: lastNameString,
-                          prefixIcon: Icons.person,
-                          hintText: lastNameHintString,
-                          fillColor: AppColors.primaryColorLight,
-                          validator: (String? value) {
-                            if (value!.isEmpty) {
-                              return fieldCannotBeEmptyString;
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            setState(() {
-                              _user = User(
-                                firstName: _user.firstName,
-                                lastName: value!,
-                                email: _user.email,
-                                phoneNumber: _user.phoneNumber,
-                                gender: _user.gender,
-                                password1: _user.password1,
-                                password2: _user.password2,
-                                dateOfBirth: _user.dateOfBirth,
-                              );
-                            });
-                          },
-                        ),
-                        mediumVerticalSizedBox,
-                        // email
-                        ICareTextFormField(
-                          controller: email,
-                          label: emailString,
-                          prefixIcon: Icons.email,
-                          hintText: emailHintString,
-                          fillColor: AppColors.primaryColorLight,
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (String? value) {
-                            if (!emailRegex.hasMatch(value!) || value.isEmpty) {
-                              return inputValidEmailString;
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _user = User(
-                              firstName: _user.firstName,
-                              lastName: _user.lastName,
-                              email: value!,
-                              phoneNumber: _user.phoneNumber,
-                              gender: _user.gender,
-                              password1: _user.password1,
-                              password2: _user.password2,
-                              dateOfBirth: _user.dateOfBirth,
-                            );
-                          },
-                        ),
-                        mediumVerticalSizedBox,
-                        // phone number
-                        ICareTextFormField(
-                          controller: phoneNumber,
-                          label: phoneNumberString,
-                          prefixIcon: Icons.phone,
-                          hintText: phoneNumberHintString,
-                          fillColor: AppColors.primaryColorLight,
-                          keyboardType: TextInputType.number,
-                          validator: (String? value) {
-                            if (value!.isEmpty) {
-                              return fieldCannotBeEmptyString;
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            setState(() {
-                              _user = User(
-                                firstName: _user.firstName,
-                                lastName: _user.lastName,
-                                email: _user.email,
-                                phoneNumber: int.parse(value!),
-                                gender: _user.gender,
-                                password1: _user.password1,
-                                password2: _user.password2,
-                                dateOfBirth: _user.dateOfBirth,
-                              );
-                            });
-                          },
-                        ),
-                        mediumVerticalSizedBox,
-                        // password
-                        ICareTextFormField(
-                          controller: password,
-                          label: passwordString,
-                          prefixIcon: Icons.lock,
-                          hintText: passwordHintString,
-                          fillColor: AppColors.primaryColorLight,
-                          obscureText: !_showPassword,
-                          suffixIcon: _showPassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          suffixOnPressed: () {
-                            setState(() {
-                              _showPassword = !_showPassword;
-                            });
-                          },
-                          validator: (String? value) {
-                            if (value!.isEmpty) {
-                              return fieldCannotBeEmptyString;
-                            } else if (value.length < 8) {
-                              return passwordHave8Characters;
-                            } else if (isNumeric(value)) {
-                              return passwordCannotContainNumbersOnly;
-                            } else if (!value.contains(passwordRegex) ||
-                                !value.contains(numericRegex)) {
-                              return passwordTooCommonString;
-                            }
-
-                            return null;
-                          },
-                          onSaved: (value) {
-                            setState(() {
-                              _user = User(
-                                firstName: _user.firstName,
-                                lastName: _user.lastName,
-                                email: _user.email,
-                                phoneNumber: _user.phoneNumber,
-                                gender: _user.gender,
-                                password1: value!,
-                                password2: _user.password2,
-                                dateOfBirth: _user.dateOfBirth,
-                              );
-                            });
-                          },
-                        ),
-                        mediumVerticalSizedBox,
-                        // gender
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                genderString,
-                                style: boldSize14Text(AppColors.primaryColor),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Flexible(
-                                  child: RadioListTile(
-                                    contentPadding: const EdgeInsets.all(0),
-                                    title: Text(
-                                      male,
-                                      style: normalSize14Text(
-                                          AppColors.blackColor),
-                                    ),
-                                    value: Gender.male,
-                                    groupValue: gender,
-                                    activeColor: AppColors.primaryColor,
-                                    onChanged: (Gender? genderValue) {
-                                      setState(() {
-                                        gender = genderValue;
-                                        _user = _displayGender(gender!);
-                                      });
-                                    },
-                                  ),
-                                ),
-                                Flexible(
-                                  child: RadioListTile(
-                                    contentPadding: const EdgeInsets.all(0),
-                                    title: Text(
-                                      female,
-                                      style: normalSize14Text(
-                                          AppColors.blackColor),
-                                    ),
-                                    value: Gender.female,
-                                    groupValue: gender,
-                                    activeColor: AppColors.primaryColor,
-                                    onChanged: (Gender? genderValue) {
-                                      setState(() {
-                                        gender = genderValue;
-                                        _user = _displayGender(gender!);
-                                      });
-                                    },
-                                  ),
-                                ),
-                                Flexible(
-                                  child: RadioListTile(
-                                    contentPadding: const EdgeInsets.all(0),
-                                    title: Text(
-                                      other,
-                                      style: normalSize14Text(
-                                          AppColors.blackColor),
-                                    ),
-                                    value: Gender.other,
-                                    groupValue: gender,
-                                    activeColor: AppColors.primaryColor,
-                                    onChanged: (Gender? genderValue) {
-                                      setState(() {
-                                        gender = genderValue;
-                                        _user = _displayGender(gender!);
-                                      });
-                                    },
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                        mediumVerticalSizedBox,
-                        // date of birth
-                        ICareTextFormField(
-                          controller: dateinput,
-                          label: dateOfBirthString,
-                          readOnly: true,
-                          prefixIcon: Icons.calendar_today_rounded,
-                          hintText: dateOfBirthHintString,
-                          fillColor: AppColors.primaryColorLight,
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(
-                                    1950), //DateTime.now() - not to allow to choose before today.
-                                lastDate: DateTime.now());
-
-                            if (pickedDate != null) {
-                              String formattedDate =
-                                  DateFormat('dd-MM-yyyy').format(pickedDate);
+                    smallVerticalSizedBox,
+                    Text(
+                      '${snapshot.data!.firstName} ${snapshot.data!.lastName}',
+                      style: boldSize18Text(AppColors.blackColor),
+                    ),
+                    verySmallVerticalSizedBox,
+                    Divider(
+                      color: AppColors.primaryColor.withOpacity(0.25),
+                    ),
+                    verySmallVerticalSizedBox,
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // first name
+                          ICareTextFormField(
+                            controller: firstName,
+                            label: firstNameString,
+                            prefixIcon: Icons.person,
+                            hintText: firstNameHintString,
+                            fillColor: AppColors.primaryColorLight,
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
+                                return fieldCannotBeEmptyString;
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
                               setState(() {
-                                dateinput.text =
-                                    formattedDate; //set output date to TextField value.
+                                _user = User(
+                                  firstName: value!,
+                                  lastName: _user.lastName,
+                                  email: _user.email,
+                                  phoneNumber: _user.phoneNumber,
+                                  gender: _user.gender,
+                                  password1: _user.password1,
+                                  password2: _user.password2,
+                                  dateOfBirth: _user.dateOfBirth,
+                                );
                               });
-                            } else {
-                              const Text(dateOfBirthHintString);
-                            }
-                          },
-                          validator: (String? value) {
-                            if (value!.isEmpty) {
-                              return fieldCannotBeEmptyString;
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            setState(() {
+                            },
+                          ),
+                          mediumVerticalSizedBox,
+                          // last name
+                          ICareTextFormField(
+                            controller: lastName,
+                            label: lastNameString,
+                            prefixIcon: Icons.person,
+                            hintText: lastNameHintString,
+                            fillColor: AppColors.primaryColorLight,
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
+                                return fieldCannotBeEmptyString;
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                _user = User(
+                                  firstName: _user.firstName,
+                                  lastName: value!,
+                                  email: _user.email,
+                                  phoneNumber: _user.phoneNumber,
+                                  gender: _user.gender,
+                                  password1: _user.password1,
+                                  password2: _user.password2,
+                                  dateOfBirth: _user.dateOfBirth,
+                                );
+                              });
+                            },
+                          ),
+                          mediumVerticalSizedBox,
+                          // email
+                          ICareTextFormField(
+                            controller: email,
+                            label: emailString,
+                            prefixIcon: Icons.email,
+                            hintText: emailHintString,
+                            fillColor: AppColors.primaryColorLight,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (String? value) {
+                              if (!emailRegex.hasMatch(value!) || value.isEmpty) {
+                                return inputValidEmailString;
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
                               _user = User(
                                 firstName: _user.firstName,
                                 lastName: _user.lastName,
-                                email: _user.email,
+                                email: value!,
                                 phoneNumber: _user.phoneNumber,
                                 gender: _user.gender,
                                 password1: _user.password1,
                                 password2: _user.password2,
-                                dateOfBirth: value!,
-                              );
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  mediumVerticalSizedBox,
-                  SizedBox(
-                    width: double.infinity,
-                    height: 40,
-                    child: ICareElevatedButton(
-                      text: saveString,
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          _editProfileDetails = editUserProfile(_user);
-                        }
-
-                        if (!snapshot.hasError) {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text('Success Message'),
-                                content: const Text(
-                                    'User profile updated successfully'),
-                                actions: [
-                                  ICareTextButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
-                                    text: 'OK',
-                                    style:
-                                        boldSize14Text(AppColors.primaryColor),
-                                  ),
-                                ],
+                                dateOfBirth: _user.dateOfBirth,
                               );
                             },
-                          );
-                        }
-                      },
+                          ),
+                          mediumVerticalSizedBox,
+                          // phone number
+                          ICareTextFormField(
+                            controller: phoneNumber,
+                            label: phoneNumberString,
+                            prefixIcon: Icons.phone,
+                            hintText: phoneNumberHintString,
+                            fillColor: AppColors.primaryColorLight,
+                            keyboardType: TextInputType.number,
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
+                                return fieldCannotBeEmptyString;
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                _user = User(
+                                  firstName: _user.firstName,
+                                  lastName: _user.lastName,
+                                  email: _user.email,
+                                  phoneNumber: int.parse(value!),
+                                  gender: _user.gender,
+                                  password1: _user.password1,
+                                  password2: _user.password2,
+                                  dateOfBirth: _user.dateOfBirth,
+                                );
+                              });
+                            },
+                          ),
+                          mediumVerticalSizedBox,
+                          // password
+                          ICareTextFormField(
+                            controller: password,
+                            label: passwordString,
+                            prefixIcon: Icons.lock,
+                            hintText: passwordHintString,
+                            fillColor: AppColors.primaryColorLight,
+                            obscureText: !_showPassword,
+                            suffixIcon: _showPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            suffixOnPressed: () {
+                              setState(() {
+                                _showPassword = !_showPassword;
+                              });
+                            },
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
+                                return fieldCannotBeEmptyString;
+                              } else if (value.length < 8) {
+                                return passwordHave8Characters;
+                              } else if (isNumeric(value)) {
+                                return passwordCannotContainNumbersOnly;
+                              } else if (!value.contains(passwordRegex) ||
+                                  !value.contains(numericRegex)) {
+                                return passwordTooCommonString;
+                              }
+      
+                              return null;
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                _user = User(
+                                  firstName: _user.firstName,
+                                  lastName: _user.lastName,
+                                  email: _user.email,
+                                  phoneNumber: _user.phoneNumber,
+                                  gender: _user.gender,
+                                  password1: value!,
+                                  password2: _user.password2,
+                                  dateOfBirth: _user.dateOfBirth,
+                                );
+                              });
+                            },
+                          ),
+                          mediumVerticalSizedBox,
+                          // gender
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  genderString,
+                                  style: boldSize14Text(AppColors.primaryColor),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Flexible(
+                                    child: RadioListTile(
+                                      contentPadding: const EdgeInsets.all(0),
+                                      title: Text(
+                                        male,
+                                        style: normalSize14Text(
+                                            AppColors.blackColor),
+                                      ),
+                                      value: Gender.male,
+                                      groupValue: gender,
+                                      activeColor: AppColors.primaryColor,
+                                      onChanged: (Gender? genderValue) {
+                                        setState(() {
+                                          gender = genderValue;
+                                          _user = _displayGender(gender!);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: RadioListTile(
+                                      contentPadding: const EdgeInsets.all(0),
+                                      title: Text(
+                                        female,
+                                        style: normalSize14Text(
+                                            AppColors.blackColor),
+                                      ),
+                                      value: Gender.female,
+                                      groupValue: gender,
+                                      activeColor: AppColors.primaryColor,
+                                      onChanged: (Gender? genderValue) {
+                                        setState(() {
+                                          gender = genderValue;
+                                          _user = _displayGender(gender!);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: RadioListTile(
+                                      contentPadding: const EdgeInsets.all(0),
+                                      title: Text(
+                                        other,
+                                        style: normalSize14Text(
+                                            AppColors.blackColor),
+                                      ),
+                                      value: Gender.other,
+                                      groupValue: gender,
+                                      activeColor: AppColors.primaryColor,
+                                      onChanged: (Gender? genderValue) {
+                                        setState(() {
+                                          gender = genderValue;
+                                          _user = _displayGender(gender!);
+                                        });
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          mediumVerticalSizedBox,
+                          // date of birth
+                          ICareTextFormField(
+                            controller: dateinput,
+                            label: dateOfBirthString,
+                            readOnly: true,
+                            prefixIcon: Icons.calendar_today_rounded,
+                            hintText: dateOfBirthHintString,
+                            fillColor: AppColors.primaryColorLight,
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(
+                                      1950), //DateTime.now() - not to allow to choose before today.
+                                  lastDate: DateTime.now());
+      
+                              if (pickedDate != null) {
+                                String formattedDate =
+                                    DateFormat('dd-MM-yyyy').format(pickedDate);
+                                setState(() {
+                                  dateinput.text =
+                                      formattedDate; //set output date to TextField value.
+                                });
+                              } else {
+                                const Text(dateOfBirthHintString);
+                              }
+                            },
+                            validator: (String? value) {
+                              if (value!.isEmpty) {
+                                return fieldCannotBeEmptyString;
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                _user = User(
+                                  firstName: _user.firstName,
+                                  lastName: _user.lastName,
+                                  email: _user.email,
+                                  phoneNumber: _user.phoneNumber,
+                                  gender: _user.gender,
+                                  password1: _user.password1,
+                                  password2: _user.password2,
+                                  dateOfBirth: value!,
+                                );
+                              });
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              );
-            },
+                    mediumVerticalSizedBox,
+                    SizedBox(
+                      width: double.infinity,
+                      height: 40,
+                      child: ICareElevatedButton(
+                        text: saveString,
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            _editProfileDetails = editUserProfile(_user);
+                          }
+      
+                          if (!snapshot.hasError) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Success Message'),
+                                  content: const Text(
+                                      'User profile updated successfully'),
+                                  actions: [
+                                    ICareTextButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      text: 'OK',
+                                      style:
+                                          boldSize14Text(AppColors.primaryColor),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),

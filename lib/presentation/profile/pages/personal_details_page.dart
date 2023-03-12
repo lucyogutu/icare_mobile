@@ -40,138 +40,140 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColor.withOpacity(0.25),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: FutureBuilder(
-            future: _getProfileDetails,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  smallVerticalSizedBox,
-                  Center(
-                    child: Container(
-                      height: 120,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: AppColors.primaryColor.withOpacity(0.25),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: FittedBox(
-                          child: SvgPicture.asset(userSvg),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: FutureBuilder(
+              future: _getProfileDetails,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    smallVerticalSizedBox,
+                    Center(
+                      child: Container(
+                        height: 120,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: AppColors.primaryColor.withOpacity(0.25),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: FittedBox(
+                            child: SvgPicture.asset(userSvg),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  smallVerticalSizedBox,
-                  Text(
-                    '${snapshot.data!.firstName} ${snapshot.data!.lastName}',
-                    style: boldSize18Text(AppColors.blackColor),
-                  ),
-                  verySmallVerticalSizedBox,
-                  Divider(
-                    color: AppColors.primaryColor.withOpacity(0.25),
-                  ),
-                  verySmallVerticalSizedBox,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        firstNameString,
-                        style: boldSize14Text(AppColors.blackColor),
-                      ),
-                      verySmallVerticalSizedBox,
-                      ICareTextFormField(
-                        label: snapshot.data!.firstName!,
-                        prefixIcon: Icons.person,
-                        fillColor: AppColors.primaryColorLight,
-                        readOnly: true,
-                      ),
-                      verySmallVerticalSizedBox,
-                      Text(
-                        lastNameString,
-                        style: boldSize14Text(AppColors.blackColor),
-                      ),
-                      verySmallVerticalSizedBox,
-                      ICareTextFormField(
-                        label: snapshot.data!.lastName!,
-                        prefixIcon: Icons.person,
-                        fillColor: AppColors.primaryColorLight,
-                        readOnly: true,
-                      ),
-                      verySmallVerticalSizedBox,
-                      Text(
-                        emailString,
-                        style: boldSize14Text(AppColors.blackColor),
-                      ),
-                      verySmallVerticalSizedBox,
-                      ICareTextFormField(
-                        label: snapshot.data!.email!,
-                        prefixIcon: Icons.mail,
-                        fillColor: AppColors.primaryColorLight,
-                        readOnly: true,
-                      ),
-                      verySmallVerticalSizedBox,
-                      Text(
-                        phoneNumberString,
-                        style: boldSize14Text(AppColors.blackColor),
-                      ),
-                      verySmallVerticalSizedBox,
-                      ICareTextFormField(
-                        label: '0${snapshot.data!.phoneNumber!}',
-                        prefixIcon: Icons.phone,
-                        fillColor: AppColors.primaryColorLight,
-                        readOnly: true,
-                      ),
-                      verySmallVerticalSizedBox,
-                      Text(
-                        genderString,
-                        style: boldSize14Text(AppColors.blackColor),
-                      ),
-                      verySmallVerticalSizedBox,
-                      ICareTextFormField(
-                        label: snapshot.data!.gender!,
-                        prefixIcon: Icons.person,
-                        fillColor: AppColors.primaryColorLight,
-                        readOnly: true,
-                      ),
-                      verySmallVerticalSizedBox,
-                      Text(
-                        dateOfBirthString,
-                        style: boldSize14Text(AppColors.blackColor),
-                      ),
-                      verySmallVerticalSizedBox,
-                      ICareTextFormField(
-                        label: snapshot.data!.dateOfBirth!,
-                        prefixIcon: Icons.calendar_today,
-                        fillColor: AppColors.primaryColorLight,
-                        readOnly: true,
-                      ),
-                    ],
-                  ),
-                  mediumVerticalSizedBox,
-                  SizedBox(
-                    width: double.infinity,
-                    height: 40,
-                    child: ICareElevatedButton(
-                      text: editString,
-                      onPressed: () => Navigator.of(context).pushNamed(
-                        AppRoutes.editPersonalDetails,
-                        arguments: _getProfileDetails,
+                    smallVerticalSizedBox,
+                    Text(
+                      '${snapshot.data!.firstName} ${snapshot.data!.lastName}',
+                      style: boldSize18Text(AppColors.blackColor),
+                    ),
+                    verySmallVerticalSizedBox,
+                    Divider(
+                      color: AppColors.primaryColor.withOpacity(0.25),
+                    ),
+                    verySmallVerticalSizedBox,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          firstNameString,
+                          style: boldSize14Text(AppColors.blackColor),
+                        ),
+                        verySmallVerticalSizedBox,
+                        ICareTextFormField(
+                          label: snapshot.data!.firstName!,
+                          prefixIcon: Icons.person,
+                          fillColor: AppColors.primaryColorLight,
+                          readOnly: true,
+                        ),
+                        verySmallVerticalSizedBox,
+                        Text(
+                          lastNameString,
+                          style: boldSize14Text(AppColors.blackColor),
+                        ),
+                        verySmallVerticalSizedBox,
+                        ICareTextFormField(
+                          label: snapshot.data!.lastName!,
+                          prefixIcon: Icons.person,
+                          fillColor: AppColors.primaryColorLight,
+                          readOnly: true,
+                        ),
+                        verySmallVerticalSizedBox,
+                        Text(
+                          emailString,
+                          style: boldSize14Text(AppColors.blackColor),
+                        ),
+                        verySmallVerticalSizedBox,
+                        ICareTextFormField(
+                          label: snapshot.data!.email!,
+                          prefixIcon: Icons.mail,
+                          fillColor: AppColors.primaryColorLight,
+                          readOnly: true,
+                        ),
+                        verySmallVerticalSizedBox,
+                        Text(
+                          phoneNumberString,
+                          style: boldSize14Text(AppColors.blackColor),
+                        ),
+                        verySmallVerticalSizedBox,
+                        ICareTextFormField(
+                          label: '0${snapshot.data!.phoneNumber!}',
+                          prefixIcon: Icons.phone,
+                          fillColor: AppColors.primaryColorLight,
+                          readOnly: true,
+                        ),
+                        verySmallVerticalSizedBox,
+                        Text(
+                          genderString,
+                          style: boldSize14Text(AppColors.blackColor),
+                        ),
+                        verySmallVerticalSizedBox,
+                        ICareTextFormField(
+                          label: snapshot.data!.gender!,
+                          prefixIcon: Icons.person,
+                          fillColor: AppColors.primaryColorLight,
+                          readOnly: true,
+                        ),
+                        verySmallVerticalSizedBox,
+                        Text(
+                          dateOfBirthString,
+                          style: boldSize14Text(AppColors.blackColor),
+                        ),
+                        verySmallVerticalSizedBox,
+                        ICareTextFormField(
+                          label: snapshot.data!.dateOfBirth!,
+                          prefixIcon: Icons.calendar_today,
+                          fillColor: AppColors.primaryColorLight,
+                          readOnly: true,
+                        ),
+                      ],
+                    ),
+                    mediumVerticalSizedBox,
+                    SizedBox(
+                      width: double.infinity,
+                      height: 40,
+                      child: ICareElevatedButton(
+                        text: editString,
+                        onPressed: () => Navigator.of(context).pushNamed(
+                          AppRoutes.editPersonalDetails,
+                          arguments: _getProfileDetails,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),

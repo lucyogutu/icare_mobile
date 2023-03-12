@@ -20,29 +20,31 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Stack(
-          children: [
-            // page view
-            PageView(
-              controller: _controller,
-              onPageChanged: (index) {
-                setState(() {
-                  onLastPage = (index == 2);
-                });
-              },
-              children: const [
-                OnboardScreenOne(),
-                OnboardScreenTwo(),
-                OnboardScreenThree(),
-              ],
-            ),
-            OnboardNavigator(
-              onLastPage: onLastPage,
-              controller: _controller,
-            ),
-          ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Stack(
+            children: [
+              // page view
+              PageView(
+                controller: _controller,
+                onPageChanged: (index) {
+                  setState(() {
+                    onLastPage = (index == 2);
+                  });
+                },
+                children: const [
+                  OnboardScreenOne(),
+                  OnboardScreenTwo(),
+                  OnboardScreenThree(),
+                ],
+              ),
+              OnboardNavigator(
+                onLastPage: onLastPage,
+                controller: _controller,
+              ),
+            ],
+          ),
         ),
       ),
     );

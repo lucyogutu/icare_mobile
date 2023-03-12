@@ -114,107 +114,109 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-          child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(
-              height: 140,
-              width: double.infinity,
-              child: CarouselBanner(),
-            ),
-            smallVerticalSizedBox,
-            ICareSearchField(
-              hintText: searchString,
-              onSubmitted: (value) {},
-            ),
-            Row(
-              children: [
-                Text(
-                  categoriesString,
-                  style: heavySize14Text(
-                    AppColors.blackColor,
+      body: SafeArea(
+        child: SingleChildScrollView(
+            child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(
+                height: 140,
+                width: double.infinity,
+                child: CarouselBanner(),
+              ),
+              smallVerticalSizedBox,
+              ICareSearchField(
+                hintText: searchString,
+                onSubmitted: (value) {},
+              ),
+              Row(
+                children: [
+                  Text(
+                    categoriesString,
+                    style: heavySize14Text(
+                      AppColors.blackColor,
+                    ),
                   ),
-                ),
-                const Spacer(),
-                ICareTextButton(
-                  onPressed: () {},
-                  text: scrollString,
-                  style: boldSize12Text(AppColors.primaryColor),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 75,
-              child: Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    ...categories.map((category) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 5.0),
-                        child: CategoryWidget(
-                          id: category.id,
-                          label: category.name,
-                          assetName: category.svgPicture,
-                        ),
-                      );
-                    }).toList(),
-                  ],
+                  const Spacer(),
+                  ICareTextButton(
+                    onPressed: () {},
+                    text: scrollString,
+                    style: boldSize12Text(AppColors.primaryColor),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 75,
+                child: Expanded(
+                  child: ListView(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      ...categories.map((category) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 5.0),
+                          child: CategoryWidget(
+                            id: category.id,
+                            label: category.name,
+                            assetName: category.svgPicture,
+                          ),
+                        );
+                      }).toList(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Row(
-              children: [
-                Text(
-                  doctorString,
-                  style: heavySize14Text(
-                    AppColors.blackColor,
+              Row(
+                children: [
+                  Text(
+                    doctorString,
+                    style: heavySize14Text(
+                      AppColors.blackColor,
+                    ),
                   ),
-                ),
-                const Spacer(),
-                ICareTextButton(
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(AppRoutes.listDoctors),
-                  text: viewAllString,
-                  style: boldSize12Text(AppColors.primaryColor),
-                ),
-              ],
-            ),
-            FutureBuilder(
-              future: _doctors,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
-                }
-                return Flexible(
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext ctx, int index) {
-                      var doctor = snapshot.data![index];
-                      return DoctorListItemWidget(
-                        id: doctor.id!,
-                        doctorFirstName: doctor.firstName!,
-                        doctorLastName: doctor.lastName!,
-                        doctorProfession: doctor.specialization!,
-                        doctorClinic: doctor.clinic!,
-                        // remove hard coding
-                        rating: 5,
-                        reviews: 500,
-                      );
-                    },
+                  const Spacer(),
+                  ICareTextButton(
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed(AppRoutes.listDoctors),
+                    text: viewAllString,
+                    style: boldSize12Text(AppColors.primaryColor),
                   ),
-                );
-              },
-            ),
-          ],
-        ),
-      )),
+                ],
+              ),
+              FutureBuilder(
+                future: _doctors,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const CircularProgressIndicator();
+                  }
+                  return Flexible(
+                    child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext ctx, int index) {
+                        var doctor = snapshot.data![index];
+                        return DoctorListItemWidget(
+                          id: doctor.id!,
+                          doctorFirstName: doctor.firstName!,
+                          doctorLastName: doctor.lastName!,
+                          doctorProfession: doctor.specialization!,
+                          doctorClinic: doctor.clinic!,
+                          // remove hard coding
+                          rating: 5,
+                          reviews: 500,
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        )),
+      ),
     );
   }
 }

@@ -109,16 +109,19 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColorLight,
-      body: (_registerUser == null)
-          ? SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: _buildColumn(),
-              ),
-            )
-          : Center(
-              child: buildFutureBuilder(),
-            ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: (_registerUser == null)
+                ? _buildColumn()
+                : Center(
+                    child: buildFutureBuilder(),
+                  ),
+          ),
+        ),
+      ),
+
       // body: SingleChildScrollView(
       //   child: Padding(
       //     padding: const EdgeInsets.all(16.0),

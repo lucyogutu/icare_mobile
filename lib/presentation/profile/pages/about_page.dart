@@ -21,32 +21,34 @@ class AboutPage extends StatelessWidget {
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColor.withOpacity(0.25),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: SizedBox(
-                  width: 270,
-                  height: 170,
-                  child: FittedBox(
-                    child: SvgPicture.asset(onlinePageSvg),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: SizedBox(
+                    width: 270,
+                    height: 170,
+                    child: FittedBox(
+                      child: SvgPicture.asset(onlinePageSvg),
+                    ),
                   ),
                 ),
-              ),
-              mediumVerticalSizedBox,
-              Text(
-                iCareString,
-                style: heavySize20Text(AppColors.blackColor),
-              ),
-              smallVerticalSizedBox,
-              Text(
-                appAboutString,
-                style: normalSize14Text(AppColors.blackColor),
-              ),
-            ],
+                mediumVerticalSizedBox,
+                Text(
+                  iCareString,
+                  style: heavySize20Text(AppColors.blackColor),
+                ),
+                smallVerticalSizedBox,
+                Text(
+                  appAboutString,
+                  style: normalSize14Text(AppColors.blackColor),
+                ),
+              ],
+            ),
           ),
         ),
       ),

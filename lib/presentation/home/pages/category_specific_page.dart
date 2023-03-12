@@ -52,54 +52,56 @@ class _CategorySpecificPageState extends State<CategorySpecificPage> {
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColorLight,
       ),
-      body: SingleChildScrollView(
-          child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            smallHorizontalSizedBox,
-            ICareSearchField(
-              hintText: 'search',
-              onSubmitted: (value) {},
-            ),
-            mediumVerticalSizedBox,
-            FutureBuilder(
-              future: _filteredDoctors,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (snapshot.data!.isEmpty) {
-                  return ZeroStateWidget(
-                    text: 'No ${widget.label} doctors',
-                    onPressed: () => Navigator.of(context).pop(),
-                  );
-                }
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (BuildContext ctx, int index) {
-                    var doctor = snapshot.data![index];
-                    return DoctorListItemWidget(
-                      id: doctor.id!,
-                      doctorFirstName: doctor.firstName!,
-                      doctorLastName: doctor.lastName!,
-                      doctorProfession: doctor.specialization!,
-                      doctorClinic: doctor.clinic!,
-                      // remove hard coding
-                      rating: 5,
-                      reviews: 500,
+      body: SafeArea(
+        child: SingleChildScrollView(
+            child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              smallHorizontalSizedBox,
+              ICareSearchField(
+                hintText: 'search',
+                onSubmitted: (value) {},
+              ),
+              mediumVerticalSizedBox,
+              FutureBuilder(
+                future: _filteredDoctors,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
-                  },
-                );
-              },
-            ),
-          ],
-        ),
-      )),
+                  }
+                  if (snapshot.data!.isEmpty) {
+                    return ZeroStateWidget(
+                      text: 'No ${widget.label} doctors',
+                      onPressed: () => Navigator.of(context).pop(),
+                    );
+                  }
+                  return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext ctx, int index) {
+                      var doctor = snapshot.data![index];
+                      return DoctorListItemWidget(
+                        id: doctor.id!,
+                        doctorFirstName: doctor.firstName!,
+                        doctorLastName: doctor.lastName!,
+                        doctorProfession: doctor.specialization!,
+                        doctorClinic: doctor.clinic!,
+                        // remove hard coding
+                        rating: 5,
+                        reviews: 500,
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        )),
+      ),
     );
   }
 }

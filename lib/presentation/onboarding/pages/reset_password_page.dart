@@ -35,52 +35,54 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           style: boldSize18Text(AppColors.whiteColor),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(children: [
-          largeVerticalSizedBox,
-          // password
-          ICareTextFormField(
-            key: newPasswordKey,
-            label: passwordString,
-            prefixIcon: Icons.lock,
-            hintText: passwordHintString,
-            fillColor: AppColors.primaryColorLight,
-            obscureText: !_showPassword,
-            suffixIcon: _showPassword ? Icons.visibility : Icons.visibility_off,
-            suffixOnPressed: () {
-              setState(() {
-                _showPassword = !_showPassword;
-              });
-            },
-          ),
-          mediumVerticalSizedBox,
-          // confirm password
-          ICareTextFormField(
-            key: confirmNewPasswordKey,
-            label: confirmPasswordString,
-            prefixIcon: Icons.lock,
-            hintText: confirmPasswordHintString,
-            fillColor: AppColors.primaryColorLight,
-            obscureText: !_showConfirmPassword,
-            suffixIcon:
-                _showConfirmPassword ? Icons.visibility : Icons.visibility_off,
-            suffixOnPressed: () {
-              setState(() {
-                _showConfirmPassword = !_showConfirmPassword;
-              });
-            },
-          ),
-          largeVerticalSizedBox,
-          SizedBox(
-            height: 48,
-            width: double.infinity,
-            child: ICareElevatedButton(
-              onPressed: () {},
-              text: submitString,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(children: [
+            largeVerticalSizedBox,
+            // password
+            ICareTextFormField(
+              key: newPasswordKey,
+              label: passwordString,
+              prefixIcon: Icons.lock,
+              hintText: passwordHintString,
+              fillColor: AppColors.primaryColorLight,
+              obscureText: !_showPassword,
+              suffixIcon: _showPassword ? Icons.visibility : Icons.visibility_off,
+              suffixOnPressed: () {
+                setState(() {
+                  _showPassword = !_showPassword;
+                });
+              },
             ),
-          ),
-        ]),
+            mediumVerticalSizedBox,
+            // confirm password
+            ICareTextFormField(
+              key: confirmNewPasswordKey,
+              label: confirmPasswordString,
+              prefixIcon: Icons.lock,
+              hintText: confirmPasswordHintString,
+              fillColor: AppColors.primaryColorLight,
+              obscureText: !_showConfirmPassword,
+              suffixIcon:
+                  _showConfirmPassword ? Icons.visibility : Icons.visibility_off,
+              suffixOnPressed: () {
+                setState(() {
+                  _showConfirmPassword = !_showConfirmPassword;
+                });
+              },
+            ),
+            largeVerticalSizedBox,
+            SizedBox(
+              height: 48,
+              width: double.infinity,
+              child: ICareElevatedButton(
+                onPressed: () {},
+                text: submitString,
+              ),
+            ),
+          ]),
+        ),
       ),
     );
   }

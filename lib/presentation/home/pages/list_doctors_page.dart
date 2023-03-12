@@ -36,46 +36,48 @@ class _ListDoctorsPageState extends State<ListDoctorsPage> {
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColorLight,
       ),
-      body: SingleChildScrollView(
-          child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            smallHorizontalSizedBox,
-            ICareSearchField(
-              hintText: 'search',
-              onSubmitted: (value) {},
-            ),
-            size15VerticalSizedBox,
-            FutureBuilder(
-              future: _doctors,
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
-                }
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (BuildContext ctx, int index) {
-                    var doctor = snapshot.data![index];
-                    return DoctorListItemWidget(
-                      id: doctor.id!,
-                      doctorFirstName: doctor.firstName!,
-                      doctorLastName: doctor.lastName!,
-                      doctorProfession: doctor.specialization!,
-                      doctorClinic: doctor.clinic!,
-                      // remove hard coding
-                      rating: 5,
-                      reviews: 500,
-                    );
-                  },
-                );
-              },
-            ),
-          ],
-        ),
-      )),
+      body: SafeArea(
+        child: SingleChildScrollView(
+            child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              smallHorizontalSizedBox,
+              ICareSearchField(
+                hintText: 'search',
+                onSubmitted: (value) {},
+              ),
+              size15VerticalSizedBox,
+              FutureBuilder(
+                future: _doctors,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const CircularProgressIndicator();
+                  }
+                  return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext ctx, int index) {
+                      var doctor = snapshot.data![index];
+                      return DoctorListItemWidget(
+                        id: doctor.id!,
+                        doctorFirstName: doctor.firstName!,
+                        doctorLastName: doctor.lastName!,
+                        doctorProfession: doctor.specialization!,
+                        doctorClinic: doctor.clinic!,
+                        // remove hard coding
+                        rating: 5,
+                        reviews: 500,
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        )),
+      ),
     );
   }
 }

@@ -12,37 +12,39 @@ class PastAppointmentsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                pastAppointmentsString,
-                style: boldSize18Text(AppColors.primaryColor),
-              ),
-              smallVerticalSizedBox,
-              ICareSearchField(
-                hintText: 'Search',
-                onSubmitted: (value) {},
-              ),
-              size15VerticalSizedBox,
-              const HistoryItemWidget(
-                date: dateString,
-                time: '0600hrs',
-                name: fullNameHintString,
-                buttonText: reviewString,
-                clinic: 'Aga Khan',
-              ),
-              const HistoryItemWidget(
-                date: dateString,
-                time: '0600hrs',
-                name: fullNameHintString,
-                buttonText: reviewString,
-                clinic: 'Aga Khan',
-              ),
-            ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  pastAppointmentsString,
+                  style: boldSize18Text(AppColors.primaryColor),
+                ),
+                smallVerticalSizedBox,
+                ICareSearchField(
+                  hintText: 'Search',
+                  onSubmitted: (value) {},
+                ),
+                size15VerticalSizedBox,
+                const HistoryItemWidget(
+                  date: dateString,
+                  time: '0600hrs',
+                  name: fullNameHintString,
+                  buttonText: reviewString,
+                  clinic: 'Aga Khan',
+                ),
+                const HistoryItemWidget(
+                  date: dateString,
+                  time: '0600hrs',
+                  name: fullNameHintString,
+                  buttonText: reviewString,
+                  clinic: 'Aga Khan',
+                ),
+              ],
+            ),
           ),
         ),
       ),

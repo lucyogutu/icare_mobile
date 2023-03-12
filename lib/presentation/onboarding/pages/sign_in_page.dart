@@ -25,67 +25,69 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColorLight,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              largeVerticalSizedBox,
-              Center(
-                child: SvgPicture.asset(mobileLoginSvg),
-              ),
-              largeVerticalSizedBox,
-              Text(
-                letYouInString,
-                style: boldSize30Text(
-                  AppColors.primaryColor,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                largeVerticalSizedBox,
+                Center(
+                  child: SvgPicture.asset(mobileLoginSvg),
                 ),
-              ),
-              largeVerticalSizedBox,
-              SignInListItem(
-                svgValue: facebookIconSvg,
-                title: continueFacebookString,
-                onTap: () {},
-              ),
-              mediumVerticalSizedBox,
-              SignInListItem(
-                svgValue: googleIconSvg,
-                title: continueGoogleString,
-                onTap: () {},
-              ),
-              largeVerticalSizedBox,
-              SizedBox(
-                height: 48,
-                width: double.infinity,
-                child: ICareElevatedButton(
-                  text: signInPassword,
-                  onPressed: navigateLogin,
+                largeVerticalSizedBox,
+                Text(
+                  letYouInString,
+                  style: boldSize30Text(
+                    AppColors.primaryColor,
+                  ),
                 ),
-              ),
-              mediumVerticalSizedBox,
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: dontHaveAccountString,
-                      style: normalSize12Text(
-                        AppColors.blackColor,
+                largeVerticalSizedBox,
+                SignInListItem(
+                  svgValue: facebookIconSvg,
+                  title: continueFacebookString,
+                  onTap: () {},
+                ),
+                mediumVerticalSizedBox,
+                SignInListItem(
+                  svgValue: googleIconSvg,
+                  title: continueGoogleString,
+                  onTap: () {},
+                ),
+                largeVerticalSizedBox,
+                SizedBox(
+                  height: 48,
+                  width: double.infinity,
+                  child: ICareElevatedButton(
+                    text: signInPassword,
+                    onPressed: navigateLogin,
+                  ),
+                ),
+                mediumVerticalSizedBox,
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: dontHaveAccountString,
+                        style: normalSize12Text(
+                          AppColors.blackColor,
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: signUpString,
-                      style: normalSize12Text(
-                        AppColors.primaryColor,
+                      TextSpan(
+                        text: signUpString,
+                        style: normalSize12Text(
+                          AppColors.primaryColor,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = navigateRegister,
                       ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = navigateRegister,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              mediumVerticalSizedBox,
-            ],
+                mediumVerticalSizedBox,
+              ],
+            ),
           ),
         ),
       ),

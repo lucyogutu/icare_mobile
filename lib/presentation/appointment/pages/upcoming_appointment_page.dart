@@ -27,56 +27,58 @@ class _UpcomingAppointmentsPageState extends State<UpcomingAppointmentsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                upcomingAppointmentsString,
-                style: boldSize18Text(AppColors.primaryColor),
-              ),
-              FutureBuilder(
-                future: _appointments,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (snapshot.data!.isEmpty) {
-                    return ZeroStateWidget(
-                      text: 'No upcoming appointments',
-                      onPressed: () => Navigator.of(context).pop(),
-                    );
-                  }
-
-                  return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext ctx, int index) {
-                      var appointment = snapshot.data![index];
-
-                      // TODO: implement doctor to output doctor name and profession rather than doctor id
-                      return AppointmentListItemWidget(
-                        id: appointment.id!,
-                        doctorId: appointment.doctor!,
-                        doctorFirstName: '${appointment.doctor}',
-                        doctorLastName: '${appointment.doctor}',
-                        doctorProfession: '${appointment.doctor}',
-                        date: DateTime.tryParse(appointment.date!)!,
-                        startTime: DateTime.parse(
-                            '${appointment.date!} ${appointment.startTime!}'),
-                        endTime: DateTime.parse(
-                            '${appointment.date!} ${appointment.endTime!}'),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  upcomingAppointmentsString,
+                  style: boldSize18Text(AppColors.primaryColor),
+                ),
+                FutureBuilder(
+                  future: _appointments,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
-                    },
-                  );
-                },
-              ),
-            ],
+                    }
+                    if (snapshot.data!.isEmpty) {
+                      return ZeroStateWidget(
+                        text: 'No upcoming appointments',
+                        onPressed: () => Navigator.of(context).pop(),
+                      );
+                    }
+      
+                    return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext ctx, int index) {
+                        var appointment = snapshot.data![index];
+      
+                        // TODO: implement doctor to output doctor name and profession rather than doctor id
+                        return AppointmentListItemWidget(
+                          id: appointment.id!,
+                          doctorId: appointment.doctor!,
+                          doctorFirstName: '${appointment.doctor}',
+                          doctorLastName: '${appointment.doctor}',
+                          doctorProfession: '${appointment.doctor}',
+                          date: DateTime.tryParse(appointment.date!)!,
+                          startTime: DateTime.parse(
+                              '${appointment.date!} ${appointment.startTime!}'),
+                          endTime: DateTime.parse(
+                              '${appointment.date!} ${appointment.endTime!}'),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

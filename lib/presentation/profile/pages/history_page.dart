@@ -21,32 +21,34 @@ class HistoryPage extends StatelessWidget {
         backgroundColor: AppColors.whiteColor,
         shadowColor: AppColors.primaryColor.withOpacity(0.25),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              smallHorizontalSizedBox,
-              ICareSearchField(
-                hintText: 'search',
-                onSubmitted: (value) {},
-              ),
-              size15VerticalSizedBox,
-              const HistoryItemWidget(
-                date: dateString,
-                time: '0600hrs',
-                name: fullNameHintString,
-                buttonText: reviewString,
-                clinic: 'Aga Khan',
-              ),
-              const HistoryItemWidget(
-                date: dateString,
-                time: '0600hrs',
-                name: fullNameHintString,
-                buttonText: reviewString,
-                clinic: 'Aga Khan',
-              ),
-            ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                smallHorizontalSizedBox,
+                ICareSearchField(
+                  hintText: 'search',
+                  onSubmitted: (value) {},
+                ),
+                size15VerticalSizedBox,
+                const HistoryItemWidget(
+                  date: dateString,
+                  time: '0600hrs',
+                  name: fullNameHintString,
+                  buttonText: reviewString,
+                  clinic: 'Aga Khan',
+                ),
+                const HistoryItemWidget(
+                  date: dateString,
+                  time: '0600hrs',
+                  name: fullNameHintString,
+                  buttonText: reviewString,
+                  clinic: 'Aga Khan',
+                ),
+              ],
+            ),
           ),
         ),
       ),

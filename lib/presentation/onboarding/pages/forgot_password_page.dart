@@ -21,72 +21,74 @@ class ForgotPasswordPage extends StatelessWidget {
           style: boldSize18Text(AppColors.whiteColor),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            largeVerticalSizedBox,
-            const ICareTextFormField(
-              label: emailString,
-              prefixIcon: Icons.email,
-              hintText: emailHintString,
-              fillColor: AppColors.primaryColorLight,
-            ),
-            
-            SizedBox(
-              height: 48,
-              width: double.infinity,
-              child: ICareElevatedButton(
-                onPressed: () {},
-                text: sendString,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              largeVerticalSizedBox,
+              const ICareTextFormField(
+                label: emailString,
+                prefixIcon: Icons.email,
+                hintText: emailHintString,
+                fillColor: AppColors.primaryColorLight,
               ),
-            ),
-            ICareTextButton(
-              onPressed: () {},
-              text: backToSignInString,
-              style: boldSize16Text(AppColors.primaryColor),
-            ),
-            Text(
-              orString,
-              textAlign: TextAlign.center,
-              style: normalSize14Text(AppColors.greyTextColor),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: SvgPicture.asset(googleIconSvg),
+              
+              SizedBox(
+                height: 48,
+                width: double.infinity,
+                child: ICareElevatedButton(
                   onPressed: () {},
+                  text: sendString,
                 ),
-                largeHorizontalSizedBox,
-                IconButton(
-                  icon: SvgPicture.asset(facebookIconSvg),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            smallVerticalSizedBox,
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
+              ),
+              ICareTextButton(
+                onPressed: () {},
+                text: backToSignInString,
+                style: boldSize16Text(AppColors.primaryColor),
+              ),
+              Text(
+                orString,
+                textAlign: TextAlign.center,
+                style: normalSize14Text(AppColors.greyTextColor),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextSpan(
-                    text: dontHaveAccountString,
-                    style: normalSize12Text(
-                      AppColors.blackColor,
-                    ),
+                  IconButton(
+                    icon: SvgPicture.asset(googleIconSvg),
+                    onPressed: () {},
                   ),
-                  TextSpan(
-                    text: signUpString,
-                    style: normalSize12Text(
-                      AppColors.primaryColor,
-                    ),
+                  largeHorizontalSizedBox,
+                  IconButton(
+                    icon: SvgPicture.asset(facebookIconSvg),
+                    onPressed: () {},
                   ),
                 ],
               ),
-            ),
-          ],
+              smallVerticalSizedBox,
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: dontHaveAccountString,
+                      style: normalSize12Text(
+                        AppColors.blackColor,
+                      ),
+                    ),
+                    TextSpan(
+                      text: signUpString,
+                      style: normalSize12Text(
+                        AppColors.primaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

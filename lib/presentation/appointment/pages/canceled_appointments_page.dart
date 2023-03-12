@@ -27,56 +27,58 @@ class _CancelAppointmentsPageState extends State<CancelAppointmentsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                canceledAppointmentsString,
-                style: boldSize18Text(AppColors.primaryColor),
-              ),
-              smallVerticalSizedBox,
-              FutureBuilder(
-                future: _appointments,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (snapshot.data!.isEmpty) {
-                    return ZeroStateWidget(
-                      text: 'No canceled appointments',
-                      onPressed: () => Navigator.of(context).pop(),
-                    );
-                  }
-
-                  return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext ctx, int index) {
-                      var appointment = snapshot.data![index];
-
-                      return CancelAppointmentListItemWidget(
-                        doctorId: appointment.doctor!,
-                        doctorFirstName: '${appointment.doctor}',
-                        doctorLastName: '${appointment.doctor}',
-                        doctorProfession: '${appointment.doctor}',
-                        date: DateTime.tryParse(appointment.date!)!,
-                        startTime: DateTime.parse(
-                            '${appointment.date!} ${appointment.startTime!}'),
-                        endTime: DateTime.parse(
-                            '${appointment.date!} ${appointment.endTime!}'),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  canceledAppointmentsString,
+                  style: boldSize18Text(AppColors.primaryColor),
+                ),
+                smallVerticalSizedBox,
+                FutureBuilder(
+                  future: _appointments,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
-                    },
-                  );
-                },
-              ),
-            ],
+                    }
+                    if (snapshot.data!.isEmpty) {
+                      return ZeroStateWidget(
+                        text: 'No canceled appointments',
+                        onPressed: () => Navigator.of(context).pop(),
+                      );
+                    }
+      
+                    return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext ctx, int index) {
+                        var appointment = snapshot.data![index];
+      
+                        return CancelAppointmentListItemWidget(
+                          doctorId: appointment.doctor!,
+                          doctorFirstName: '${appointment.doctor}',
+                          doctorLastName: '${appointment.doctor}',
+                          doctorProfession: '${appointment.doctor}',
+                          date: DateTime.tryParse(appointment.date!)!,
+                          startTime: DateTime.parse(
+                              '${appointment.date!} ${appointment.startTime!}'),
+                          endTime: DateTime.parse(
+                              '${appointment.date!} ${appointment.endTime!}'),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

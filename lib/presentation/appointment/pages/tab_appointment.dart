@@ -17,51 +17,53 @@ class TabAppointmentPage extends StatefulWidget {
 class _TabAppointmentPageState extends State<TabAppointmentPage> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: NestedScrollView(
-        headerSliverBuilder: (context, value) {
-          return [
-            SliverAppBar(
-              automaticallyImplyLeading: false,
-              title: Text(
-                appointmentString,
-                style: heavySize20Text(AppColors.whiteColor),
-              ),
-              actions: [
-                IconButton(
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(AppRoutes.notifications),
-                  icon: const Icon(Icons.notifications_none_outlined),
+    return SafeArea(
+      child: DefaultTabController(
+        length: 3,
+        child: NestedScrollView(
+          headerSliverBuilder: (context, value) {
+            return [
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                title: Text(
+                  appointmentString,
+                  style: heavySize20Text(AppColors.whiteColor),
                 ),
-              ],
-              floating: true,
-              pinned: true,
-              backgroundColor: AppColors.primaryColor,
-              bottom: const TabBar(
-                indicatorColor: AppColors.whiteColor,
-                indicatorWeight: 3,
-                tabs: [
-                  Tab(
-                    text: upcomingString,
-                  ),
-                  Tab(
-                    text: pastString,
-                  ),
-                  Tab(
-                    text: cancelString,
+                actions: [
+                  IconButton(
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed(AppRoutes.notifications),
+                    icon: const Icon(Icons.notifications_none_outlined),
                   ),
                 ],
+                floating: true,
+                pinned: true,
+                backgroundColor: AppColors.primaryColor,
+                bottom: const TabBar(
+                  indicatorColor: AppColors.whiteColor,
+                  indicatorWeight: 3,
+                  tabs: [
+                    Tab(
+                      text: upcomingString,
+                    ),
+                    Tab(
+                      text: pastString,
+                    ),
+                    Tab(
+                      text: cancelString,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ];
-        },
-        body: const TabBarView(
-          children: [
-            UpcomingAppointmentsPage(),
-            PastAppointmentsPage(),
-            CancelAppointmentsPage(),
-          ],
+            ];
+          },
+          body: const TabBarView(
+            children: [
+              UpcomingAppointmentsPage(),
+              PastAppointmentsPage(),
+              CancelAppointmentsPage(),
+            ],
+          ),
         ),
       ),
     );
