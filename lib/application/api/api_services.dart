@@ -255,9 +255,11 @@ Future<Appointment> bookAppointment(Appointment appointment) async {
 }
 
 // TODO: Implement reschedule book appointment
-Future<Appointment> _rescheduleAppointment(Appointment appointment) async {
+Future<Appointment> rescheduleAppointment(
+    Appointment appointment, int id) async {
   final authToken = await storage.read(key: 'access');
-  Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.rescheduleAppointment);
+  Uri url = Uri.parse(
+      '${APIEndpoints.baseUrl}${APIEndpoints.rescheduleAppointment}$id/');
   try {
     final response = await http.post(
       url,
@@ -274,6 +276,29 @@ Future<Appointment> _rescheduleAppointment(Appointment appointment) async {
     );
 
     if (response.statusCode == 201) {
+      return Appointment.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception(response.body);
+    }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
+}
+
+Future<Appointment> cancelAppointment(int id) async {
+  final authToken = await storage.read(key: 'access');
+  Uri url =
+      Uri.parse('${APIEndpoints.baseUrl}${APIEndpoints.cancelAppointment}$id/');
+  try {
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
       return Appointment.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);

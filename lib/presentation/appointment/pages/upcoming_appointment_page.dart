@@ -47,7 +47,7 @@ class _UpcomingAppointmentsPageState extends State<UpcomingAppointmentsPage> {
                   }
                   if (snapshot.data!.isEmpty) {
                     return ZeroStateWidget(
-                      text: 'No scheduled appointments',
+                      text: 'No upcoming appointments',
                       onPressed: () => Navigator.of(context).pop(),
                     );
                   }
@@ -61,7 +61,10 @@ class _UpcomingAppointmentsPageState extends State<UpcomingAppointmentsPage> {
 
                       // TODO: implement doctor to output doctor name and profession rather than doctor id
                       return AppointmentListItemWidget(
-                        doctorName: '${appointment.doctor}',
+                        id: appointment.id!,
+                        doctorId: appointment.doctor!,
+                        doctorFirstName: '${appointment.doctor}',
+                        doctorLastName: '${appointment.doctor}',
                         doctorProfession: '${appointment.doctor}',
                         date: DateTime.tryParse(appointment.date!)!,
                         startTime: DateTime.parse(

@@ -10,14 +10,18 @@ import 'package:intl/intl.dart';
 class CancelAppointmentListItemWidget extends StatelessWidget {
   const CancelAppointmentListItemWidget({
     super.key,
-    required this.doctorName,
+    required this.doctorId,
+    required this.doctorFirstName,
+    required this.doctorLastName,
     required this.doctorProfession,
     required this.date,
     required this.startTime,
     required this.endTime,
   });
 
-  final String doctorName;
+  final int doctorId;
+  final String doctorFirstName;
+  final String doctorLastName;
   final String doctorProfession;
   final DateTime date;
   final DateTime startTime;
@@ -75,11 +79,11 @@ class CancelAppointmentListItemWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              doctorName,
+                              doctorFirstName,
                               style: boldSize18Text(AppColors.blackColor),
                             ),
                             Text(
-                              DateFormat.Hm().format(date),
+                              DateFormat.Hm().format(startTime),
                               style: boldSize16Text(AppColors.blackColor),
                             ),
                           ],
@@ -93,8 +97,13 @@ class CancelAppointmentListItemWidget extends StatelessWidget {
                           child: ICareElevatedButton(
                             text: rescheduleString,
                             onPressed: () => Navigator.of(context).pushNamed(
-                                AppRoutes.bookAppointment,
-                                arguments: doctorName),
+                              AppRoutes.bookAppointment,
+                              arguments: {
+                                'doctorId': doctorId,
+                                'doctorFirstName': doctorFirstName,
+                                'doctorLastName': doctorLastName,
+                              },
+                            ),
                           ),
                         ),
                       ],

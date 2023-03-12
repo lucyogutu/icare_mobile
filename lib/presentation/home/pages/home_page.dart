@@ -4,7 +4,6 @@ import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
-import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/entities/category.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
 import 'package:icare_mobile/domain/entities/user.dart';

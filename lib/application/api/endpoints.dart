@@ -14,10 +14,9 @@ class APIEndpoints {
   static const  String editPatientProfile = 'patients/edit-profile-view/';
   static const  String viewAppointments = 'patients/view-appointments/';
   static const  String viewCanceledAppointments = 'patients/view-canceled-appointments/';
-
   // appointments
-  // TODO: link book appointments and reschedule appointments
   static const  String bookAppointment = 'appointments/';
-  static const  String rescheduleAppointment = 'appointments/reschedule-appointment/<str:pk>/';
+  static const  String rescheduleAppointment = 'appointments/reschedule-appointment/';
+  static const  String cancelAppointment = 'appointments/cancel-appointment/';
 
 }

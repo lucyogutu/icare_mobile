@@ -62,7 +62,9 @@ class _CancelAppointmentsPageState extends State<CancelAppointmentsPage> {
                       var appointment = snapshot.data![index];
 
                       return CancelAppointmentListItemWidget(
-                        doctorName: '${appointment.doctor}',
+                        doctorId: appointment.doctor!,
+                        doctorFirstName: '${appointment.doctor}',
+                        doctorLastName: '${appointment.doctor}',
                         doctorProfession: '${appointment.doctor}',
                         date: DateTime.tryParse(appointment.date!)!,
                         startTime: DateTime.parse(

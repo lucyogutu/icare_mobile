@@ -1,27 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
+import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/application/core/routes.dart';
 import 'package:intl/intl.dart';
 
-class AppointmentListItemWidget extends StatelessWidget {
+class AppointmentListItemWidget extends StatefulWidget {
   const AppointmentListItemWidget({
     super.key,
-    required this.doctorName,
+    required this.id,
+    required this.doctorId,
+    required this.doctorFirstName,
+    required this.doctorLastName,
     required this.doctorProfession,
     required this.date,
     required this.startTime,
     required this.endTime,
   });
 
-  final String doctorName;
+  final int id;
+  final int doctorId;
+  final String doctorFirstName;
+  final String doctorLastName;
   final String doctorProfession;
   final DateTime date;
   final DateTime startTime;
   final DateTime endTime;
+
+  @override
+  State<AppointmentListItemWidget> createState() =>
+      _AppointmentListItemWidgetState();
+}
+
+class _AppointmentListItemWidgetState extends State<AppointmentListItemWidget> {
+  Future<Appointment>? _cancelAppointment;
 
   @override
   Widget build(BuildContext context) {
@@ -52,17 +68,17 @@ class AppointmentListItemWidget extends StatelessWidget {
                       children: [
                         Text(
                           // month
-                          DateFormat.MMM().format(date),
+                          DateFormat.MMM().format(widget.date),
                           style: boldSize18Text(AppColors.blackColor),
                         ),
                         // day
                         Text(
-                          DateFormat.d().format(date),
+                          DateFormat.d().format(widget.date),
                           style: boldSize25Title(AppColors.blackColor),
                         ),
                         // weekday
                         Text(
-                          DateFormat.E().format(date),
+                          DateFormat.E().format(widget.date),
                           style: boldSize18Text(AppColors.blackColor),
                         ),
                       ],
@@ -78,18 +94,18 @@ class AppointmentListItemWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              doctorName,
+                              widget.doctorFirstName,
                               style: boldSize18Text(AppColors.blackColor),
                             ),
                             Text(
                               //start time
-                              DateFormat.Hm().format(startTime),
+                              DateFormat.Hm().format(widget.startTime),
                               style: boldSize16Text(AppColors.blackColor),
                             ),
                           ],
                         ),
                         Text(
-                          doctorProfession,
+                          widget.doctorProfession,
                           style: normalSize14Text(AppColors.blackColor),
                         ),
                         Row(
@@ -100,7 +116,31 @@ class AppointmentListItemWidget extends StatelessWidget {
                                 text: cancelString,
                                 buttonColor: AppColors.errorColor,
                                 borderColor: Colors.transparent,
-                                onPressed: () {},
+                                onPressed: () {
+                                  if (_cancelAppointment == null) {
+                                    _cancelAppointment =
+                                        cancelAppointment(widget.id);
+                                  } else {
+                                    FutureBuilder(
+                                      future: _cancelAppointment,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return SnackBar(
+                                            content: Text(
+                                                'Appointment with Dr. ${widget.doctorLastName} canceled'),
+                                          );
+                                        } else if (snapshot.hasError) {
+                                          return const Text(
+                                              'Error Occurred while canceling appointment');
+                                        }
+
+                                        return const Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      },
+                                    );
+                                  }
+                                },
                               ),
                             ),
                             SizedBox(
@@ -108,7 +148,11 @@ class AppointmentListItemWidget extends StatelessWidget {
                                 text: rescheduleString,
                                 onPressed: () => Navigator.of(context)
                                     .pushNamed(AppRoutes.bookAppointment,
-                                        arguments: doctorName),
+                                        arguments: {
+                                      'doctorId': widget.doctorId,
+                                      'doctorFirstName': widget.doctorFirstName,
+                                      'doctorLastName': widget.doctorLastName,
+                                    }),
                               ),
                             ),
                           ],

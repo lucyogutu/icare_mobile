@@ -5,7 +5,6 @@ import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
-import 'package:icare_mobile/presentation/core/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -41,7 +40,7 @@ class _BookPageState extends State<BookPage> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
+    // DateTime now = DateTime.now();
     DateTime startTime;
     DateTime endTime;
     Duration step = const Duration(minutes: 60);
