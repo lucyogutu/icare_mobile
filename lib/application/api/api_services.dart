@@ -67,7 +67,35 @@ Future<User> loginUser(User user) async {
       // then parse the JSON.
       final authToken = jsonDecode(response.body)['tokens'];
       await storage.write(key: 'access', value: authToken['access']);
+      await storage.write(key: 'refresh', value: authToken['refresh']);
 
+      return User.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception(response.body);
+    }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
+}
+
+Future<User> logoutUser() async {
+  final authToken = await storage.read(key: 'access');
+  final refreshToken = await storage.read(key: 'refresh');
+
+  Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.logoutPatient);
+  try {
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'refresh': '$refreshToken',
+      }),
+    );
+
+    if (response.statusCode == 205) {
       return User.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);
@@ -205,6 +233,31 @@ Future<List<Appointment>> getCanceledAppointments() async {
   final authToken = await storage.read(key: 'access');
   Uri url =
       Uri.parse(APIEndpoints.baseUrl + APIEndpoints.viewCanceledAppointments);
+  try {
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      Iterable jsonList = json.decode(response.body);
+      return List<Appointment>.from(
+          jsonList.map((model) => Appointment.fromJson(model)));
+    } else {
+      throw Exception(response.body);
+    }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
+}
+
+Future<List<Appointment>> getPastAppointments() async {
+  final authToken = await storage.read(key: 'access');
+  Uri url =
+      Uri.parse(APIEndpoints.baseUrl + APIEndpoints.viewPastAppointments);
   try {
     final response = await http.get(
       url,

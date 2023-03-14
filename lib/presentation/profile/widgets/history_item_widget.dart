@@ -5,20 +5,23 @@ import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/presentation/core/utils.dart';
+import 'package:intl/intl.dart';
 
 class HistoryItemWidget extends StatelessWidget {
   const HistoryItemWidget({
     super.key,
     required this.date,
     required this.time,
-    required this.name,
+    required this.doctorFirstName,
+    required this.doctorLastName,
     required this.buttonText,
     required this.clinic,
   });
 
   final String date;
-  final String time;
-  final String name;
+  final DateTime time;
+  final String doctorFirstName;
+  final String doctorLastName;
   final String buttonText;
   final String clinic;
 
@@ -66,11 +69,11 @@ class HistoryItemWidget extends StatelessWidget {
                       style: normalSize16Text(AppColors.blackColor),
                     ),
                     Text(
-                      time,
+                      DateFormat.jm().format(time),
                       style: normalSize16Text(AppColors.blackColor),
                     ),
                     Text(
-                      name,
+                      '$doctorFirstName $doctorLastName',
                       style: normalSize16Text(AppColors.blackColor),
                     ),
                   ],
@@ -96,7 +99,7 @@ class HistoryItemWidget extends StatelessWidget {
                       child: ICareElevatedButton(
                         text: buttonText,
                         onPressed: () {
-                          showReviewBottomSheet(context, name);
+                          showReviewBottomSheet(context, '$doctorFirstName $doctorLastName');
                         },
                       ),
                     ),

@@ -6,6 +6,7 @@ import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/appointment/widgets/cancel_appointment_list_item.dart';
+import 'package:icare_mobile/presentation/core/zero_appointment_state_widget.dart';
 import 'package:icare_mobile/presentation/core/zero_state_widget.dart';
 
 class CancelAppointmentsPage extends StatefulWidget {
@@ -52,9 +53,8 @@ class _CancelAppointmentsPageState extends State<CancelAppointmentsPage> {
                     );
                   }
                   if (snapshot.data!.isEmpty) {
-                    return ZeroStateWidget(
+                    return const ZeroAppointmentStateWidget(
                       text: 'No canceled appointments',
-                      onPressed: () => Navigator.of(context).pop(),
                     );
                   }
 
@@ -63,12 +63,18 @@ class _CancelAppointmentsPageState extends State<CancelAppointmentsPage> {
                     shrinkWrap: true,
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext ctx, int index) {
-                      var appointment = snapshot.data![index];
+                      Appointment appointment = snapshot.data![index];
 
                       return FutureBuilder(
                         future: getDoctorById(appointment.doctor),
                         builder: (context, snapshot) {
-                          var doctor = snapshot.data!;
+                          if (!snapshot.hasData) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          Doctor doctor = snapshot.data!;
+
                           return CancelAppointmentListItemWidget(
                             doctorId: appointment.doctor!,
                             doctorFirstName: doctor.firstName!,

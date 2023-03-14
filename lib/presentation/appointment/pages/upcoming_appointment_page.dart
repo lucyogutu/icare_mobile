@@ -6,7 +6,7 @@ import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/appointment/widgets/appointment_list_item_widget.dart';
-import 'package:icare_mobile/presentation/core/zero_state_widget.dart';
+import 'package:icare_mobile/presentation/core/zero_appointment_state_widget.dart';
 
 class UpcomingAppointmentsPage extends StatefulWidget {
   const UpcomingAppointmentsPage({super.key});
@@ -53,9 +53,8 @@ class _UpcomingAppointmentsPageState extends State<UpcomingAppointmentsPage> {
                     );
                   }
                   if (snapshot.data!.isEmpty) {
-                    return ZeroStateWidget(
+                    return const ZeroAppointmentStateWidget(
                       text: 'No upcoming appointments',
-                      onPressed: () => Navigator.of(context).pop(),
                     );
                   }
 
@@ -69,6 +68,11 @@ class _UpcomingAppointmentsPageState extends State<UpcomingAppointmentsPage> {
                       return FutureBuilder(
                         future: getDoctorById(appointment.doctor!),
                         builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
                           var doctor = snapshot.data!;
                           return AppointmentListItemWidget(
                             id: appointment.id!,

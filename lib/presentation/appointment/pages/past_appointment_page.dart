@@ -1,13 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
+import 'package:icare_mobile/domain/entities/appointment.dart';
+import 'package:icare_mobile/domain/entities/doctor.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_search_field.dart';
+import 'package:icare_mobile/presentation/core/zero_appointment_state_widget.dart';
+import 'package:icare_mobile/presentation/core/zero_state_widget.dart';
 import 'package:icare_mobile/presentation/profile/widgets/history_item_widget.dart';
 
-class PastAppointmentsPage extends StatelessWidget {
+class PastAppointmentsPage extends StatefulWidget {
   const PastAppointmentsPage({super.key});
+
+  @override
+  State<PastAppointmentsPage> createState() => _PastAppointmentsPageState();
+}
+
+class _PastAppointmentsPageState extends State<PastAppointmentsPage> {
+  Future<List<Appointment>>? _appointments;
+
+  @override
+  void initState() {
+    super.initState();
+    _appointments = getPastAppointments();
+  }
+
+  Future<Doctor> getDoctorById(int? id) async {
+    List<Doctor> doctors = await getDoctors();
+    return doctors.where((doctor) => doctor.id == id).first;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,26 +45,66 @@ class PastAppointmentsPage extends StatelessWidget {
                 pastAppointmentsString,
                 style: boldSize18Text(AppColors.primaryColor),
               ),
-              smallVerticalSizedBox,
-              ICareSearchField(
-                hintText: 'Search',
-                onSubmitted: (value) {},
+              FutureBuilder(
+                future: _appointments,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.data!.isEmpty) {
+                    return const ZeroAppointmentStateWidget(
+                      text: 'No past appointments',
+                    );
+                  }
+
+                  return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext ctx, int index) {
+                      Appointment appointment = snapshot.data![index];
+
+                      return FutureBuilder(
+                        future: getDoctorById(appointment.doctor),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          Doctor doctor = snapshot.data!;
+
+                          return HistoryItemWidget(
+                            date: appointment.date!,
+                            time: DateTime.parse(
+                                '${appointment.date!} ${appointment.startTime!}'),
+                            doctorFirstName: doctor.firstName!,
+                            doctorLastName: doctor.lastName!,
+                            buttonText: reviewString,
+                            clinic: doctor.clinic!,
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
               ),
-              size15VerticalSizedBox,
-              const HistoryItemWidget(
-                date: dateString,
-                time: '0600hrs',
-                name: fullNameHintString,
-                buttonText: reviewString,
-                clinic: 'Aga Khan',
-              ),
-              const HistoryItemWidget(
-                date: dateString,
-                time: '0600hrs',
-                name: fullNameHintString,
-                buttonText: reviewString,
-                clinic: 'Aga Khan',
-              ),
+              // const HistoryItemWidget(
+              //   date: dateString,
+              //   time: '0600hrs',
+              //   name: fullNameHintString,
+              //   buttonText: reviewString,
+              //   clinic: 'Aga Khan',
+              // ),
+              // const HistoryItemWidget(
+              //   date: dateString,
+              //   time: '0600hrs',
+              //   name: fullNameHintString,
+              //   buttonText: reviewString,
+              //   clinic: 'Aga Khan',
+              // ),
             ],
           ),
         ),

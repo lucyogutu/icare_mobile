@@ -20,6 +20,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   Future<User>? _getProfileDetails;
+  Future<User>? _logoutUser;
 
   @override
   void initState() {
@@ -92,7 +93,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   SizedBox(
                                     width: constraints.maxWidth * 0.48,
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -169,7 +171,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 ProfileListItem(
                   icon: Icons.history,
                   title: historyString,
-                  onTap: () => Navigator.of(context).pushNamed(AppRoutes.history),
+                  onTap: () =>
+                      Navigator.of(context).pushNamed(AppRoutes.history),
                 ),
                 Divider(
                   color: AppColors.primaryColor.withOpacity(0.25),
@@ -202,8 +205,29 @@ class _ProfilePageState extends State<ProfilePage> {
                       context: context,
                       title: logoutString,
                       content: logoutDescription,
-                      yesButton: () =>
-                          Navigator.of(context).pushNamed(AppRoutes.tabEntry),
+                      yesButton: () {
+                        if (_logoutUser == null) {
+                          _logoutUser = logoutUser();
+                          Navigator.of(context).pushNamed(AppRoutes.tabEntry);
+                        } else {
+                          FutureBuilder(
+                            future: _logoutUser,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return const SnackBar(
+                                  content: Text('Logout successfull'),
+                                );
+                              } else if (snapshot.hasError) {
+                                return const Text('Error Occurred');
+                              }
+
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                          );
+                        }
+                      },
                       buttonText: yesLogout,
                     );
                   },

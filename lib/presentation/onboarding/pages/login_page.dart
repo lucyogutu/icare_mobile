@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                               !value.contains(numericRegex)) {
                             return passwordTooCommonString;
                           }
-      
+
                           return null;
                         },
                         onSaved: (value) {
@@ -170,7 +170,24 @@ class _LoginPageState extends State<LoginPage> {
                                   .pushReplacementNamed(AppRoutes.bottomNav);
                             }
                           }
-                        : buildFutureBuilder,
+                        : () {
+                            FutureBuilder(
+                              future: _loginUser,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return const SnackBar(
+                                    content: Text('Login successfull'),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return const Text('Error Occurred');
+                                }
+
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              },
+                            );
+                          },
                     text: signInString,
                   ),
                 ),
@@ -211,7 +228,8 @@ class _LoginPageState extends State<LoginPage> {
                         style: normalSize12Text(
                           AppColors.primaryColor,
                         ),
-                        recognizer: TapGestureRecognizer()..onTap = widget.signUp,
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = widget.signUp,
                       ),
                     ],
                   ),

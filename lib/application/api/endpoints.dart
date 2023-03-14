@@ -14,6 +14,7 @@ class APIEndpoints {
   static const  String editPatientProfile = 'patients/edit-profile-view/';
   static const  String viewAppointments = 'patients/view-appointments/';
   static const  String viewCanceledAppointments = 'patients/view-canceled-appointments/';
+  static const  String viewPastAppointments = 'patients/view-past-appointments/';
   // appointments
   static const  String bookAppointment = 'appointments/';
   static const  String rescheduleAppointment = 'appointments/reschedule-appointment/';
