@@ -14,6 +14,7 @@ class APIService {
 
 }
 
+// register patient to the application
 Future<User> registerUser(User user) async {
   Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.registerPatient);
   try {
@@ -49,6 +50,8 @@ Future<User> registerUser(User user) async {
   }
 }
 
+
+// login patient to the application
 Future<User> loginUser(User user) async {
   Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.loginPatient);
   try {
@@ -79,6 +82,7 @@ Future<User> loginUser(User user) async {
   }
 }
 
+// logout patient out of the application
 Future<User> logoutUser() async {
   final authToken = await storage.read(key: 'access');
   final refreshToken = await storage.read(key: 'refresh');
@@ -106,6 +110,32 @@ Future<User> logoutUser() async {
   }
 }
 
+
+// delete patient out of the application
+Future<User> optoutUser() async {
+  final authToken = await storage.read(key: 'access');
+
+  Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.optoutPatient);
+  try {
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 204) {
+      return User.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception(response.body);
+    }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
+}
+
+// get a list of doctors
 Future<List<Doctor>> getDoctors() async {
   final authToken = await storage.read(key: 'access');
   Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.viewDoctors);
@@ -129,6 +159,8 @@ Future<List<Doctor>> getDoctors() async {
   }
 }
 
+
+// get a specific doctor
 Future<Doctor> getDoctor(int id) async {
   final authToken = await storage.read(key: 'access');
   Uri url = Uri.parse(
@@ -152,6 +184,7 @@ Future<Doctor> getDoctor(int id) async {
   }
 }
 
+// get your profile details
 Future<User> getProfile() async {
   final authToken = await storage.read(key: 'access');
   Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.patientProfile);
@@ -174,6 +207,7 @@ Future<User> getProfile() async {
   }
 }
 
+// edit your profile details
 Future<User> editUserProfile(User user) async {
   final authToken = await storage.read(key: 'access');
 
@@ -206,6 +240,7 @@ Future<User> editUserProfile(User user) async {
   }
 }
 
+// get a list of upcoming appointments
 Future<List<Appointment>> getUpcomingAppointments() async {
   final authToken = await storage.read(key: 'access');
   Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.viewAppointments);
@@ -230,6 +265,7 @@ Future<List<Appointment>> getUpcomingAppointments() async {
   }
 }
 
+// get a list of canceled appointments
 Future<List<Appointment>> getCanceledAppointments() async {
   final authToken = await storage.read(key: 'access');
   Uri url =
@@ -255,6 +291,7 @@ Future<List<Appointment>> getCanceledAppointments() async {
   }
 }
 
+// get a list of past appointments
 Future<List<Appointment>> getPastAppointments() async {
   final authToken = await storage.read(key: 'access');
   Uri url =
@@ -280,6 +317,7 @@ Future<List<Appointment>> getPastAppointments() async {
   }
 }
 
+// book an appointment
 Future<Appointment> bookAppointment(Appointment appointment) async {
   final authToken = await storage.read(key: 'access');
   Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.bookAppointment);
@@ -309,6 +347,7 @@ Future<Appointment> bookAppointment(Appointment appointment) async {
 }
 
 // TODO: Implement reschedule book appointment
+// reschedule an appointment
 Future<Appointment> rescheduleAppointment(
     Appointment appointment, int id) async {
   final authToken = await storage.read(key: 'access');
@@ -339,6 +378,7 @@ Future<Appointment> rescheduleAppointment(
   }
 }
 
+// cancel an appointment
 Future<Appointment> cancelAppointment(int id) async {
   final authToken = await storage.read(key: 'access');
   Uri url =
