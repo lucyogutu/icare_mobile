@@ -130,18 +130,20 @@ class _LoginPageState extends State<LoginPage> {
                           return null;
                         },
                         onSaved: (value) {
-                          setState(() {
-                            _user = User(
-                              firstName: _user.firstName,
-                              lastName: _user.lastName,
-                              email: _user.email,
-                              phoneNumber: _user.phoneNumber,
-                              gender: _user.gender,
-                              password1: value!,
-                              password2: _user.password2,
-                              dateOfBirth: _user.dateOfBirth,
-                            );
-                          });
+                          setState(
+                            () {
+                              _user = User(
+                                firstName: _user.firstName,
+                                lastName: _user.lastName,
+                                email: _user.email,
+                                phoneNumber: _user.phoneNumber,
+                                gender: _user.gender,
+                                password1: value!,
+                                password2: _user.password2,
+                                dateOfBirth: _user.dateOfBirth,
+                              );
+                            },
+                          );
                         },
                       ),
                       smallVerticalSizedBox,

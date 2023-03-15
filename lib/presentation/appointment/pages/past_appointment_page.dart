@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
-import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
-import 'package:icare_mobile/presentation/core/icare_search_field.dart';
-import 'package:icare_mobile/presentation/core/zero_appointment_state_widget.dart';
-import 'package:icare_mobile/presentation/core/zero_state_widget.dart';
+import 'package:icare_mobile/presentation/core/zero_list_state_widget.dart';
 import 'package:icare_mobile/presentation/profile/widgets/history_item_widget.dart';
 
 class PastAppointmentsPage extends StatefulWidget {
@@ -54,7 +51,7 @@ class _PastAppointmentsPageState extends State<PastAppointmentsPage> {
                     );
                   }
                   if (snapshot.data!.isEmpty) {
-                    return const ZeroAppointmentStateWidget(
+                    return const ZeroListStateWidget(
                       text: 'No past appointments',
                     );
                   }
@@ -91,20 +88,6 @@ class _PastAppointmentsPageState extends State<PastAppointmentsPage> {
                   );
                 },
               ),
-              // const HistoryItemWidget(
-              //   date: dateString,
-              //   time: '0600hrs',
-              //   name: fullNameHintString,
-              //   buttonText: reviewString,
-              //   clinic: 'Aga Khan',
-              // ),
-              // const HistoryItemWidget(
-              //   date: dateString,
-              //   time: '0600hrs',
-              //   name: fullNameHintString,
-              //   buttonText: reviewString,
-              //   clinic: 'Aga Khan',
-              // ),
             ],
           ),
         ),

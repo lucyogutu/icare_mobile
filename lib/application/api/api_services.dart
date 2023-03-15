@@ -31,6 +31,7 @@ Future<User> registerUser(User user) async {
         'password2': user.password2,
         'gender': user.gender,
         'date_of_birth': user.dateOfBirth,
+        'is_patient': user.isPatient,
       }),
     );
 
@@ -74,7 +75,7 @@ Future<User> loginUser(User user) async {
       throw Exception(response.body);
     }
   } catch (e) {
-    throw Exception(e.toString());
+    throw Exception('Something went wrong');
   }
 }
 
@@ -169,7 +170,7 @@ Future<User> getProfile() async {
       throw Exception(response.body);
     }
   } catch (e) {
-    throw Exception(e.toString());
+    throw Exception('Something went wrong');
   }
 }
 

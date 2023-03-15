@@ -232,7 +232,8 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
                             fillColor: AppColors.primaryColorLight,
                             keyboardType: TextInputType.emailAddress,
                             validator: (String? value) {
-                              if (!emailRegex.hasMatch(value!) || value.isEmpty) {
+                              if (!emailRegex.hasMatch(value!) ||
+                                  value.isEmpty) {
                                 return inputValidEmailString;
                               }
                               return null;
@@ -308,7 +309,7 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
                                   !value.contains(numericRegex)) {
                                 return passwordTooCommonString;
                               }
-      
+
                               return null;
                             },
                             onSaved: (value) {
@@ -339,7 +340,8 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Flexible(
@@ -419,7 +421,7 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
                                   firstDate: DateTime(
                                       1950), //DateTime.now() - not to allow to choose before today.
                                   lastDate: DateTime.now());
-      
+
                               if (pickedDate != null) {
                                 String formattedDate =
                                     DateFormat('dd-MM-yyyy').format(pickedDate);
@@ -466,7 +468,7 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
                             _formKey.currentState!.save();
                             _editProfileDetails = editUserProfile(_user);
                           }
-      
+
                           if (!snapshot.hasError) {
                             showDialog(
                               context: context,
@@ -480,8 +482,8 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
                                       onPressed: () =>
                                           Navigator.of(context).pop(),
                                       text: 'OK',
-                                      style:
-                                          boldSize14Text(AppColors.primaryColor),
+                                      style: boldSize14Text(
+                                          AppColors.primaryColor),
                                     ),
                                   ],
                                 );

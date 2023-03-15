@@ -5,8 +5,8 @@ import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 
-class ZeroAppointmentStateWidget extends StatelessWidget {
-  const ZeroAppointmentStateWidget({
+class ZeroListStateWidget extends StatelessWidget {
+  const ZeroListStateWidget({
     super.key,
     required this.text,
   });

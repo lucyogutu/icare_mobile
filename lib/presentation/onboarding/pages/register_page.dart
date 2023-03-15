@@ -109,16 +109,14 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColorLight,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: (_registerUser == null)
-                ? _buildColumn()
-                : Center(
-                    child: buildFutureBuilder(),
-                  ),
-          ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: (_registerUser == null)
+              ? _buildColumn()
+              : Center(
+                  child: buildFutureBuilder(),
+                ),
         ),
       ),
 
@@ -551,7 +549,7 @@ class _RegisterPageState extends State<RegisterPage> {
         setState(() {
           _user = User(
             firstName: _user.firstName,
-            lastName: value!,
+            lastName: value,
             email: _user.email,
             phoneNumber: _user.phoneNumber,
             gender: _user.gender,
@@ -579,7 +577,7 @@ class _RegisterPageState extends State<RegisterPage> {
       onSaved: (value) {
         setState(() {
           _user = User(
-            firstName: value!,
+            firstName: value,
             lastName: _user.lastName,
             email: _user.email,
             phoneNumber: _user.phoneNumber,

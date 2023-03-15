@@ -12,6 +12,7 @@ import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_search_field.dart';
 import 'package:icare_mobile/presentation/core/icare_text_button.dart';
 import 'package:icare_mobile/application/core/routes.dart';
+import 'package:icare_mobile/presentation/core/zero_list_state_widget.dart';
 import 'package:icare_mobile/presentation/home/widgets/carousel.dart';
 import 'package:icare_mobile/presentation/home/widgets/category_widget.dart';
 import 'package:icare_mobile/presentation/home/widgets/doctor_list_item_widget.dart';
@@ -190,6 +191,11 @@ class _HomePageState extends State<HomePage> {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const CircularProgressIndicator();
+                  }
+                  if (snapshot.data!.isEmpty) {
+                    return const ZeroListStateWidget(
+                      text: 'No doctors available at the moment',
+                    );
                   }
                   return Flexible(
                     child: ListView.builder(

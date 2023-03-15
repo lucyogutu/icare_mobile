@@ -7,6 +7,7 @@ class User {
   final String? password2;
   final String? gender;
   final String? dateOfBirth;
+  final bool? isPatient;
 
   User({
     required this.firstName,
@@ -17,6 +18,7 @@ class User {
     required this.password2,
     required this.gender,
     required this.dateOfBirth,
+    this.isPatient = true,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class User {
       password2: json['password2'],
       gender: json['gender'],
       dateOfBirth: json['date_of_birth'],
+      isPatient: json['is_patient'],
     );
   }
 
@@ -41,5 +44,6 @@ class User {
         'password2': password2,
         'gender': gender,
         'date_of_birth': dateOfBirth,
+        'is_patient': isPatient,
       };
 }
