@@ -68,18 +68,22 @@ class _HelpPageState extends State<HelpPage> {
                       _helpItems[index].isExpanded = !isExpanded;
                     });
                   },
-                  children: _helpItems.map<ExpansionPanel>((helpItem) {
+                  children: _helpItems
+                      .map<ExpansionPanel>((ExpansionPanelItem helpItem) {
                     return ExpansionPanel(
                       headerBuilder: (BuildContext context, bool isExpanded) {
                         return ListTile(
-                          title: Text(helpItem.headerText),
+                          title: Text(
+                            helpItem.headerText,
+                            style: boldSize16Text(AppColors.blackColor),
+                          ),
                         );
                       },
-                      body:Padding(
+                      body: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(helpItem.expandedText),
                       ),
-                    
+                      isExpanded: helpItem.isExpanded,
                     );
                   }).toList(),
                 ),
