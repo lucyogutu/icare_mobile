@@ -4,7 +4,6 @@ import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
-import 'package:icare_mobile/presentation/core/icare_search_field.dart';
 import 'package:icare_mobile/presentation/core/zero_state_widget.dart';
 import 'package:icare_mobile/presentation/home/widgets/doctor_list_item_widget.dart';
 
@@ -59,11 +58,6 @@ class _CategorySpecificPageState extends State<CategorySpecificPage> {
           child: Column(
             children: [
               smallHorizontalSizedBox,
-              ICareSearchField(
-                hintText: 'search',
-                onSubmitted: (value) {},
-              ),
-              mediumVerticalSizedBox,
               FutureBuilder(
                 future: _filteredDoctors,
                 builder: (context, snapshot) {

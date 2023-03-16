@@ -7,7 +7,6 @@ import 'package:icare_mobile/domain/entities/doctor.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/appointment/widgets/cancel_appointment_list_item.dart';
 import 'package:icare_mobile/presentation/core/zero_list_state_widget.dart';
-import 'package:icare_mobile/presentation/core/zero_state_widget.dart';
 
 class CancelAppointmentsPage extends StatefulWidget {
   const CancelAppointmentsPage({super.key});

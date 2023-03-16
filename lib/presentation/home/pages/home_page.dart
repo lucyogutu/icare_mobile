@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
-import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/category.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
 import 'package:icare_mobile/domain/entities/user.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
-import 'package:icare_mobile/presentation/core/icare_search_field.dart';
 import 'package:icare_mobile/presentation/core/icare_text_button.dart';
 import 'package:icare_mobile/application/core/routes.dart';
+import 'package:icare_mobile/presentation/core/utils.dart';
 import 'package:icare_mobile/presentation/core/zero_list_state_widget.dart';
 import 'package:icare_mobile/presentation/home/widgets/carousel.dart';
 import 'package:icare_mobile/presentation/home/widgets/category_widget.dart';
@@ -39,6 +38,11 @@ class _HomePageState extends State<HomePage> {
     super.didChangeDependencies();
     _doctors = getDoctors();
   }
+
+  Future<dynamic> showSearchAppbar(BuildContext context) => showSearch(
+        context: context,
+        delegate: DoctorSearchDelegate(getDoctors()),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +73,8 @@ class _HomePageState extends State<HomePage> {
         svgPicture: nurseSvg,
       ),
       Category(
-        id: dermatologyString,
-        name: dermatologyString,
+        id: dermatologistString,
+        name: dermatologistString,
         svgPicture: dermatologySvg,
       ),
     ];
@@ -109,6 +113,12 @@ class _HomePageState extends State<HomePage> {
             }),
         actions: [
           IconButton(
+            onPressed: () {
+              showSearchAppbar(context);
+            },
+            icon: const Icon(Icons.search_outlined),
+          ),
+          IconButton(
             onPressed: () =>
                 Navigator.of(context).pushNamed(AppRoutes.notifications),
             icon: const Icon(Icons.notifications_none_outlined),
@@ -126,11 +136,6 @@ class _HomePageState extends State<HomePage> {
                 height: 140,
                 width: double.infinity,
                 child: CarouselBanner(),
-              ),
-              smallVerticalSizedBox,
-              ICareSearchField(
-                hintText: searchString,
-                onSubmitted: (value) {},
               ),
               Row(
                 children: [

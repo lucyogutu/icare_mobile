@@ -68,7 +68,7 @@ const String physicianString = 'Physician';
 const String dentistString = 'Dentist';
 const String psychologistString = 'Psychologist';
 const String pharmacistString = 'Pharmacist';
-const String dermatologyString = 'Dermatology';
+const String dermatologistString = 'Dermatologist';
 const String nurseString = 'Nurse';
 const String doctorString = 'Doctor';
 
