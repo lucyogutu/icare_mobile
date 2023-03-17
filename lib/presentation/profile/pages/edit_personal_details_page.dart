@@ -12,6 +12,7 @@ import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/presentation/core/icare_text_button.dart';
 import 'package:icare_mobile/presentation/core/icare_text_form_field.dart';
+import 'package:icare_mobile/presentation/core/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:string_validator/string_validator.dart';
 
@@ -39,11 +40,13 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
   DateTime? selectedDate = DateTime.now();
 
   Future<User>? _editProfileDetails;
+  bool _showDialog = false;
 
   @override
   void initState() {
     super.initState();
     _showPassword = false;
+    widget.getProfileDetails;
   }
 
   User _user = User(
@@ -122,7 +125,7 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
                   );
                 }
                 if (snapshot.hasError) {
-                  return const Text('error occurred');
+                  errorAlert(context);
                 }
                 firstName.text = snapshot.data!.firstName!;
                 lastName.text = snapshot.data!.lastName!;
@@ -463,36 +466,62 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
                       height: 40,
                       child: ICareElevatedButton(
                         text: saveString,
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            _editProfileDetails = editUserProfile(_user);
-                          }
-
-                          if (!snapshot.hasError) {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: const Text('Success Message'),
-                                  content: const Text(
-                                      'User profile updated successfully'),
-                                  actions: [
-                                    ICareTextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      text: 'OK',
-                                      style: boldSize14Text(
-                                          AppColors.primaryColor),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
+                            // _editProfileDetails = editUserProfile(_user);
+                            try {
+                              final user = await editUserProfile(_user);
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Success'),
+                                      content: const Text(
+                                          'User profile updated Successfully'),
+                                      actions: [
+                                        ICareTextButton(
+                                          onPressed: () {
+                                            widget.getProfileDetails;
+                                            Navigator.of(context).pop();
+                                          },
+                                          text: 'OK',
+                                          style: boldSize14Text(
+                                              AppColors.primaryColor),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                              widget.getProfileDetails;
+                              _formKey.currentState!.reset();
+                              setState(() {
+                                _editProfileDetails = Future.value(user);
+                              });
+                            } catch (error) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Something went wrong'),
+                                    content: Text(error.toString()),
+                                    actions: [
+                                      ICareTextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        text: 'OK',
+                                        style: boldSize14Text(
+                                            AppColors.primaryColor),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
                           }
                         },
                       ),
-                    ),
+                    )
                   ],
                 );
               },

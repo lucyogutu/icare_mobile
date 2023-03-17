@@ -41,9 +41,36 @@ Future<dynamic> showAlertDialog({
   );
 }
 
+// error alert for handling futures
+void errorAlert(BuildContext context) {
+  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text(errorString),
+            content: const Text(' Error Occurred'),
+            actions: [
+              ICareTextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                text: 'OK',
+                style: boldSize14Text(AppColors.primaryColor),
+              ),
+            ],
+          );
+        });
+  });
+}
+
 // review bottom sheet
 PersistentBottomSheetController<dynamic> showReviewBottomSheet(
-    BuildContext context, String name) {
+    {required BuildContext context,
+    required String name,
+    required Widget? Review,
+    required VoidCallback onPressed,
+    required TextEditingController review,}) {
   return showBottomSheet(
       context: context,
       elevation: 10,
@@ -68,16 +95,20 @@ PersistentBottomSheetController<dynamic> showReviewBottomSheet(
                 ),
                 smallVerticalSizedBox,
                 Row(
-                  children: const [
-                    Icon(Icons.star_outline),
-                    Icon(Icons.star_outline),
-                    Icon(Icons.star_outline),
-                    Icon(Icons.star_outline),
-                    Icon(Icons.star_outline),
+                  children: [
+                    Text(
+                      ratingString,
+                      style: boldSize14Text(
+                        AppColors.blackColor,
+                      ),
+                    ),
+                    mediumHorizontalSizedBox,
+                    Review!,
                   ],
                 ),
                 smallVerticalSizedBox,
                 TextField(
+                  controller: review,
                   maxLines: 4,
                   minLines: 4,
                   decoration: InputDecoration(
@@ -94,10 +125,10 @@ PersistentBottomSheetController<dynamic> showReviewBottomSheet(
                   ),
                 ),
                 mediumVerticalSizedBox,
-                const SizedBox(
+                SizedBox(
                   width: double.infinity,
                   height: 40,
-                  child: ICareElevatedButton(text: reviewString),
+                  child: ICareElevatedButton(text: reviewString, onPressed: onPressed,),
                 ),
               ],
             ),

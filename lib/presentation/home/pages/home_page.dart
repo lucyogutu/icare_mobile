@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
@@ -91,11 +90,26 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: AppColors.whiteColor,
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
-                child: SvgPicture.asset(
-                  userSvg,
-                  fit: BoxFit.cover,
-                  color: AppColors.primaryColor,
-                ),
+                child: FutureBuilder(
+                    future: _getUser,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        errorAlert(context);
+                      }
+                      String fullName =
+                          "${snapshot.data?.firstName!} ${snapshot.data?.lastName!}";
+                      String initials =
+                          fullName.split(' ').map((word) => word[0]).join('');
+                      return Text(
+                        initials,
+                        style: heavySize14Text(AppColors.primaryColor),
+                      );
+                    }),
               ),
             ),
           ),
@@ -108,6 +122,10 @@ class _HomePageState extends State<HomePage> {
                   child: CircularProgressIndicator(),
                 );
               }
+              if (snapshot.hasError) {
+                errorAlert(context);
+              }
+
               return Text(
                   "${snapshot.data?.firstName!} ${snapshot.data?.lastName!}");
             }),
@@ -196,6 +214,9 @@ class _HomePageState extends State<HomePage> {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const CircularProgressIndicator();
+                  }
+                  if (snapshot.hasError) {
+                    errorAlert(context);
                   }
                   if (snapshot.data!.isEmpty) {
                     return const ZeroListStateWidget(

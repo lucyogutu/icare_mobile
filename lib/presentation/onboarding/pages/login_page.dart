@@ -161,35 +161,95 @@ class _LoginPageState extends State<LoginPage> {
                   height: 48,
                   width: double.infinity,
                   child: ICareElevatedButton(
-                    onPressed: (_loginUser == null)
-                        ? () async {
-                            final prefs = await SharedPreferences.getInstance();
-                            prefs.setBool('showHome', true);
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
-                              _loginUser = loginUser(_user);
-                              Navigator.of(context)
-                                  .pushReplacementNamed(AppRoutes.bottomNav);
-                            }
-                          }
-                        : () {
-                            FutureBuilder(
-                              future: _loginUser,
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return const SnackBar(
-                                    content: Text('Login successfull'),
-                                  );
-                                } else if (snapshot.hasError) {
-                                  return const Text('Error Occurred');
-                                }
+                    onPressed: () async {
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.setBool('showHome', true);
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
 
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
+                        try {
+                          final user = await loginUser(_user);
+                          Navigator.of(context)
+                              .pushReplacementNamed(AppRoutes.bottomNav);
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: const Text('Login Successful'),
+                            backgroundColor: (Colors.black54),
+                            duration: const Duration(seconds: 5),
+                            action: SnackBarAction(
+                              label: 'Dismiss',
+                              onPressed: () {
+                                ScaffoldMessenger.of(context)
+                                    .hideCurrentSnackBar();
                               },
-                            );
-                          },
+                            ),
+                          ));
+                          setState(() {
+                            _loginUser = Future.value(user);
+                          });
+                        } catch (error) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Something went wrong'),
+                                  content: Text(error.toString()),
+                                  actions: [
+                                    ICareTextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      text: 'OK',
+                                      style: boldSize14Text(
+                                          AppColors.primaryColor),
+                                    ),
+                                  ],
+                                );
+                              });
+                        }
+
+                        // _loginUser = loginUser(_user).then((user) {
+                        // WidgetsBinding.instance.addPostFrameCallback((_) {
+                        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        //     content: const Text('Login Successful'),
+                        //     backgroundColor: (Colors.black54),
+                        //     duration: const Duration(seconds: 10),
+                        //     action: SnackBarAction(
+                        //       label: 'Dismiss',
+                        //       onPressed: () {
+                        //         Navigator.of(context).pushReplacementNamed(
+                        //             AppRoutes.bottomNav);
+                        //         ScaffoldMessenger.of(context)
+                        //             .hideCurrentSnackBar();
+                        //       },
+                        //     ),
+                        //   ));
+                        // });
+                        //   return user;
+                        // }).catchError((error) {
+                          // WidgetsBinding.instance
+                          //     .addPostFrameCallback((timeStamp) {
+                          //   showDialog(
+                          //       context: context,
+                          //       builder: (BuildContext context) {
+                          //         return AlertDialog(
+                          //           title: const Text(errorString),
+                          //           content: const Text(' Error Occurred'),
+                          //           actions: [
+                          //             ICareTextButton(
+                          //               onPressed: () {
+                          //                 Navigator.of(context).pop();
+                          //               },
+                          //               text: 'OK',
+                          //               style: boldSize14Text(
+                          //                   AppColors.primaryColor),
+                          //             ),
+                          //           ],
+                          //         );
+                          //       });
+                          // });
+                        // });
+                      }
+                    },
                     text: signInString,
                   ),
                 ),

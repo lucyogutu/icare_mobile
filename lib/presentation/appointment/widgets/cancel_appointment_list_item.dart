@@ -102,6 +102,8 @@ class CancelAppointmentListItemWidget extends StatelessWidget {
                                 'doctorId': doctorId,
                                 'doctorFirstName': doctorFirstName,
                                 'doctorLastName': doctorLastName,
+                                'appointmentDate': date,
+                                // 'appointmentId': id,
                               },
                             ),
                           ),

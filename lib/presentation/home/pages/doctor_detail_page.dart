@@ -9,6 +9,7 @@ import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/application/core/routes.dart';
+import 'package:icare_mobile/presentation/core/utils.dart';
 
 class DoctorDetailPage extends StatefulWidget {
   const DoctorDetailPage({
@@ -62,6 +63,9 @@ class _DoctorDetailPageState extends State<DoctorDetailPage> {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
+                }
+                if (snapshot.hasError) {
+                  errorAlert(context);
                 }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

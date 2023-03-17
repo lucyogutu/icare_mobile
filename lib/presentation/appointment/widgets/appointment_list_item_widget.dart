@@ -7,6 +7,7 @@ import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/application/core/routes.dart';
+import 'package:icare_mobile/presentation/core/utils.dart';
 import 'package:intl/intl.dart';
 
 class AppointmentListItemWidget extends StatefulWidget {
@@ -130,8 +131,7 @@ class _AppointmentListItemWidgetState extends State<AppointmentListItemWidget> {
                                                   'Appointment with Dr. ${widget.doctorLastName} canceled'),
                                             );
                                           } else if (snapshot.hasError) {
-                                            return const Text(
-                                                'Error Occurred while canceling appointment');
+                                            errorAlert(context);
                                           }
 
                                           return const Center(
@@ -154,6 +154,8 @@ class _AppointmentListItemWidgetState extends State<AppointmentListItemWidget> {
                                         'doctorFirstName':
                                             widget.doctorFirstName,
                                         'doctorLastName': widget.doctorLastName,
+                                        'appointmentDate': widget.date,
+                                        'appointmentId': widget.id,
                                       }),
                                 ),
                               ),

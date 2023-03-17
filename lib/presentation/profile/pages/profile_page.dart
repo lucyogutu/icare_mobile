@@ -60,6 +60,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: CircularProgressIndicator(),
                           );
                         }
+                        if (snapshot.hasError) {
+                          errorAlert(context);
+                        }
                         return InkWell(
                           onTap: () => Navigator.of(context)
                               .pushNamed(AppRoutes.personalDetails),
@@ -218,8 +221,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 return const SnackBar(
                                   content: Text('Logout successfull'),
                                 );
-                              } else if (snapshot.hasError) {
-                                return const Text('Error Occurred');
+                              }
+                              if (snapshot.hasError) {
+                                errorAlert(context);
                               }
 
                               return const Center(
@@ -258,8 +262,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 return const SnackBar(
                                   content: Text('optOut successfull'),
                                 );
-                              } else if (snapshot.hasError) {
-                                return const Text('Error Occurred');
+                              }
+                              if (snapshot.hasError) {
+                                errorAlert(context);
                               }
 
                               return const Center(

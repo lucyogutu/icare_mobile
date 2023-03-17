@@ -11,6 +11,7 @@ import 'package:icare_mobile/domain/value_objects/enums.dart';
 import 'package:icare_mobile/domain/value_objects/regex.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
+import 'package:icare_mobile/presentation/core/icare_text_button.dart';
 import 'package:icare_mobile/presentation/core/icare_text_form_field.dart';
 import 'package:intl/intl.dart';
 import 'package:string_validator/string_validator.dart';
@@ -98,10 +99,53 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      _registerUser = registerUser(_user);
+      // _registerUser = registerUser(_user);
+      try {
+        final user = await registerUser(_user);
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Success'),
+                content: const Text('Registered Successfully'),
+                actions: [
+                  ICareTextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    text: 'OK',
+                    style: boldSize14Text(AppColors.primaryColor),
+                  ),
+                ],
+              );
+            });
+        _formKey.currentState!.reset();
+        setState(() {
+          _registerUser = Future.value(user);
+        });
+      } catch (error) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Something went wrong'),
+              content: Text(error.toString()),
+              actions: [
+                ICareTextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  text: 'OK',
+                  style: boldSize14Text(AppColors.primaryColor),
+                ),
+              ],
+            );
+          },
+        );
+      }
     }
   }
 
@@ -112,20 +156,9 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: (_registerUser == null)
-              ? _buildColumn()
-              : Center(
-                  child: buildFutureBuilder(),
-                ),
+          child: _buildColumn(),
         ),
       ),
-
-      // body: SingleChildScrollView(
-      //   child: Padding(
-      //     padding: const EdgeInsets.all(16.0),
-      //     child: _buildColumn(),
-      //   ),
-      // ),
     );
   }
 
@@ -242,7 +275,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: ICareElevatedButton(
                   onPressed: () {
                     _submitForm();
-                    widget.signIn;
+                    // widget.signIn;
                   },
                   text: signUpString,
                 ),
@@ -280,32 +313,49 @@ class _RegisterPageState extends State<RegisterPage> {
       future: _registerUser,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          // return const SnackBar(
-          //   content: Text('User registered successfully'),
-          // );
-          return const Center(
-            child: Text(successUserRegistered),
-          );
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Success Message'),
+                    content: const Text(successUserRegistered),
+                    actions: [
+                      ICareTextButton(
+                        onPressed: () {
+                          setState(() {
+                            _registerUser = null;
+                          });
+                          Navigator.of(context).pop();
+                        },
+                        text: 'OK',
+                        style: boldSize14Text(AppColors.primaryColor),
+                      ),
+                    ],
+                  );
+                });
+          });
         } else if (snapshot.hasError) {
-          return Flexible(
-            child: Center(
-              child: AlertDialog(
-                title: const Text(errorString),
-                content: Text('${snapshot.error}'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      _buildColumn();
-                    },
-                    child: const Text(retryString),
-                  ),
-                ],
-              ),
-            ),
-          );
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text(errorString),
+                    content: const Text('Error Occurred'),
+                    actions: [
+                      ICareTextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        text: 'OK',
+                        style: boldSize14Text(AppColors.primaryColor),
+                      ),
+                    ],
+                  );
+                });
+          });
         }
-
         return const Center(
           child: CircularProgressIndicator(),
         );

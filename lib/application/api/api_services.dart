@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:icare_mobile/application/api/endpoints.dart';
 import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
+import 'package:icare_mobile/domain/entities/review.dart';
 import 'package:icare_mobile/domain/entities/user.dart';
 
 const FlutterSecureStorage storage = FlutterSecureStorage();
@@ -43,13 +44,12 @@ Future<User> registerUser(User user) async {
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
-      throw Exception(response.body);
+      throw jsonDecode(response.body)['message'];
     }
   } catch (e) {
-    throw Exception(e.toString());
+    rethrow;
   }
 }
-
 
 // login patient to the application
 Future<User> loginUser(User user) async {
@@ -75,10 +75,10 @@ Future<User> loginUser(User user) async {
 
       return User.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception(response.body);
+      throw jsonDecode(response.body)['message'];
     }
   } catch (e) {
-    throw Exception('Something went wrong');
+    rethrow;
   }
 }
 
@@ -103,13 +103,12 @@ Future<User> logoutUser() async {
     if (response.statusCode == 205) {
       return User.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception(response.body);
+      throw jsonDecode(response.body)['message'];
     }
   } catch (e) {
-    throw Exception(e.toString());
+    rethrow;
   }
 }
-
 
 // delete patient out of the application
 Future<User> optoutUser() async {
@@ -128,10 +127,10 @@ Future<User> optoutUser() async {
     if (response.statusCode == 204) {
       return User.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception(response.body);
+      throw jsonDecode(response.body)['message'];
     }
   } catch (e) {
-    throw Exception(e.toString());
+    rethrow;
   }
 }
 
@@ -152,13 +151,12 @@ Future<List<Doctor>> getDoctors() async {
       Iterable jsonList = json.decode(response.body);
       return List<Doctor>.from(jsonList.map((model) => Doctor.fromJson(model)));
     } else {
-      throw Exception(response.body);
+      throw jsonDecode(response.body)['message'];
     }
   } catch (e) {
-    throw Exception(e.toString());
+    rethrow;
   }
 }
-
 
 // get a specific doctor
 Future<Doctor> getDoctor(int id) async {
@@ -177,10 +175,10 @@ Future<Doctor> getDoctor(int id) async {
     if (response.statusCode == 200) {
       return Doctor.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception(response.body);
+      throw jsonDecode(response.body)['message'];
     }
   } catch (e) {
-    throw Exception(e.toString());
+    rethrow;
   }
 }
 
@@ -200,10 +198,10 @@ Future<User> getProfile() async {
     if (response.statusCode == 200) {
       return User.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception(response.body);
+      throw jsonDecode(response.body)['message'];
     }
   } catch (e) {
-    throw Exception('Something went wrong');
+    rethrow;
   }
 }
 
@@ -233,10 +231,10 @@ Future<User> editUserProfile(User user) async {
     if (response.statusCode == 201) {
       return User.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception(response.body);
+      throw jsonDecode(response.body)['message'];
     }
   } catch (e) {
-    throw Exception(e.toString());
+    rethrow;
   }
 }
 
@@ -258,10 +256,10 @@ Future<List<Appointment>> getUpcomingAppointments() async {
       return List<Appointment>.from(
           jsonList.map((model) => Appointment.fromJson(model)));
     } else {
-      throw Exception(response.body);
+      throw jsonDecode(response.body)['message'];
     }
   } catch (e) {
-    throw Exception(e.toString());
+    rethrow;
   }
 }
 
@@ -284,18 +282,17 @@ Future<List<Appointment>> getCanceledAppointments() async {
       return List<Appointment>.from(
           jsonList.map((model) => Appointment.fromJson(model)));
     } else {
-      throw Exception(response.body);
+      throw jsonDecode(response.body)['message'];
     }
   } catch (e) {
-    throw Exception(e.toString());
+    rethrow;
   }
 }
 
 // get a list of past appointments
 Future<List<Appointment>> getPastAppointments() async {
   final authToken = await storage.read(key: 'access');
-  Uri url =
-      Uri.parse(APIEndpoints.baseUrl + APIEndpoints.viewPastAppointments);
+  Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.viewPastAppointments);
   try {
     final response = await http.get(
       url,
@@ -310,10 +307,10 @@ Future<List<Appointment>> getPastAppointments() async {
       return List<Appointment>.from(
           jsonList.map((model) => Appointment.fromJson(model)));
     } else {
-      throw Exception(response.body);
+      throw jsonDecode(response.body)['message'];
     }
   } catch (e) {
-    throw Exception(e.toString());
+    rethrow;
   }
 }
 
@@ -339,14 +336,14 @@ Future<Appointment> bookAppointment(Appointment appointment) async {
     if (response.statusCode == 201) {
       return Appointment.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception(response.body);
+      throw jsonDecode(response.body)['message'];
     }
   } catch (e) {
-    throw Exception(e.toString());
+    rethrow;
   }
 }
 
-// TODO: Implement reschedule book appointment
+// TODO: Implement reschedule book appointment not working
 // reschedule an appointment
 Future<Appointment> rescheduleAppointment(
     Appointment appointment, int id) async {
@@ -354,7 +351,7 @@ Future<Appointment> rescheduleAppointment(
   Uri url = Uri.parse(
       '${APIEndpoints.baseUrl}${APIEndpoints.rescheduleAppointment}$id/');
   try {
-    final response = await http.post(
+    final response = await http.put(
       url,
       headers: <String, String>{
         'Authorization': 'Bearer $authToken',
@@ -371,10 +368,10 @@ Future<Appointment> rescheduleAppointment(
     if (response.statusCode == 201) {
       return Appointment.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception(response.body);
+      throw jsonDecode(response.body)['message'];
     }
   } catch (e) {
-    throw Exception(e.toString());
+    rethrow;
   }
 }
 
@@ -395,9 +392,60 @@ Future<Appointment> cancelAppointment(int id) async {
     if (response.statusCode == 200) {
       return Appointment.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception(response.body);
+      throw jsonDecode(response.body)['message'];
     }
   } catch (e) {
-    throw Exception(e.toString());
+    rethrow;
+  }
+}
+
+// review doctor
+Future<Review> reviewDoctor(Review review) async {
+  final authToken = await storage.read(key: 'access');
+  Uri url = Uri.parse(APIEndpoints.baseUrl + APIEndpoints.reviewDoctor);
+  try {
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'hcw': review.doctor,
+        'rating': review.rating,
+        'review': review.review,
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      return Review.fromJson(jsonDecode(response.body));
+    } else {
+      throw jsonDecode(response.body)['message'];
+    }
+  } catch (e) {
+    rethrow;
+  }
+}
+
+Future<int> getDoctorReviews(int id) async {
+  final authToken = await storage.read(key: 'access');
+  Uri url = Uri.parse(
+      '${APIEndpoints.baseUrl}${APIEndpoints.listReviewForDoctor}$id/');
+  try {
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Authorization': 'Bearer $authToken',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body)['num_reviews'];
+    } else {
+      throw jsonDecode(response.body)['message'];
+    }
+  } catch (e) {
+    rethrow;
   }
 }

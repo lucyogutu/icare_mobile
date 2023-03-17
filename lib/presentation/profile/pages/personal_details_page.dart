@@ -9,6 +9,7 @@ import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/presentation/core/icare_text_form_field.dart';
 import 'package:icare_mobile/application/core/routes.dart';
+import 'package:icare_mobile/presentation/core/utils.dart';
 
 import '../../../domain/entities/user.dart';
 
@@ -51,6 +52,9 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
+                }
+                if (snapshot.hasError) {
+                  errorAlert(context);
                 }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

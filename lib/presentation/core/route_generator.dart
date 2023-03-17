@@ -68,6 +68,8 @@ class GenerateRoute {
             doctorId: bookArgs['doctorId']! as int,
             doctorFirstName: bookArgs['doctorFirstName']!,
             doctorLastName: bookArgs['doctorLastName']!,
+            appointmentDate: bookArgs['appointmentDate']!,
+            appointmentId: bookArgs['appointmentId']!,
           ),
         );
 

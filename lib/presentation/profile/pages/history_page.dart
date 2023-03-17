@@ -17,6 +17,7 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage> {
   Future<List<Appointment>>? _appointments;
+  
 
   @override
   void initState() {
@@ -80,6 +81,7 @@ class _HistoryPageState extends State<HistoryPage> {
                           date: appointment.date!,
                           time: DateTime.parse(
                               '${appointment.date!} ${appointment.startTime!}'),
+                          doctorId: doctor.id!,
                           doctorFirstName: doctor.firstName!,
                           doctorLastName: doctor.lastName!,
                           buttonText: reviewString,

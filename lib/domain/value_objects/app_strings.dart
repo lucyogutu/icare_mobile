@@ -102,6 +102,7 @@ const String timeString = 'Time';
 const String dateString = 'Date';
 const String clinicString = 'Clinic';
 const String reviewString = 'Review';
+const String ratingString = 'Rating';
 
 const String appAboutString =
     'i~Care is the best online doctor appointment app scheduler for your health needs';

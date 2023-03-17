@@ -5,6 +5,7 @@ import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
+import 'package:icare_mobile/presentation/core/icare_text_button.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -176,7 +177,7 @@ class _BookPageState extends State<BookPage> {
         width: double.infinity,
         margin: const EdgeInsets.symmetric(horizontal: 16),
         child: FloatingActionButton.extended(
-          onPressed: () {
+          onPressed: () async {
             // showAlertDialog(
             //   context: context,
             //   title: 'Book',
@@ -206,26 +207,69 @@ class _BookPageState extends State<BookPage> {
               startTime: startTime,
               endTime: endTime,
             );
-            if (_bookAppointment == null) {
-              _bookAppointment = bookAppointment(appointment);
-            } else {
-              FutureBuilder(
-                future: _bookAppointment,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return const SnackBar(
-                      content: Text('Appointment booked successfully'),
+            try {
+              final user = await bookAppointment(appointment);
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Success'),
+                      content: const Text('Appointment booked Successfully'),
+                      actions: [
+                        ICareTextButton(
+                          onPressed: () {
+                            _timeSelected = false;
+                            Navigator.of(context).pop();
+                          },
+                          text: 'OK',
+                          style: boldSize14Text(AppColors.primaryColor),
+                        ),
+                      ],
                     );
-                  } else if (snapshot.hasError) {
-                    return const Text('Error Occurred');
-                  }
-
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  });
+              setState(() {
+                _bookAppointment = Future.value(user);
+              });
+            } catch (error) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Something went wrong'),
+                    content: Text(error.toString()),
+                    actions: [
+                      ICareTextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        text: 'OK',
+                        style: boldSize14Text(AppColors.primaryColor),
+                      ),
+                    ],
                   );
                 },
               );
             }
+            // if (_bookAppointment == null) {
+            //   _bookAppointment = bookAppointment(appointment);
+            // } else {
+            //   FutureBuilder(
+            //     future: _bookAppointment,
+            //     builder: (context, snapshot) {
+            //       if (snapshot.hasData) {
+            //         return const SnackBar(
+            //           content: Text('Appointment booked successfully'),
+            //         );
+            //       } else if (snapshot.hasError) {
+            //         return const Text('Error Occurred');
+            //       }
+
+            //       return const Center(
+            //         child: CircularProgressIndicator(),
+            //       );
+            //     },
+            //   );
+            // }
           },
           backgroundColor: AppColors.primaryColor,
           foregroundColor: AppColors.whiteColor,

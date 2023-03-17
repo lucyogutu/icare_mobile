@@ -5,6 +5,7 @@ import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
+import 'package:icare_mobile/presentation/core/utils.dart';
 import 'package:icare_mobile/presentation/core/zero_list_state_widget.dart';
 import 'package:icare_mobile/presentation/profile/widgets/history_item_widget.dart';
 
@@ -50,6 +51,9 @@ class _PastAppointmentsPageState extends State<PastAppointmentsPage> {
                       child: CircularProgressIndicator(),
                     );
                   }
+                  if (snapshot.hasError) {
+                    errorAlert(context);
+                  }
                   if (snapshot.data!.isEmpty) {
                     return const ZeroListStateWidget(
                       text: 'No past appointments',
@@ -71,12 +75,16 @@ class _PastAppointmentsPageState extends State<PastAppointmentsPage> {
                               child: CircularProgressIndicator(),
                             );
                           }
+                          if (snapshot.hasError) {
+                            errorAlert(context);
+                          }
                           Doctor doctor = snapshot.data!;
 
                           return HistoryItemWidget(
                             date: appointment.date!,
                             time: DateTime.parse(
                                 '${appointment.date!} ${appointment.startTime!}'),
+                            doctorId: doctor.id!,
                             doctorFirstName: doctor.firstName!,
                             doctorLastName: doctor.lastName!,
                             buttonText: reviewString,

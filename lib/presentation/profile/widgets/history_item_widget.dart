@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
+import 'package:icare_mobile/domain/entities/review.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
+import 'package:icare_mobile/presentation/core/icare_text_button.dart';
 import 'package:icare_mobile/presentation/core/utils.dart';
 import 'package:intl/intl.dart';
 
-class HistoryItemWidget extends StatelessWidget {
+class HistoryItemWidget extends StatefulWidget {
   const HistoryItemWidget({
     super.key,
     required this.date,
     required this.time,
+    required this.doctorId,
     required this.doctorFirstName,
     required this.doctorLastName,
     required this.buttonText,
@@ -20,11 +25,20 @@ class HistoryItemWidget extends StatelessWidget {
 
   final String date;
   final DateTime time;
+  final int doctorId;
   final String doctorFirstName;
   final String doctorLastName;
   final String buttonText;
   final String clinic;
 
+  @override
+  State<HistoryItemWidget> createState() => _HistoryItemWidgetState();
+}
+
+class _HistoryItemWidgetState extends State<HistoryItemWidget> {
+  double rating = 0;
+  final TextEditingController _review = TextEditingController();
+  Future<Review>? _reviewDoctor;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -65,15 +79,15 @@ class HistoryItemWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      date,
+                      widget.date,
                       style: normalSize16Text(AppColors.blackColor),
                     ),
                     Text(
-                      DateFormat.jm().format(time),
+                      DateFormat.jm().format(widget.time),
                       style: normalSize16Text(AppColors.blackColor),
                     ),
                     Text(
-                      '$doctorFirstName $doctorLastName',
+                      '${widget.doctorFirstName} ${widget.doctorLastName}',
                       style: normalSize16Text(AppColors.blackColor),
                     ),
                   ],
@@ -90,16 +104,92 @@ class HistoryItemWidget extends StatelessWidget {
                         ),
                         verySmallVerticalSizedBox,
                         Text(
-                          clinic,
+                          widget.clinic,
                           style: normalSize16Text(AppColors.blackColor),
                         ),
                       ],
                     ),
                     SizedBox(
                       child: ICareElevatedButton(
-                        text: buttonText,
+                        text: widget.buttonText,
                         onPressed: () {
-                          showReviewBottomSheet(context, '$doctorFirstName $doctorLastName');
+                          showReviewBottomSheet(
+                              context: context,
+                              name:
+                                  '${widget.doctorFirstName} ${widget.doctorLastName}',
+                              Review: RatingBar.builder(
+                                minRating: 1,
+                                maxRating: 5,
+                                itemSize: 20,
+                                itemBuilder: (context, _) {
+                                  return const Icon(
+                                    Icons.star,
+                                    color: AppColors.primaryColor,
+                                  );
+                                },
+                                unratedColor: AppColors.hintTextColor,
+                                updateOnDrag: true,
+                                onRatingUpdate: (rating) {
+                                  setState(() {
+                                    this.rating = rating;
+                                  });
+                                },
+                              ),
+                              review: _review,
+                              onPressed: () async {
+                                Review reviews = Review(
+                                  doctor: widget.doctorId,
+                                  rating: rating.toString(),
+                                  review: _review.text,
+                                );
+                                try {
+                                  final review = await reviewDoctor(reviews);
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Success'),
+                                          content: const Text('Review sent'),
+                                          actions: [
+                                            ICareTextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              text: 'OK',
+                                              style: boldSize14Text(
+                                                  AppColors.primaryColor),
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                  setState(() {
+                                    _reviewDoctor = Future.value(review);
+                                    _review.clear();
+                                    Navigator.of(context).pop();
+                                  });
+                                } catch (error) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title:
+                                            const Text('Something went wrong'),
+                                        content: Text(error.toString()),
+                                        actions: [
+                                          ICareTextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            text: 'OK',
+                                            style: boldSize14Text(
+                                                AppColors.primaryColor),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                              });
                         },
                       ),
                     ),

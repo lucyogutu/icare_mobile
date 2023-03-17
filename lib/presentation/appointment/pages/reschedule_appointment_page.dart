@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
-import 'package:icare_mobile/presentation/core/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -14,21 +14,26 @@ class RescheduleAppointmentPage extends StatefulWidget {
   const RescheduleAppointmentPage({
     super.key,
     required this.doctorId,
+    required this.appointmentId,
     required this.doctorFirstName,
     required this.doctorLastName,
+    required this.appointmentDate,
   });
 
   final int doctorId;
+  final int appointmentId;
   final String doctorFirstName;
   final String doctorLastName;
+  final DateTime appointmentDate;
 
   @override
-  State<RescheduleAppointmentPage> createState() => _RescheduleAppointmentPageState();
+  State<RescheduleAppointmentPage> createState() =>
+      _RescheduleAppointmentPageState();
 }
 
 class _RescheduleAppointmentPageState extends State<RescheduleAppointmentPage> {
   CalendarFormat _format = CalendarFormat.twoWeeks;
-  DateTime _focusDay = DateTime.now();
+  DateTime? _focusDay;
   DateTime _currentDay = DateTime.now();
 
   int? _currentIndex;
@@ -36,7 +41,13 @@ class _RescheduleAppointmentPageState extends State<RescheduleAppointmentPage> {
   bool _dateSelected = false;
   bool _timeSelected = false;
 
-  Future<Appointment>? _bookAppointment;
+  Future<Appointment>? _rescheduleAppointment;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _focusDay = widget.appointmentDate;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +57,16 @@ class _RescheduleAppointmentPageState extends State<RescheduleAppointmentPage> {
     Duration step = const Duration(minutes: 60);
     List<String> timeSlots = [];
 
-    bool isToday = _focusDay.year == DateTime.now().year &&
-        _focusDay.month == DateTime.now().month &&
-        _focusDay.day == DateTime.now().day;
+    bool isToday = _focusDay?.year == DateTime.now().year &&
+        _focusDay?.month == DateTime.now().month &&
+        _focusDay?.day == DateTime.now().day;
 
     if (isToday) {
       timeSlots.clear();
-      startTime = DateTime(_focusDay.year, _focusDay.month, _focusDay.day,
+      startTime = DateTime(_focusDay!.year, _focusDay!.month, _focusDay!.day,
           DateTime.now().hour, 0, 0);
       endTime =
-          DateTime(_focusDay.year, _focusDay.month, _focusDay.day, 23, 0, 0);
+          DateTime(_focusDay!.year, _focusDay!.month, _focusDay!.day, 23, 0, 0);
       while (startTime.isBefore(endTime)) {
         DateTime timeIncrement = startTime.add(step);
         timeSlots.add(DateFormat.jm().format(timeIncrement));
@@ -64,9 +75,9 @@ class _RescheduleAppointmentPageState extends State<RescheduleAppointmentPage> {
     } else if (!isToday) {
       timeSlots.clear();
       startTime =
-          DateTime(_focusDay.year, _focusDay.month, _focusDay.day, 6, 0, 0);
+          DateTime(_focusDay!.year, _focusDay!.month, _focusDay!.day, 6, 0, 0);
       endTime =
-          DateTime(_focusDay.year, _focusDay.month, _focusDay.day, 23, 0, 0);
+          DateTime(_focusDay!.year, _focusDay!.month, _focusDay!.day, 23, 0, 0);
       while (startTime.isBefore(endTime)) {
         DateTime timeIncrement = startTime.add(step);
         timeSlots.add(DateFormat.jm().format(timeIncrement));
@@ -148,7 +159,9 @@ class _RescheduleAppointmentPageState extends State<RescheduleAppointmentPage> {
                           timeSlots[index].toString(),
                           // '${index + 7}:00 ${index + 7 > 11 ? "PM" : "AM"}',
                           style: boldSize14Text(
-                            _currentIndex == index ? AppColors.whiteColor : null,
+                            _currentIndex == index
+                                ? AppColors.whiteColor
+                                : null,
                           ),
                         ),
                       ),
@@ -175,55 +188,56 @@ class _RescheduleAppointmentPageState extends State<RescheduleAppointmentPage> {
         margin: const EdgeInsets.symmetric(horizontal: 16),
         child: FloatingActionButton.extended(
           onPressed: () {
-            showAlertDialog(
-              context: context,
-              title: 'Book',
-              content:
-                  '${DateFormat.yMd().format(_focusDay)} ${timeSlots[_currentIndex!].toString()}',
-              yesButton: () {},
-              buttonText: "Back",
+            // showAlertDialog(
+            //   context: context,
+            //   title: 'Book',
+            //   content:
+            //       '${DateFormat.yMd().format(_focusDay!)} ${timeSlots[_currentIndex!].toString()}',
+            //   yesButton: () {},
+            //   buttonText: "Back",
+            // );
+
+            DateTime startTimeJm =
+                DateFormat.jm().parse(timeSlots[_currentIndex!]);
+
+            String startTime = DateFormat.Hms().format(startTimeJm);
+
+            DateTime endTimeDate = DateTime.parse(
+                    '${DateFormat('yyyy-MM-dd').format(_focusDay!)} $startTime')
+                .add(
+              const Duration(
+                minutes: 60,
+              ),
             );
+            String endTime = DateFormat.Hms().format(endTimeDate);
 
-            // DateTime startTimeJm =
-            //     DateFormat.jm().parse(timeSlots[_currentIndex!]);
+            Appointment appointment = Appointment(
+              doctor: widget.doctorId,
+              date: DateFormat('yyyy-MM-dd').format(_focusDay!),
+              startTime: startTime,
+              endTime: endTime,
+            );
+            if (_rescheduleAppointment == null) {
+              _rescheduleAppointment =
+                  rescheduleAppointment(appointment, widget.appointmentId);
+            } else {
+              FutureBuilder(
+                future: _rescheduleAppointment,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return const SnackBar(
+                      content: Text('Appointment rescheduled'),
+                    );
+                  } else if (snapshot.hasError) {
+                    return const Text('Error Occurred');
+                  }
 
-            // String startTime = DateFormat.Hms().format(startTimeJm);
-
-            // DateTime endTimeDate = DateTime.parse(
-            //         '${DateFormat('yyyy-MM-dd').format(_focusDay)} $startTime')
-            //     .add(
-            //   const Duration(
-            //     minutes: 60,
-            //   ),
-            // );
-            // String endTime = DateFormat.Hms().format(endTimeDate);
-
-            // Appointment appointment = Appointment(
-            //   doctor: widget.doctorId,
-            //   date: DateFormat('yyyy-MM-dd').format(_focusDay),
-            //   startTime: startTime,
-            //   endTime: endTime,
-            // );
-            // if (_bookAppointment == null) {
-            //   _bookAppointment = bookAppointment(appointment);
-            // } else {
-            //   FutureBuilder(
-            //     future: _bookAppointment,
-            //     builder: (context, snapshot) {
-            //       if (snapshot.hasData) {
-            //         return const SnackBar(
-            //           content: Text('Appointment booked successfully'),
-            //         );
-            //       } else if (snapshot.hasError) {
-            //         return const Text('Error Occurred');
-            //       }
-
-            //       return const Center(
-            //         child: CircularProgressIndicator(),
-            //       );
-            //     },
-            //   );
-            // }
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              );
+            }
           },
           backgroundColor: AppColors.primaryColor,
           foregroundColor: AppColors.whiteColor,
@@ -242,11 +256,11 @@ class _RescheduleAppointmentPageState extends State<RescheduleAppointmentPage> {
 
   TableCalendar<dynamic> tableCalender() {
     return TableCalendar(
-      focusedDay: _focusDay,
+      focusedDay: _focusDay!,
       firstDay: DateTime.now(),
       lastDay: DateTime(2024, 12, 31),
       calendarFormat: _format,
-      currentDay: _currentDay,
+      currentDay: _focusDay!,
       rowHeight: 48,
       calendarStyle: const CalendarStyle(
         todayDecoration: BoxDecoration(

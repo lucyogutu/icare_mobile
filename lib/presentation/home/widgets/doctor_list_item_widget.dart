@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
+import 'package:icare_mobile/domain/entities/review.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/application/core/routes.dart';
+import 'package:icare_mobile/presentation/core/utils.dart';
 
-class DoctorListItemWidget extends StatelessWidget {
+class DoctorListItemWidget extends StatefulWidget {
   const DoctorListItemWidget({
     super.key,
     required this.id,
@@ -32,17 +35,30 @@ class DoctorListItemWidget extends StatelessWidget {
   final VoidCallback? onButtonPressed;
 
   @override
+  State<DoctorListItemWidget> createState() => _DoctorListItemWidgetState();
+}
+
+class _DoctorListItemWidgetState extends State<DoctorListItemWidget> {
+  Future<int>? _getReviewsForDoctor;
+
+  @override
+  void initState() {
+    super.initState();
+    _getReviewsForDoctor = getDoctorReviews(widget.id);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         InkWell(
           onTap: () => Navigator.of(context)
               .pushNamed(AppRoutes.doctorDetail, arguments: {
-            'id': id,
-            'doctorFirstName': doctorFirstName,
-            'doctorLastName': doctorLastName,
-            'doctorProfession': doctorProfession,
-            'doctorClinic': doctorClinic,
+            'id': widget.id,
+            'doctorFirstName': widget.doctorFirstName,
+            'doctorLastName': widget.doctorLastName,
+            'doctorProfession': widget.doctorProfession,
+            'doctorClinic': widget.doctorClinic,
           }),
           splashColor: AppColors.primaryColor,
           child: Container(
@@ -95,11 +111,11 @@ class DoctorListItemWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '$doctorFirstName $doctorLastName',
+                                '${widget.doctorFirstName} ${widget.doctorLastName}',
                                 style: boldSize14Text(AppColors.blackColor),
                               ),
                               IconButton(
-                                onPressed: onIconPressed,
+                                onPressed: widget.onIconPressed,
                                 icon: const Icon(
                                   Icons.favorite_outline,
                                   color: AppColors.primaryColor,
@@ -109,12 +125,12 @@ class DoctorListItemWidget extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            doctorProfession,
+                            widget.doctorProfession,
                             style: boldSize12Text(AppColors.blackColor),
                           ),
                           verySmallVerticalSizedBox,
                           Text(
-                            doctorClinic,
+                            widget.doctorClinic,
                             style: normalSize12Text(AppColors.greyTextColor),
                           ),
                           Row(
@@ -127,14 +143,24 @@ class DoctorListItemWidget extends StatelessWidget {
                                     size: 15.0,
                                   ),
                                   verySmallHorizontalSizedBox,
-                                  Text('$rating'),
+                                  Text('${widget.rating}'),
                                 ],
                               ),
-                              Text(
-                                '$reviews reviews',
-                                style:
-                                    normalSize12Text(AppColors.greyTextColor),
-                              ),
+                              FutureBuilder(
+                                  future: _getReviewsForDoctor,
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return const CircularProgressIndicator();
+                                    }
+                                    if (snapshot.hasError) {
+                                      errorAlert(context);
+                                    }
+                                    return Text(
+                                      '${snapshot.data} reviews',
+                                      style: normalSize12Text(
+                                          AppColors.greyTextColor),
+                                    );
+                                  }),
                               SizedBox(
                                 height: 30,
                                 width: 50,
@@ -146,9 +172,10 @@ class DoctorListItemWidget extends StatelessWidget {
                                     Navigator.of(context).pushNamed(
                                       AppRoutes.bookAppointment,
                                       arguments: {
-                                        'doctorId': id,
-                                        'doctorFirstName': doctorFirstName,
-                                        'doctorLastName': doctorLastName,
+                                        'doctorId': widget.id,
+                                        'doctorFirstName':
+                                            widget.doctorFirstName,
+                                        'doctorLastName': widget.doctorLastName,
                                       },
                                     );
                                   },

@@ -6,6 +6,7 @@ import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/appointment/widgets/cancel_appointment_list_item.dart';
+import 'package:icare_mobile/presentation/core/utils.dart';
 import 'package:icare_mobile/presentation/core/zero_list_state_widget.dart';
 
 class CancelAppointmentsPage extends StatefulWidget {
@@ -51,6 +52,9 @@ class _CancelAppointmentsPageState extends State<CancelAppointmentsPage> {
                       child: CircularProgressIndicator(),
                     );
                   }
+                  if (snapshot.hasError) {
+                    errorAlert(context);
+                  }
                   if (snapshot.data!.isEmpty) {
                     return const ZeroListStateWidget(
                       text: 'No canceled appointments',
@@ -71,6 +75,9 @@ class _CancelAppointmentsPageState extends State<CancelAppointmentsPage> {
                             return const Center(
                               child: CircularProgressIndicator(),
                             );
+                          }
+                          if (snapshot.hasError) {
+                            errorAlert(context);
                           }
                           Doctor doctor = snapshot.data!;
 
