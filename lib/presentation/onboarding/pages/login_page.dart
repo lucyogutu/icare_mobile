@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icare_mobile/application/api/api_services.dart';
+import 'package:icare_mobile/application/api/auth_service.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
@@ -212,26 +213,26 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 smallVerticalSizedBox,
-                Text(
-                  orString,
-                  textAlign: TextAlign.center,
-                  style: normalSize14Text(AppColors.greyTextColor),
-                ),
-                smallVerticalSizedBox,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      icon: SvgPicture.asset(googleIconSvg),
-                      onPressed: () {},
-                    ),
-                    largeHorizontalSizedBox,
-                    IconButton(
-                      icon: SvgPicture.asset(facebookIconSvg),
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
+                // Text(
+                //   orString,
+                //   textAlign: TextAlign.center,
+                //   style: normalSize14Text(AppColors.greyTextColor),
+                // ),
+                // smallVerticalSizedBox,
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     IconButton(
+                //       icon: SvgPicture.asset(googleIconSvg),
+                //       onPressed: () => AuthService().signInWithgoogle(),
+                //     ),
+                //     largeHorizontalSizedBox,
+                //     IconButton(
+                //       icon: SvgPicture.asset(facebookIconSvg),
+                //       onPressed: () {},
+                //     ),
+                //   ],
+                // ),
                 smallVerticalSizedBox,
                 RichText(
                   textAlign: TextAlign.center,
