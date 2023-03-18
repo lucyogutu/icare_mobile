@@ -102,7 +102,6 @@ class _RegisterPageState extends State<RegisterPage> {
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // _registerUser = registerUser(_user);
       try {
         final user = await registerUser(_user);
         showDialog(
@@ -275,7 +274,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: ICareElevatedButton(
                   onPressed: () {
                     _submitForm();
-                    // widget.signIn;
+                    widget.signIn;
                   },
                   text: signUpString,
                 ),
@@ -305,61 +304,6 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
       ],
-    );
-  }
-
-  FutureBuilder<User> buildFutureBuilder() {
-    return FutureBuilder<User>(
-      future: _registerUser,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Success Message'),
-                    content: const Text(successUserRegistered),
-                    actions: [
-                      ICareTextButton(
-                        onPressed: () {
-                          setState(() {
-                            _registerUser = null;
-                          });
-                          Navigator.of(context).pop();
-                        },
-                        text: 'OK',
-                        style: boldSize14Text(AppColors.primaryColor),
-                      ),
-                    ],
-                  );
-                });
-          });
-        } else if (snapshot.hasError) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text(errorString),
-                    content: const Text('Error Occurred'),
-                    actions: [
-                      ICareTextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        text: 'OK',
-                        style: boldSize14Text(AppColors.primaryColor),
-                      ),
-                    ],
-                  );
-                });
-          });
-        }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
     );
   }
 

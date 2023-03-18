@@ -469,7 +469,6 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            // _editProfileDetails = editUserProfile(_user);
                             try {
                               final user = await editUserProfile(_user);
                               showDialog(

@@ -91,25 +91,26 @@ class _HomePageState extends State<HomePage> {
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: FutureBuilder(
-                    future: _getUser,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      if (snapshot.hasError) {
-                        errorAlert(context);
-                      }
-                      String fullName =
-                          "${snapshot.data?.firstName!} ${snapshot.data?.lastName!}";
-                      String initials =
-                          fullName.split(' ').map((word) => word[0]).join('');
-                      return Text(
-                        initials,
-                        style: heavySize14Text(AppColors.primaryColor),
+                  future: _getUser,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
-                    }),
+                    }
+                    if (snapshot.hasError) {
+                      errorAlert(context);
+                    }
+                    String fullName =
+                        "${snapshot.data?.firstName!} ${snapshot.data?.lastName!}";
+                    String initials =
+                        fullName.split(' ').map((word) => word[0]).join('');
+                    return Text(
+                      initials,
+                      style: heavySize14Text(AppColors.primaryColor),
+                    );
+                  },
+                ),
               ),
             ),
           ),

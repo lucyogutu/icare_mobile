@@ -4,7 +4,6 @@ import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
-import 'package:icare_mobile/domain/entities/review.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
@@ -139,8 +138,9 @@ class _DoctorListItemWidgetState extends State<DoctorListItemWidget> {
                               Row(
                                 children: [
                                   const Icon(
-                                    Icons.star_border,
+                                    Icons.star,
                                     size: 15.0,
+                                    color: AppColors.primaryColor,
                                   ),
                                   verySmallHorizontalSizedBox,
                                   Text('${widget.rating}'),
@@ -149,9 +149,6 @@ class _DoctorListItemWidgetState extends State<DoctorListItemWidget> {
                               FutureBuilder(
                                   future: _getReviewsForDoctor,
                                   builder: (context, snapshot) {
-                                    if (!snapshot.hasData) {
-                                      return const CircularProgressIndicator();
-                                    }
                                     if (snapshot.hasError) {
                                       errorAlert(context);
                                     }

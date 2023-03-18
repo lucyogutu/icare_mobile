@@ -206,48 +206,6 @@ class _LoginPageState extends State<LoginPage> {
                                 );
                               });
                         }
-
-                        // _loginUser = loginUser(_user).then((user) {
-                        // WidgetsBinding.instance.addPostFrameCallback((_) {
-                        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        //     content: const Text('Login Successful'),
-                        //     backgroundColor: (Colors.black54),
-                        //     duration: const Duration(seconds: 10),
-                        //     action: SnackBarAction(
-                        //       label: 'Dismiss',
-                        //       onPressed: () {
-                        //         Navigator.of(context).pushReplacementNamed(
-                        //             AppRoutes.bottomNav);
-                        //         ScaffoldMessenger.of(context)
-                        //             .hideCurrentSnackBar();
-                        //       },
-                        //     ),
-                        //   ));
-                        // });
-                        //   return user;
-                        // }).catchError((error) {
-                          // WidgetsBinding.instance
-                          //     .addPostFrameCallback((timeStamp) {
-                          //   showDialog(
-                          //       context: context,
-                          //       builder: (BuildContext context) {
-                          //         return AlertDialog(
-                          //           title: const Text(errorString),
-                          //           content: const Text(' Error Occurred'),
-                          //           actions: [
-                          //             ICareTextButton(
-                          //               onPressed: () {
-                          //                 Navigator.of(context).pop();
-                          //               },
-                          //               text: 'OK',
-                          //               style: boldSize14Text(
-                          //                   AppColors.primaryColor),
-                          //             ),
-                          //           ],
-                          //         );
-                          //       });
-                          // });
-                        // });
                       }
                     },
                     text: signInString,
@@ -301,25 +259,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-    );
-  }
-
-  FutureBuilder<User> buildFutureBuilder() {
-    return FutureBuilder<User>(
-      future: _loginUser,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return const SnackBar(
-            content: Text('Login successfull'),
-          );
-        } else if (snapshot.hasError) {
-          return const Text('Error Occurred');
-        }
-
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
     );
   }
 }

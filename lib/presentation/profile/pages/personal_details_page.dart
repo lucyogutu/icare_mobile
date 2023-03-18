@@ -4,14 +4,13 @@ import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
+import 'package:icare_mobile/domain/entities/user.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/presentation/core/icare_text_form_field.dart';
 import 'package:icare_mobile/application/core/routes.dart';
 import 'package:icare_mobile/presentation/core/utils.dart';
-
-import '../../../domain/entities/user.dart';
 
 class PersonalDetailsPage extends StatefulWidget {
   const PersonalDetailsPage({super.key});

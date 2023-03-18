@@ -50,112 +50,115 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                LayoutBuilder(
-                  builder: (context, constraints) {
-                    return FutureBuilder(
-                      future: _getProfileDetails,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (snapshot.hasError) {
-                          errorAlert(context);
-                        }
-                        return InkWell(
-                          onTap: () => Navigator.of(context)
-                              .pushNamed(AppRoutes.personalDetails),
-                          splashColor: AppColors.primaryColor,
-                          child: Container(
-                            height: 150,
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10.0),
+                SizedBox(
+                  height: 150,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return FutureBuilder(
+                        future: _getProfileDetails,
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (snapshot.hasError) {
+                            errorAlert(context);
+                          }
+                          return InkWell(
+                            onTap: () => Navigator.of(context)
+                                .pushNamed(AppRoutes.personalDetails),
+                            splashColor: AppColors.primaryColor,
+                            child: Container(
+                              height: 150,
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10.0),
+                                ),
+                                color: AppColors.primaryColorLight,
                               ),
-                              color: AppColors.primaryColorLight,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: constraints.maxWidth * 0.3,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      color: AppColors.primaryColor
-                                          .withOpacity(0.25),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: FittedBox(
-                                        child: SvgPicture.asset(userSvg),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: constraints.maxWidth * 0.3,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(100),
+                                        color: AppColors.primaryColor
+                                            .withOpacity(0.25),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: FittedBox(
+                                          child: SvgPicture.asset(userSvg),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  smallHorizontalSizedBox,
-                                  SizedBox(
-                                    width: constraints.maxWidth * 0.48,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '${snapshot.data!.firstName} ${snapshot.data!.lastName}',
-                                          style: boldSize18Text(
-                                              AppColors.blackColor),
-                                        ),
-                                        smallVerticalSizedBox,
-                                        Text(
-                                          snapshot.data!.email!,
-                                          style: boldSize16Text(
-                                              AppColors.lightBlackTextColor),
-                                        ),
-                                        smallVerticalSizedBox,
-                                        Text(
-                                          '0${snapshot.data!.phoneNumber}',
-                                          style: boldSize14Text(
-                                              AppColors.greyTextColor),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: InkWell(
-                                      onTap: () =>
-                                          Navigator.of(context).pushNamed(
-                                        AppRoutes.editPersonalDetails,
-                                        arguments: _getProfileDetails,
+                                    smallHorizontalSizedBox,
+                                    SizedBox(
+                                      width: constraints.maxWidth * 0.48,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${snapshot.data!.firstName} ${snapshot.data!.lastName}',
+                                            style: boldSize18Text(
+                                                AppColors.blackColor),
+                                          ),
+                                          smallVerticalSizedBox,
+                                          Text(
+                                            snapshot.data!.email!,
+                                            style: boldSize16Text(
+                                                AppColors.lightBlackTextColor),
+                                          ),
+                                          smallVerticalSizedBox,
+                                          Text(
+                                            '0${snapshot.data!.phoneNumber}',
+                                            style: boldSize14Text(
+                                                AppColors.greyTextColor),
+                                          ),
+                                        ],
                                       ),
-                                      splashColor: AppColors.primaryColor,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          color: AppColors.primaryColor
-                                              .withOpacity(0.25),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: InkWell(
+                                        onTap: () =>
+                                            Navigator.of(context).pushNamed(
+                                          AppRoutes.editPersonalDetails,
+                                          arguments: _getProfileDetails,
                                         ),
-                                        child: const Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Icon(
-                                            Icons.edit_outlined,
-                                            color: AppColors.primaryColor,
+                                        splashColor: AppColors.primaryColor,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            color: AppColors.primaryColor
+                                                .withOpacity(0.25),
+                                          ),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              Icons.edit_outlined,
+                                              color: AppColors.primaryColor,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  )
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    );
-                  },
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
                 verySmallVerticalSizedBox,
                 Divider(
