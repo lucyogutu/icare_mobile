@@ -72,7 +72,7 @@ class _PastAppointmentsPageState extends State<PastAppointmentsPage> {
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
                             return const Center(
-                              child: CircularProgressIndicator(),
+                              child: SizedBox(),
                             );
                           }
                           if (snapshot.hasError) {

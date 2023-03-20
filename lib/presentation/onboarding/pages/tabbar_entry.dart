@@ -56,8 +56,8 @@ class _TabbarEntryPageState extends State<TabbarEntryPage>
               signUp: () => _tabController.index = 1,
             ),
             RegisterPage(
-              signIn: () => _tabController.index = 0,
-            ),
+                signIn: () => _tabController.index = 0,
+              ),
           ],
         ),
       ),

@@ -6,8 +6,7 @@ import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
-import 'package:icare_mobile/application/core/routes.dart';
-import 'package:icare_mobile/presentation/core/utils.dart';
+import 'package:icare_mobile/presentation/core/icare_text_button.dart';
 import 'package:intl/intl.dart';
 
 class AppointmentListItemWidget extends StatefulWidget {
@@ -18,6 +17,7 @@ class AppointmentListItemWidget extends StatefulWidget {
     required this.doctorFirstName,
     required this.doctorLastName,
     required this.doctorProfession,
+    required this.doctorClinic,
     required this.date,
     required this.startTime,
     required this.endTime,
@@ -28,6 +28,7 @@ class AppointmentListItemWidget extends StatefulWidget {
   final String doctorFirstName;
   final String doctorLastName;
   final String doctorProfession;
+  final String doctorClinic;
   final DateTime date;
   final DateTime startTime;
   final DateTime endTime;
@@ -105,37 +106,70 @@ class _AppointmentListItemWidgetState extends State<AppointmentListItemWidget> {
                               ),
                             ],
                           ),
+                          smallVerticalSizedBox,
                           Text(
                             widget.doctorProfession,
-                            style: normalSize14Text(AppColors.blackColor),
+                            style: boldSize14Text(AppColors.blackColor),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              Text(
+                                widget.doctorClinic,
+                                style: boldSize14Text(AppColors.blackColor),
+                              ),
                               SizedBox(
                                 child: ICareElevatedButton(
                                   text: cancelString,
                                   buttonColor: AppColors.errorColor,
                                   borderColor: Colors.transparent,
-                                  onPressed: () {
-                                    if (_cancelAppointment == null) {
-                                      _cancelAppointment =
-                                          cancelAppointment(widget.id);
-                                    } else {
-                                      FutureBuilder(
-                                        future: _cancelAppointment,
-                                        builder: (context, snapshot) {
-                                          if (snapshot.hasData) {
-                                            return SnackBar(
-                                              content: Text(
-                                                  'Appointment with Dr. ${widget.doctorLastName} canceled'),
-                                            );
-                                          } else if (snapshot.hasError) {
-                                            errorAlert(context);
-                                          }
-
-                                          return const Center(
-                                            child: CircularProgressIndicator(),
+                                  onPressed: () async {
+                                    try {
+                                      final appointment =
+                                          await cancelAppointment(widget.id);
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text('Success'),
+                                            content: Text(
+                                                'Appointment with Dr. ${widget.doctorLastName} canceled'),
+                                            actions: [
+                                              ICareTextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                text: 'OK',
+                                                style: boldSize14Text(
+                                                    AppColors.primaryColor),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                      setState(() async {
+                                        await getUpcomingAppointments();
+                                        _cancelAppointment =
+                                            Future.value(appointment);
+                                      });
+                                    } catch (error) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text(
+                                                'Something went wrong'),
+                                            content: Text(error.toString()),
+                                            actions: [
+                                              ICareTextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                text: 'OK',
+                                                style: boldSize14Text(
+                                                    AppColors.primaryColor),
+                                              ),
+                                            ],
                                           );
                                         },
                                       );
@@ -143,22 +177,22 @@ class _AppointmentListItemWidgetState extends State<AppointmentListItemWidget> {
                                   },
                                 ),
                               ),
-                              SizedBox(
-                                child: ICareElevatedButton(
-                                  text: rescheduleString,
-                                  onPressed: () => Navigator.of(context)
-                                      .pushNamed(
-                                          AppRoutes.rescheduleAppointment,
-                                          arguments: {
-                                        'doctorId': widget.doctorId,
-                                        'doctorFirstName':
-                                            widget.doctorFirstName,
-                                        'doctorLastName': widget.doctorLastName,
-                                        'appointmentDate': widget.date,
-                                        'appointmentId': widget.id,
-                                      }),
-                                ),
-                              ),
+                              // SizedBox(
+                              //   child: ICareElevatedButton(
+                              //     text: rescheduleString,
+                              //     onPressed: () => Navigator.of(context)
+                              //         .pushNamed(
+                              //             AppRoutes.rescheduleAppointment,
+                              //             arguments: {
+                              //           'doctorId': widget.doctorId,
+                              //           'doctorFirstName':
+                              //               widget.doctorFirstName,
+                              //           'doctorLastName': widget.doctorLastName,
+                              //           'appointmentDate': widget.date,
+                              //           'appointmentId': widget.id,
+                              //         }),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ],

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:icare_mobile/application/api/api_services.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/user.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
-import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
 import 'package:icare_mobile/presentation/core/icare_text_form_field.dart';
 import 'package:icare_mobile/application/core/routes.dart';
@@ -58,23 +56,23 @@ class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    smallVerticalSizedBox,
-                    Center(
-                      child: Container(
-                        height: 120,
-                        width: 120,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: AppColors.primaryColor.withOpacity(0.25),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: FittedBox(
-                            child: SvgPicture.asset(userSvg),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // smallVerticalSizedBox,
+                    // Center(
+                    //   child: Container(
+                    //     height: 120,
+                    //     width: 120,
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(100),
+                    //       color: AppColors.primaryColor.withOpacity(0.25),
+                    //     ),
+                    //     child: Padding(
+                    //       padding: const EdgeInsets.all(16.0),
+                    //       child: FittedBox(
+                    //         child: SvgPicture.asset(userSvg),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     smallVerticalSizedBox,
                     Text(
                       '${snapshot.data!.firstName} ${snapshot.data!.lastName}',

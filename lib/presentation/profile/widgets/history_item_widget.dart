@@ -114,67 +114,42 @@ class _HistoryItemWidgetState extends State<HistoryItemWidget> {
                         text: widget.buttonText,
                         onPressed: () {
                           showReviewBottomSheet(
-                              context: context,
-                              name:
-                                  '${widget.doctorFirstName} ${widget.doctorLastName}',
-                              Review: RatingBar.builder(
-                                minRating: 1,
-                                maxRating: 5,
-                                itemSize: 20,
-                                itemBuilder: (context, _) {
-                                  return const Icon(
-                                    Icons.star,
-                                    color: AppColors.primaryColor,
-                                  );
-                                },
-                                unratedColor: AppColors.hintTextColor,
-                                updateOnDrag: true,
-                                onRatingUpdate: (rating) {
-                                  setState(() {
-                                    this.rating = rating;
-                                  });
-                                },
-                              ),
-                              review: _review,
-                              onPressed: () async {
-                                Review reviews = Review(
-                                  doctor: widget.doctorId,
-                                  rating: rating.toString(),
-                                  review: _review.text,
+                            context: context,
+                            name:
+                                '${widget.doctorFirstName} ${widget.doctorLastName}',
+                            Review: RatingBar.builder(
+                              minRating: 1,
+                              maxRating: 5,
+                              itemSize: 20,
+                              itemBuilder: (context, _) {
+                                return const Icon(
+                                  Icons.star,
+                                  color: AppColors.primaryColor,
                                 );
-                                try {
-                                  final review = await reviewDoctor(reviews);
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text('Success'),
-                                          content: const Text('Review sent'),
-                                          actions: [
-                                            ICareTextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              text: 'OK',
-                                              style: boldSize14Text(
-                                                  AppColors.primaryColor),
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                  setState(() {
-                                    _reviewDoctor = Future.value(review);
-                                    _review.clear();
-                                    Navigator.of(context).pop();
-                                  });
-                                } catch (error) {
-                                  showDialog(
+                              },
+                              unratedColor: AppColors.hintTextColor,
+                              updateOnDrag: true,
+                              onRatingUpdate: (rating) {
+                                setState(() {
+                                  this.rating = rating;
+                                });
+                              },
+                            ),
+                            review: _review,
+                            onPressed: () async {
+                              Review reviews = Review(
+                                doctor: widget.doctorId,
+                                rating: rating.toString(),
+                                review: _review.text,
+                              );
+                              try {
+                                final review = await reviewDoctor(reviews);
+                                showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title:
-                                            const Text('Something went wrong'),
-                                        content: Text(error.toString()),
+                                        title: const Text('Success'),
+                                        content: const Text('Review sent'),
                                         actions: [
                                           ICareTextButton(
                                             onPressed: () {
@@ -186,10 +161,35 @@ class _HistoryItemWidgetState extends State<HistoryItemWidget> {
                                           ),
                                         ],
                                       );
-                                    },
-                                  );
-                                }
-                              });
+                                    });
+                                setState(() {
+                                  _reviewDoctor = Future.value(review);
+                                  _review.clear();
+                                  Navigator.of(context).pop();
+                                });
+                              } catch (error) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Something went wrong'),
+                                      content: Text(error.toString()),
+                                      actions: [
+                                        ICareTextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          text: 'OK',
+                                          style: boldSize14Text(
+                                              AppColors.primaryColor),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                          );
                         },
                       ),
                     ),

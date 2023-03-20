@@ -1,6 +1,6 @@
 const String doctorAppointmentString = 'Doctor Appointment';
 const String iCareString = 'iCare';
-const String welcomeDescriptionString = 'Welcome to Doctor Appointment';
+const String welcomeDescriptionString = 'Welcome to iCare';
 const String onboardOneString =
     'The best online doctor appointment app for your health and medical needs';
 const String onboardTwoString =

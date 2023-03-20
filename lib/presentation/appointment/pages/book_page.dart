@@ -167,7 +167,7 @@ class _BookPageState extends State<BookPage> {
                 ),
               ),
               SliverToBoxAdapter(
-                child: largeVerticalSizedBox,
+                child: veryLargeVerticalSizedBox,
               ),
             ],
           ),
@@ -210,23 +210,24 @@ class _BookPageState extends State<BookPage> {
             try {
               final user = await bookAppointment(appointment);
               showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Success'),
-                      content: const Text('Appointment booked Successfully'),
-                      actions: [
-                        ICareTextButton(
-                          onPressed: () {
-                            _timeSelected = false;
-                            Navigator.of(context).pop();
-                          },
-                          text: 'OK',
-                          style: boldSize14Text(AppColors.primaryColor),
-                        ),
-                      ],
-                    );
-                  });
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Success'),
+                    content: const Text('Appointment booked Successfully'),
+                    actions: [
+                      ICareTextButton(
+                        onPressed: () {
+                          _timeSelected = false;
+                          Navigator.of(context).pop();
+                        },
+                        text: 'OK',
+                        style: boldSize14Text(AppColors.primaryColor),
+                      ),
+                    ],
+                  );
+                },
+              );
               setState(() {
                 _bookAppointment = Future.value(user);
               });

@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:icare_mobile/application/core/colors.dart';
 import 'package:icare_mobile/application/core/spaces.dart';
 import 'package:icare_mobile/application/core/text_styles.dart';
-import 'package:icare_mobile/domain/value_objects/app_strings.dart';
-import 'package:icare_mobile/presentation/core/icare_elevated_button.dart';
-import 'package:icare_mobile/application/core/routes.dart';
 import 'package:intl/intl.dart';
 
 class CancelAppointmentListItemWidget extends StatelessWidget {
@@ -14,6 +11,7 @@ class CancelAppointmentListItemWidget extends StatelessWidget {
     required this.doctorFirstName,
     required this.doctorLastName,
     required this.doctorProfession,
+    required this.doctorClinic,
     required this.date,
     required this.startTime,
     required this.endTime,
@@ -23,6 +21,7 @@ class CancelAppointmentListItemWidget extends StatelessWidget {
   final String doctorFirstName;
   final String doctorLastName;
   final String doctorProfession;
+  final String doctorClinic;
   final DateTime date;
   final DateTime startTime;
   final DateTime endTime;
@@ -90,24 +89,28 @@ class CancelAppointmentListItemWidget extends StatelessWidget {
                         ),
                         Text(
                           doctorProfession,
+                          style: boldSize14Text(AppColors.blackColor),
+                        ),
+                        Text(
+                          doctorClinic,
                           style: normalSize14Text(AppColors.blackColor),
                         ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ICareElevatedButton(
-                            text: rescheduleString,
-                            onPressed: () => Navigator.of(context).pushNamed(
-                              AppRoutes.rescheduleAppointment,
-                              arguments: {
-                                'doctorId': doctorId,
-                                'doctorFirstName': doctorFirstName,
-                                'doctorLastName': doctorLastName,
-                                'appointmentDate': date,
-                                // 'appointmentId': id,
-                              },
-                            ),
-                          ),
-                        ),
+                        // SizedBox(
+                        //   width: double.infinity,
+                        //   child: ICareElevatedButton(
+                        //     text: rescheduleString,
+                        //     onPressed: () => Navigator.of(context).pushNamed(
+                        //       AppRoutes.rescheduleAppointment,
+                        //       arguments: {
+                        //         'doctorId': doctorId,
+                        //         'doctorFirstName': doctorFirstName,
+                        //         'doctorLastName': doctorLastName,
+                        //         'appointmentDate': date,
+                        //         // 'appointmentId': id,
+                        //       },
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

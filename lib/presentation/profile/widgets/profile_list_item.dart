@@ -19,9 +19,9 @@ class ProfileListItem extends StatelessWidget {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: AppColors.primaryColor.withOpacity(0.25),
-        radius: 30,
+        radius: 20,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0),
           child: FittedBox(
             child: Icon(
               icon,

@@ -5,6 +5,7 @@ import 'package:icare_mobile/application/core/text_styles.dart';
 import 'package:icare_mobile/domain/entities/appointment.dart';
 import 'package:icare_mobile/domain/entities/doctor.dart';
 import 'package:icare_mobile/domain/value_objects/app_strings.dart';
+import 'package:icare_mobile/presentation/core/utils.dart';
 import 'package:icare_mobile/presentation/core/zero_list_state_widget.dart';
 import 'package:icare_mobile/presentation/profile/widgets/history_item_widget.dart';
 
@@ -17,7 +18,6 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage> {
   Future<List<Appointment>>? _appointments;
-  
 
   @override
   void initState() {
@@ -54,6 +54,9 @@ class _HistoryPageState extends State<HistoryPage> {
                     child: CircularProgressIndicator(),
                   );
                 }
+                if (snapshot.hasError) {
+                  errorAlert(context);
+                }
                 if (snapshot.data!.isEmpty) {
                   return const ZeroListStateWidget(
                     text: 'No history',
@@ -72,8 +75,11 @@ class _HistoryPageState extends State<HistoryPage> {
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return const Center(
-                            child: CircularProgressIndicator(),
+                            child: SizedBox(),
                           );
+                        }
+                        if (snapshot.hasError) {
+                          errorAlert(context);
                         }
                         Doctor doctor = snapshot.data!;
 

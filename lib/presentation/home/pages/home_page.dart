@@ -88,29 +88,33 @@ class _HomePageState extends State<HomePage> {
             child: CircleAvatar(
               radius: 25,
               backgroundColor: AppColors.whiteColor,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: FutureBuilder(
-                  future: _getUser,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (snapshot.hasError) {
-                      errorAlert(context);
-                    }
-                    String fullName =
-                        "${snapshot.data?.firstName!} ${snapshot.data?.lastName!}";
-                    String initials =
-                        fullName.split(' ').map((word) => word[0]).join('');
-                    return Text(
-                      initials,
-                      style: heavySize14Text(AppColors.primaryColor),
+              child: FutureBuilder(
+                future: _getUser,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
-                  },
-                ),
+                  }
+                  if (snapshot.hasError) {
+                    errorAlert(context);
+                  }
+                  // String? profilePic =
+                  //     path.basename((snapshot.data?.profileImage?.path).toString());
+                  String fullName =
+                      "${snapshot.data?.firstName!} ${snapshot.data?.lastName!}";
+                  String initials =
+                      fullName.split(' ').map((word) => word[0]).join('');
+                  return 
+                  //(profilePic != null)
+                  //     ? ClipOval(
+                  //         child: Image.file(File(profilePic)),
+                  //       ):
+                      Text(
+                          initials,
+                          style: heavySize14Text(AppColors.primaryColor),
+                        );
+                },
               ),
             ),
           ),
@@ -137,11 +141,11 @@ class _HomePageState extends State<HomePage> {
             },
             icon: const Icon(Icons.search_outlined),
           ),
-          IconButton(
-            onPressed: () =>
-                Navigator.of(context).pushNamed(AppRoutes.notifications),
-            icon: const Icon(Icons.notifications_none_outlined),
-          ),
+          // IconButton(
+          //   onPressed: () =>
+          //       Navigator.of(context).pushNamed(AppRoutes.notifications),
+          //   icon: const Icon(Icons.notifications_none_outlined),
+          // ),
         ],
       ),
       body: SafeArea(

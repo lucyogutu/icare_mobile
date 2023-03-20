@@ -8,6 +8,7 @@ import 'package:icare_mobile/domain/value_objects/app_strings.dart';
 import 'package:icare_mobile/presentation/appointment/widgets/appointment_list_item_widget.dart';
 import 'package:icare_mobile/presentation/core/utils.dart';
 import 'package:icare_mobile/presentation/core/zero_list_state_widget.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class UpcomingAppointmentsPage extends StatefulWidget {
   const UpcomingAppointmentsPage({super.key});
@@ -19,7 +20,9 @@ class UpcomingAppointmentsPage extends StatefulWidget {
 
 class _UpcomingAppointmentsPageState extends State<UpcomingAppointmentsPage> {
   Future<List<Appointment>>? _appointments;
-  // traverse list
+
+  final RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -35,71 +38,80 @@ class _UpcomingAppointmentsPageState extends State<UpcomingAppointmentsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                upcomingAppointmentsString,
-                style: boldSize18Text(AppColors.primaryColor),
-              ),
-              FutureBuilder(
-                future: _appointments,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (snapshot.hasError) {
-                    errorAlert(context);
-                  }
-                  if (snapshot.data!.isEmpty) {
-                    return const ZeroListStateWidget(
-                      text: 'No upcoming appointments',
-                    );
-                  }
-
-                  return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext ctx, int index) {
-                      var appointment = snapshot.data![index];
-
-                      return FutureBuilder(
-                        future: getDoctorById(appointment.doctor!),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          if (snapshot.hasError) {
-                            errorAlert(context);
-                          }
-                          var doctor = snapshot.data!;
-                          return AppointmentListItemWidget(
-                            id: appointment.id!,
-                            doctorId: appointment.doctor!,
-                            doctorFirstName: doctor.firstName!,
-                            doctorLastName: doctor.lastName!,
-                            doctorProfession: doctor.specialization!,
-                            date: DateTime.tryParse(appointment.date!)!,
-                            startTime: DateTime.parse(
-                                '${appointment.date!} ${appointment.startTime!}'),
-                            endTime: DateTime.parse(
-                                '${appointment.date!} ${appointment.endTime!}'),
-                          );
-                        },
+      body: SmartRefresher(
+        controller: refreshController,
+        enablePullDown: true,
+        onRefresh: () async {
+          await getUpcomingAppointments();
+          refreshController.refreshCompleted();
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  upcomingAppointmentsString,
+                  style: boldSize18Text(AppColors.primaryColor),
+                ),
+                FutureBuilder(
+                  future: _appointments,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
-                    },
-                  );
-                },
-              ),
-            ],
+                    }
+                    if (snapshot.hasError) {
+                      errorAlert(context);
+                    }
+                    if (snapshot.data!.isEmpty) {
+                      return const ZeroListStateWidget(
+                        text: 'No upcoming appointments',
+                      );
+                    }
+
+                    return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext ctx, int index) {
+                        var appointment = snapshot.data![index];
+
+                        return FutureBuilder(
+                          future: getDoctorById(appointment.doctor!),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                child: SizedBox(),
+                              );
+                            }
+                            if (snapshot.hasError) {
+                              errorAlert(context);
+                            }
+                            var doctor = snapshot.data!;
+                            return AppointmentListItemWidget(
+                              id: appointment.id!,
+                              doctorId: appointment.doctor!,
+                              doctorFirstName: doctor.firstName!,
+                              doctorLastName: doctor.lastName!,
+                              doctorProfession: doctor.specialization!,
+                              doctorClinic: doctor.clinic!,
+                              date: DateTime.tryParse(appointment.date!)!,
+                              startTime: DateTime.parse(
+                                  '${appointment.date!} ${appointment.startTime!}'),
+                              endTime: DateTime.parse(
+                                  '${appointment.date!} ${appointment.endTime!}'),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -73,7 +73,7 @@ class _CancelAppointmentsPageState extends State<CancelAppointmentsPage> {
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
                             return const Center(
-                              child: CircularProgressIndicator(),
+                              child: SizedBox(),
                             );
                           }
                           if (snapshot.hasError) {
@@ -86,6 +86,7 @@ class _CancelAppointmentsPageState extends State<CancelAppointmentsPage> {
                             doctorFirstName: doctor.firstName!,
                             doctorLastName: doctor.lastName!,
                             doctorProfession: doctor.specialization!,
+                            doctorClinic: doctor.clinic!,
                             date: DateTime.tryParse(appointment.date!)!,
                             startTime: DateTime.parse(
                                 '${appointment.date!} ${appointment.startTime!}'),

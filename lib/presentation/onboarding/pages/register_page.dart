@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -164,28 +166,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _buildColumn() {
     return Column(
       children: [
-        largeVerticalSizedBox,
-        Center(
-          child: Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-              color: AppColors.whiteColor,
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: GestureDetector(
-                child: SvgPicture.asset(
-                  userSvg,
-                  fit: BoxFit.cover,
-                  color: AppColors.primaryColor,
-                ),
-              ),
-            ),
-          ),
-        ),
-        mediumVerticalSizedBox,
+        smallVerticalSizedBox,
         Text(
           registerString,
           style: boldSize25Title(
@@ -582,6 +563,44 @@ class _RegisterPageState extends State<RegisterPage> {
           );
         });
       },
+    );
+  }
+}
+
+class Profile extends StatelessWidget {
+  const Profile({
+    Key? key,
+    required this.image,
+  }) : super(key: key);
+
+  final File? image;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: InkWell(
+        onTap: () {},
+        child: Container(
+          height: 100,
+          width: 100,
+          decoration: BoxDecoration(
+            color: AppColors.whiteColor,
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: (image != null)
+              ? ClipOval(
+                  child: Image.file(image!),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SvgPicture.asset(
+                    userSvg,
+                    fit: BoxFit.cover,
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+        ),
+      ),
     );
   }
 }
