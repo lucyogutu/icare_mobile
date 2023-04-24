@@ -157,7 +157,7 @@ class _DoctorDetailPageState extends State<DoctorDetailPage> {
                                     padding: EdgeInsets.all(10.0),
                                     child: FittedBox(
                                       child: Icon(
-                                        Icons.person,
+                                        Icons.work,
                                         color: AppColors.primaryColor,
                                       ),
                                     ),

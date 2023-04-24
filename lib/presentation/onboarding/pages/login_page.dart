@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -166,6 +167,17 @@ class _LoginPageState extends State<LoginPage> {
                               final user = await loginUser(_user);
                               Navigator.of(context)
                                   .pushReplacementNamed(AppRoutes.bottomNav);
+
+                              // firebase analytics event logging
+                              await FirebaseAnalytics.instance.logEvent(
+                                name: 'User log-in',
+                                parameters: {
+                                  "user":
+                                      "${_user.firstName} ${_user.lastName}",
+                                  "email": _user.email,
+                                },
+                              );
+
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
                                 content: const Text('Login Successful'),
