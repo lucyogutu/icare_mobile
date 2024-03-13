@@ -67,12 +67,12 @@ void errorAlert(BuildContext context) {
 }
 
 // review bottom sheet
-PersistentBottomSheetController<dynamic> showReviewBottomSheet({
+PersistentBottomSheetController showReviewBottomSheet({
   required BuildContext context,
   required String name,
-  required Widget? Review,
+  required Widget? reviewWidget,
   required VoidCallback onPressed,
-  required TextEditingController review,
+  required TextEditingController reviewController,
 }) {
   return showBottomSheet(
     context: context,
@@ -106,12 +106,12 @@ PersistentBottomSheetController<dynamic> showReviewBottomSheet({
                     ),
                   ),
                   mediumHorizontalSizedBox,
-                  Review!,
+                  reviewWidget!,
                 ],
               ),
               smallVerticalSizedBox,
               TextField(
-                controller: review,
+                controller: reviewController,
                 maxLines: 4,
                 minLines: 4,
                 decoration: InputDecoration(

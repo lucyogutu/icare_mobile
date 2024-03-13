@@ -45,11 +45,11 @@ class CarouselBanner extends StatelessWidget {
 
 class CarouselContainer extends StatelessWidget {
   const CarouselContainer({
-    Key? key,
+    super.key,
     required this.title,
     required this.content,
     required this.svg,
-  }) : super(key: key);
+  });
 
   final String title;
   final String content;

@@ -10,11 +10,10 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardNavigator extends StatelessWidget {
   const OnboardNavigator({
-    Key? key,
+    super.key,
     required this.onLastPage,
     required PageController controller,
-  })  : _controller = controller,
-        super(key: key);
+  })  : _controller = controller;
 
   final bool onLastPage;
   final PageController _controller;
@@ -32,6 +31,7 @@ class OnboardNavigator extends StatelessWidget {
                 onPressed: () async {
                   final prefs = await SharedPreferences.getInstance();
                   prefs.setBool('showTab', true);
+                  if (!context.mounted) return;
                   Navigator.of(context)
                       .pushReplacementNamed(AppRoutes.tabEntry);
                 },

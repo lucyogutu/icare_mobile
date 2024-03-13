@@ -192,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                             assetName: category.svgPicture,
                           ),
                         );
-                      }).toList(),
+                      }),
                     ],
                   ),
                 ),

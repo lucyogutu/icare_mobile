@@ -34,12 +34,12 @@ class RescheduleAppointmentPage extends StatefulWidget {
 class _RescheduleAppointmentPageState extends State<RescheduleAppointmentPage> {
   CalendarFormat _format = CalendarFormat.twoWeeks;
   DateTime? _focusDay;
-  DateTime _currentDay = DateTime.now();
+  DateTime currentDay = DateTime.now();
 
   int? _currentIndex;
   // bool _isWeekend = false;
-  bool _dateSelected = false;
-  bool _timeSelected = false;
+  bool dateSelected = false;
+  bool timeSelected = false;
 
   Future<Appointment>? _rescheduleAppointment;
 
@@ -139,7 +139,7 @@ class _RescheduleAppointmentPageState extends State<RescheduleAppointmentPage> {
                       onTap: () {
                         setState(() {
                           _currentIndex = index;
-                          _timeSelected = true;
+                          timeSelected = true;
                         });
                       },
                       child: Container(
@@ -276,9 +276,9 @@ class _RescheduleAppointmentPageState extends State<RescheduleAppointmentPage> {
       },
       onDaySelected: ((selectedDay, focusedDay) {
         setState(() {
-          _currentDay = selectedDay;
+          currentDay = selectedDay;
           _focusDay = focusedDay;
-          _dateSelected = true;
+          dateSelected = true;
         });
       }),
     );

@@ -72,8 +72,9 @@ class ProfileImage extends StatelessWidget {
     );
   }
 
-  PersistentBottomSheetController<dynamic> showPickImageOptions(
-      BuildContext context) {
+  PersistentBottomSheetController showPickImageOptions(
+    BuildContext context,
+  ) {
     return showBottomSheet(
       context: context,
       elevation: 10,

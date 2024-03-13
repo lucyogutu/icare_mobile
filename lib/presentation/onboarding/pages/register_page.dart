@@ -41,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
   DateTime? selectedDate = DateTime.now();
   final _formKey = GlobalKey<FormState>();
 
-  Future<User>? _registerUser;
+  Future<User>? registeruser;
 
   User _user = User(
     firstName: '',
@@ -106,6 +106,8 @@ class _RegisterPageState extends State<RegisterPage> {
       _formKey.currentState!.save();
       try {
         final user = await registerUser(_user);
+        if (!mounted) return;
+
         showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -125,7 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
             });
         _formKey.currentState!.reset();
         setState(() {
-          _registerUser = Future.value(user);
+          registeruser = Future.value(user);
         });
       } catch (error) {
         showDialog(
@@ -569,9 +571,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
 class Profile extends StatelessWidget {
   const Profile({
-    Key? key,
+    super.key,
     required this.image,
-  }) : super(key: key);
+  });
 
   final File? image;
 

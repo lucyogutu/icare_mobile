@@ -37,8 +37,7 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
 
   DateTime? selectedDate = DateTime.now();
 
-  Future<User>? _editProfileDetails;
-  bool _showDialog = false;
+  Future<User>? editProfileDetails;
 
   @override
   void initState() {
@@ -469,6 +468,8 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
                             _formKey.currentState!.save();
                             try {
                               final user = await editUserProfile(_user);
+                              if (!context.mounted) return;
+
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -492,9 +493,10 @@ class _EditPersonalDetailsPageState extends State<EditPersonalDetailsPage> {
                               widget.getProfileDetails;
                               _formKey.currentState!.reset();
                               setState(() {
-                                _editProfileDetails = Future.value(user);
+                                editProfileDetails = Future.value(user);
                               });
                             } catch (error) {
+                              if (!context.mounted) return;
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {

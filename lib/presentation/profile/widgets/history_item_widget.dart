@@ -38,7 +38,7 @@ class HistoryItemWidget extends StatefulWidget {
 class _HistoryItemWidgetState extends State<HistoryItemWidget> {
   double rating = 0;
   final TextEditingController _review = TextEditingController();
-  Future<Review>? _reviewDoctor;
+  Future<Review>? reviewdoctor;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -117,7 +117,7 @@ class _HistoryItemWidgetState extends State<HistoryItemWidget> {
                             context: context,
                             name:
                                 '${widget.doctorFirstName} ${widget.doctorLastName}',
-                            Review: RatingBar.builder(
+                            reviewWidget: RatingBar.builder(
                               minRating: 1,
                               maxRating: 5,
                               itemSize: 20,
@@ -135,7 +135,7 @@ class _HistoryItemWidgetState extends State<HistoryItemWidget> {
                                 });
                               },
                             ),
-                            review: _review,
+                            reviewController: _review,
                             onPressed: () async {
                               Review reviews = Review(
                                 doctor: widget.doctorId,
@@ -144,6 +144,7 @@ class _HistoryItemWidgetState extends State<HistoryItemWidget> {
                               );
                               try {
                                 final review = await reviewDoctor(reviews);
+                                if (!context.mounted) return;
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -163,11 +164,12 @@ class _HistoryItemWidgetState extends State<HistoryItemWidget> {
                                       );
                                     });
                                 setState(() {
-                                  _reviewDoctor = Future.value(review);
+                                  reviewdoctor = Future.value(review);
                                   _review.clear();
                                   Navigator.of(context).pop();
                                 });
                               } catch (error) {
+                                if (!context.mounted) return;
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {

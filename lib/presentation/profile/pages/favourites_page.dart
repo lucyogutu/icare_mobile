@@ -54,7 +54,7 @@ class FavouritesPage extends StatelessWidget {
                     rating: 5,
                     reviews: 500,
                   );
-                }).toList(),
+                }),
               ],
             ),
           ),

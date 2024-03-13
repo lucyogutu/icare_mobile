@@ -39,7 +39,7 @@ class AppointmentListItemWidget extends StatefulWidget {
 }
 
 class _AppointmentListItemWidgetState extends State<AppointmentListItemWidget> {
-  Future<Appointment>? _cancelAppointment;
+  Future<Appointment>? cancelappointment;
 
   @override
   Widget build(BuildContext context) {
@@ -127,9 +127,12 @@ class _AppointmentListItemWidgetState extends State<AppointmentListItemWidget> {
                                     try {
                                       final appointment =
                                           await cancelAppointment(widget.id);
+                                      if (!context.mounted) return;
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
+                                          final currentContext = context;
+
                                           return AlertDialog(
                                             title: const Text('Success'),
                                             content: Text(
@@ -137,7 +140,8 @@ class _AppointmentListItemWidgetState extends State<AppointmentListItemWidget> {
                                             actions: [
                                               ICareTextButton(
                                                 onPressed: () {
-                                                  Navigator.of(context).pop();
+                                                  Navigator.of(currentContext)
+                                                      .pop();
                                                 },
                                                 text: 'OK',
                                                 style: boldSize14Text(
@@ -149,7 +153,7 @@ class _AppointmentListItemWidgetState extends State<AppointmentListItemWidget> {
                                       );
                                       setState(() async {
                                         await getUpcomingAppointments();
-                                        _cancelAppointment =
+                                        cancelappointment =
                                             Future.value(appointment);
                                       });
                                     } catch (error) {

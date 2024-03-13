@@ -34,10 +34,10 @@ class _BookPageState extends State<BookPage> {
 
   int? _currentIndex;
   // bool _isWeekend = false;
-  bool _dateSelected = false;
-  bool _timeSelected = false;
+  bool dateSelected = false;
+  bool timeSelected = false;
 
-  Future<Appointment>? _bookAppointment;
+  Future<Appointment>? bookappointment;
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +129,7 @@ class _BookPageState extends State<BookPage> {
                       onTap: () {
                         setState(() {
                           _currentIndex = index;
-                          _timeSelected = true;
+                          timeSelected = true;
                         });
                       },
                       child: Container(
@@ -209,6 +209,7 @@ class _BookPageState extends State<BookPage> {
             );
             try {
               final user = await bookAppointment(appointment);
+              if (!context.mounted) return;
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
@@ -218,7 +219,7 @@ class _BookPageState extends State<BookPage> {
                     actions: [
                       ICareTextButton(
                         onPressed: () {
-                          _timeSelected = false;
+                          timeSelected = false;
                           Navigator.of(context).pop();
                         },
                         text: 'OK',
@@ -229,7 +230,7 @@ class _BookPageState extends State<BookPage> {
                 },
               );
               setState(() {
-                _bookAppointment = Future.value(user);
+                bookappointment = Future.value(user);
               });
             } catch (error) {
               showDialog(
@@ -311,7 +312,7 @@ class _BookPageState extends State<BookPage> {
         setState(() {
           _currentDay = selectedDay;
           _focusDay = focusedDay;
-          _dateSelected = true;
+          dateSelected = true;
           // if (selectedDay.weekday == 6 || selectedDay.weekday == 7) {
           //   _isWeekend = true;
           //   _timeSelected = false;

@@ -19,9 +19,9 @@ import 'package:string_validator/string_validator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
-    Key? key,
+    super.key,
     required this.signUp,
-  }) : super(key: key);
+  });
   final VoidCallback signUp;
 
   @override
@@ -30,7 +30,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   late bool _showPassword;
-  Future<User>? _loginUser;
+  Future<User>? loginuser;
   final _formKey = GlobalKey<FormState>();
 
   User _user = User(
@@ -165,6 +165,7 @@ class _LoginPageState extends State<LoginPage> {
 
                             try {
                               final user = await loginUser(_user);
+                              if (!context.mounted) return;
                               Navigator.of(context)
                                   .pushReplacementNamed(AppRoutes.bottomNav);
 
@@ -177,6 +178,7 @@ class _LoginPageState extends State<LoginPage> {
                                   "email": _user.email,
                                 },
                               );
+                              if (!context.mounted) return;
 
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
@@ -192,9 +194,10 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ));
                               setState(() {
-                                _loginUser = Future.value(user);
+                                loginuser = Future.value(user);
                               });
                             } catch (error) {
+                              if (!context.mounted) return;
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {

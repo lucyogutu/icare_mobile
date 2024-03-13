@@ -14,20 +14,21 @@ dependencies:
   expandable: ^5.0.1
   firebase_analytics: ^10.2.1
   firebase_auth: ^4.3.0
-  firebase_core: ^2.8.0
+  firebase_core: ^2.27.1
   flutter:
     sdk: flutter
   flutter_datetime_picker: ^1.5.1
+  flutter_dotenv: ^5.1.0
   flutter_rating_bar: ^4.0.1
-  flutter_secure_storage: ^8.0.0
+  flutter_secure_storage: ^9.0.0
   flutter_svg: ^1.0.0
-  google_fonts: ^4.0.3
+  google_fonts: ^6.1.0
   google_sign_in: ^6.0.2
-  http: ^0.13.5
-  image_cropper: ^3.0.1
-  image_picker: ^0.8.7
-  intl: ^0.17.0
-  permission_handler: ^10.2.0
+  http: ^1.1.0
+  image_cropper: ^5.0.1
+  image_picker: ^1.0.7
+  intl: ^0.19.0
+  permission_handler: ^11.0.1
   pull_to_refresh: ^2.0.0
   shared_preferences: ^2.0.17
   smooth_page_indicator: ^1.0.1
@@ -37,7 +38,7 @@ dependencies:
 dev_dependencies:
   flutter_app_name: ^0.1.0
   flutter_launcher_icons: "^0.11.0"
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
   flutter_native_splash: ^2.2.0
   flutter_test:
     sdk: flutter
@@ -62,6 +63,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - .env
   uses-material-design: true
   # fonts:
   #   - family: Schyler

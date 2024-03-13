@@ -343,7 +343,7 @@ Future<Appointment> bookAppointment(Appointment appointment) async {
   }
 }
 
-// TODO: Implement reschedule book appointment not working
+// TODO:Implement reschedule book appointment not working
 // reschedule an appointment
 Future<Appointment> rescheduleAppointment(
     Appointment appointment, int id) async {
