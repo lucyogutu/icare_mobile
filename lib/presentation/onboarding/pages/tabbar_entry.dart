@@ -37,12 +37,17 @@ class _TabbarEntryPageState extends State<TabbarEntryPage>
                 indicatorColor: AppColors.whiteColor,
                 indicatorWeight: 3,
                 controller: _tabController,
+                labelStyle: boldSize16Text(AppColors.whiteColor),
+                unselectedLabelStyle:
+                    boldSize16Text(AppColors.whiteColor.withOpacity(0.5)),
                 tabs: const [
                   Tab(
                     text: signInString,
+                    icon: Icon(Icons.login),
                   ),
                   Tab(
                     text: signUpString,
+                    icon: Icon(Icons.person_add),
                   ),
                 ],
               ),
@@ -56,8 +61,8 @@ class _TabbarEntryPageState extends State<TabbarEntryPage>
               signUp: () => _tabController.index = 1,
             ),
             RegisterPage(
-                signIn: () => _tabController.index = 0,
-              ),
+              signIn: () => _tabController.index = 0,
+            ),
           ],
         ),
       ),

@@ -56,56 +56,59 @@ class ICareTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      key: textFieldKey,
-      textInputAction: textInputAction,
-      initialValue: initialValue,
-      cursorColor: AppColors.primaryColor,
-      readOnly: readOnly ?? false,
-      onTap: onTap,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: const TextStyle(color: AppColors.hintTextColor),
-        prefixIcon: Icon(
-          prefixIcon,
-          color: AppColors.primaryColor,
-        ),
-        suffixIcon: IconButton(
-          icon: Icon(suffixIcon),
-          onPressed: suffixOnPressed,
-          color: AppColors.primaryColor,
-        ),
-        labelText: label,
-        //lable style
-        labelStyle: normalSize14Text(AppColors.primaryColor),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide.none,
-        ),
-        filled: true,
-        fillColor: fillColor,
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
+    return SizedBox(
+      height: 48,
+      child: TextFormField(
+        controller: controller,
+        key: textFieldKey,
+        textInputAction: textInputAction,
+        initialValue: initialValue,
+        cursorColor: AppColors.primaryColor,
+        readOnly: readOnly ?? false,
+        onTap: onTap,
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: const TextStyle(color: AppColors.hintTextColor),
+          prefixIcon: Icon(
+            prefixIcon,
             color: AppColors.primaryColor,
-            width: 1.0,
           ),
-          borderRadius: BorderRadius.circular(10.0),
+          suffixIcon: IconButton(
+            icon: Icon(suffixIcon),
+            onPressed: suffixOnPressed,
+            color: AppColors.primaryColor,
+          ),
+          labelText: label,
+          //lable style
+          labelStyle: normalSize14Text(AppColors.primaryColor),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: fillColor,
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: AppColors.primaryColor,
+              width: 1.0,
+            ),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          contentPadding: const EdgeInsets.all(8.0),
         ),
-        contentPadding: const EdgeInsets.all(8.0),
+        style: const TextStyle(
+          color: AppColors.blackColor,
+        ),
+        onChanged: onChanged,
+        onSaved: onSaved,
+        onFieldSubmitted: onFieldSubmitted,
+        validator: validator,
+        autovalidateMode: autovalidateMode,
+        keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
+        obscureText: obscureText,
+        maxLength: maxLength,
       ),
-      style: const TextStyle(
-        color: AppColors.blackColor,
-      ),
-      onChanged: onChanged,
-      onSaved: onSaved,
-      onFieldSubmitted: onFieldSubmitted,
-      validator: validator,
-      autovalidateMode: autovalidateMode,
-      keyboardType: keyboardType,
-      inputFormatters: inputFormatters,
-      obscureText: obscureText,
-      maxLength: maxLength,
     );
   }
 }
