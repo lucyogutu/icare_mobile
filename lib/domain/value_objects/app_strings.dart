@@ -1,11 +1,11 @@
 const String doctorAppointmentString = 'Doctor Appointment';
 const String iCareString = 'iCare';
-const String welcomeDescriptionString = 'Welcome to iCare';
-const String onboardOneString =
+const String onboardOneTitle = 'Welcome to iCare';
+const String onboardOneDescriptionString =
     'The best online doctor appointment app for your health and medical needs';
-const String onboardTwoString =
+const String onboardTwoTitle =
     'Thousands of Doctors and Experts to help your Health';
-const String onboardThreeString = 'Let us start living healthy and Well';
+const String onboardThreeTitle = 'Let us start living healthy and Well';
 const String skip = 'Skip';
 const String next = 'Next';
 const String getStartedString = 'Get Started';

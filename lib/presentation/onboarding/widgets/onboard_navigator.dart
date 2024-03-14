@@ -24,7 +24,7 @@ class OnboardNavigator extends StatelessWidget {
       alignment: const Alignment(0, 0.9),
       child: onLastPage
           ? SizedBox(
-              height: 40,
+              height: 48,
               width: double.infinity,
               child: ICareElevatedButton(
                 text: getStartedString,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:icare_mobile/presentation/onboarding/pages/onboard_screen_one.dart';
-import 'package:icare_mobile/presentation/onboarding/pages/onboard_screen_three.dart';
-import 'package:icare_mobile/presentation/onboarding/pages/onboard_screen_two.dart';
+import 'package:icare_mobile/domain/value_objects/app_strings.dart';
+import 'package:icare_mobile/domain/value_objects/svg_asset_strings.dart';
 import 'package:icare_mobile/presentation/onboarding/widgets/onboard_navigator.dart';
+import 'package:icare_mobile/presentation/onboarding/widgets/onboarding_screen_widget.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -33,10 +33,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     onLastPage = (index == 2);
                   });
                 },
-                children: const [
-                  OnboardScreenOne(),
-                  OnboardScreenTwo(),
-                  OnboardScreenThree(),
+                children: [
+                  ...onboardingItems.map(
+                    (item) => OnboardScreenWidget(
+                      svg: item['svg'] ?? '',
+                      title: item['title'] ?? '',
+                      description: item['description'] ?? '',
+                    ),
+                  ),
                 ],
               ),
               OnboardNavigator(
@@ -50,3 +54,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
     );
   }
 }
+
+final List<Map<String, String>> onboardingItems = [
+  {
+    'svg': welcomeCatsSvg,
+    'title': onboardOneTitle,
+    'description': onboardOneDescriptionString,
+  },
+  {
+    'svg': doctorsSvg,
+    'title': onboardTwoTitle,
+  },
+  {
+    'svg': workoutSvg,
+    'title': onboardThreeTitle,
+  },
+];
